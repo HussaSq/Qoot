@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
+// i study 444
 public class RegisterAsDonator extends AppCompatActivity {
     EditText username, email, password;
     Button register;

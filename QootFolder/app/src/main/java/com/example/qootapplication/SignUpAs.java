@@ -15,7 +15,7 @@ public class SignUpAs extends AppCompatActivity {
     }
 
     public void OpenSignInPage(View view) {
-        startActivity(new Intent(SignUpAs.this,MainActivity.class));
+        startActivity(new Intent(SignUpAs.this,LogIn.class));
     }
 
     public void OpenSignupDonatorPage(View view) {

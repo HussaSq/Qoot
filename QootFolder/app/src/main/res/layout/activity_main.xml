@@ -1,133 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg"
-    android:orientation="vertical"
+    android:background="#F3F2F1"
     tools:context=".MainActivity">
+    <TextView 
+        android:id="@+id/textView2" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Hello World!" 
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintLeft_toLeftOf="parent" 
+        app:layout_constraintRight_toRightOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" />  
+    <Button 
+        android:id="@+id/button2" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:text="Just Try" 
+        app:layout_constraintBottom_toBottomOf="parent" 
+        app:layout_constraintEnd_toEndOf="parent" 
+        app:layout_constraintStart_toStartOf="parent" 
+        app:layout_constraintTop_toTopOf="parent" 
 
-    <ImageView
-        android:layout_width="101dp"
-        android:layout_height="73dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="84dp"
-        android:src="@drawable/logo" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
-
-        android:orientation="vertical"
-        android:paddingRight="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="14dp"
-            android:text="Hello"
-            android:textColor="#3f4658"
-            android:textSize="38dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="-8dp"
-            android:text="Sign into your Account"
-            android:textColor="#E43F4658"
-            android:textSize="22dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="20dp"
-            android:text="Email"
-            android:textColor="#BC3F4658"
-            android:textSize="18dp" />
-
-
-        <EditText
-            android:id="@+id/editText6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:layout_marginLeft="12dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="14dp"
-            android:text="Password"
-            android:textColor="#BC3F4658"
-            android:textSize="18dp" />
-
-        <EditText
-            android:id="@+id/editText5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:layout_marginLeft="12dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="12dp"
-            android:text="Forget your Password?"
-            android:textColor="#3f4658"
-            android:textSize="14dp"
-            android:onClick="openForPassPage"/>
-
-        <Button
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/custom_button"
-            android:text="Log In"
-            android:textColor="#ffff"
-            android:textSize="24sp"
-            android:onClick="OpenSignupPage"/>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:text="don't have an Account"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:text="Register Now"
-                android:textColor="#AED581"
-                android:textSize="16dp"
-                android:onClick="OpenSignupAsPage"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+        />  
+</androidx.constraintlayout.widget.ConstraintLayout>

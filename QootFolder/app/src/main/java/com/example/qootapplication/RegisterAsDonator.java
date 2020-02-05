@@ -74,7 +74,7 @@ public class RegisterAsDonator extends AppCompatActivity {
     }
 
     public void OpenSignInPage(View view) {
-        startActivity(new Intent(RegisterAsDonator.this,MainActivity.class));
+        startActivity(new Intent(RegisterAsDonator.this,LogIn.class));
     }
 
     public void OpenSignupAsPage(View view) {

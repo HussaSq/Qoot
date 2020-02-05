@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "337737207042-pl8ussj0aopuojp0skvfugad4v6p22fb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qootapplication",
+            "certificate_hash": "7cda9fec54853ef5fa8ab7b2947cb38e1677095a"
+          }
+        },
+        {
           "client_id": "337737207042-gjpgjgldmko8epm32t3jdolgupdqg07n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

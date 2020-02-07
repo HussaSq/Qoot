@@ -1,0 +1,163 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    android:orientation="vertical"
+    tools:context=".EditDonatorProfile">
+
+
+    <ImageView
+        android:id="@+id/back_profile_v"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/ic_arrow_back_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:text="Edit Profile"
+        android:textColor="#3f4658"
+        android:textSize="30dp" />
+
+
+    <ImageView
+        android:id="@+id/UserImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/edit_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_edit_black_24dp"
+        app:layout_constraintRight_toRightOf="@id/UserImage"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="245dp"
+        tools:layout_editor_absoluteY="120dp" />
+
+    <LinearLayout
+        android:layout_width="387dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:orientation="vertical"
+        android:paddingRight="12dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/Name"
+                android:layout_width="339dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName" />
+
+            <ImageView
+                android:id="@+id/edit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_black_24dp"
+                app:layout_constraintEnd_toEndOf="@id/Name"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="306dp"
+                android:layout_marginTop="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/email_v"
+                android:layout_width="339dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <ImageView
+                android:id="@+id/edit_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/email_v"
+                android:src="@drawable/ic_edit_black_24dp"
+                tools:layout_editor_absoluteX="333dp"
+                tools:layout_editor_absoluteY="362dp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginTop="15dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/Phone_v"
+                android:layout_width="336dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:hint="05*********"
+                android:inputType="phone" />
+
+            <ImageView
+                android:id="@+id/edit_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/Phone_v"
+                android:src="@drawable/ic_edit_black_24dp"
+                tools:layout_editor_absoluteX="333dp"
+                tools:layout_editor_absoluteY="427dp"
+                tools:ignore="MissingConstraints"
+                android:layout_marginTop="15dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/custom_button"
+            android:text="Save"
+            android:textColor="#ffff"
+            android:textSize="24sp" />
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -5,6 +5,7 @@ public class Donator {
     private String Email;
     private String Gender;
     private String PhoneNumber;
+    private String type;
 
 
     public Donator(){
@@ -20,6 +21,7 @@ public class Donator {
         Email=e;
         Gender=g;
         PhoneNumber = "05xxxxxxxx";
+        type="Donator";
     }
 
     public String getEmail() {

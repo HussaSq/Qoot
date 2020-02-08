@@ -7,6 +7,7 @@ public class Volunteer extends Object {
     private String email;
     private String gender;
     private String vehicle;
+    private String type;
 
     public Volunteer(){
         username ="";
@@ -24,8 +25,6 @@ public class Volunteer extends Object {
     public void setUsername(String username) {
         this.username = username;
     }
-
-
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -65,6 +64,7 @@ public class Volunteer extends Object {
         this.gender =Gender;
         this.vehicle =Vehicle;
         this.phoneNumber ="05xxxxxxxx";
+        this.type = "Volunteer";
     }
 
 

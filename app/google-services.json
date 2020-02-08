@@ -8,35 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:885608699743:android:dcff79c0fff51e1c5b88ea",
-        "android_client_info": {
-          "package_name": "App.Qoot"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "885608699743-6rib9t40cai6rkfp7s8l2j64gn5b38as.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBe7I1hbqeKX0k0-2fUzBD_9Wy_dOMUWc8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "885608699743-6rib9t40cai6rkfp7s8l2j64gn5b38as.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:885608699743:android:5884127edc8bf7f35b88ea",
         "android_client_info": {
           "package_name": "com.example.myapplication"
@@ -81,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "885608699743-3b5ekftecn4qoofg5rl5stg2p6dd89r9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qoot",
+            "certificate_hash": "2344e6b061ca21f3198f8d5250c6032bb5cb7269"
+          }
+        },
+        {
           "client_id": "885608699743-l1kbcso3g9fanccjm5j9qcun731pq3ll.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -88,35 +67,6 @@
             "certificate_hash": "7cda9fec54853ef5fa8ab7b2947cb38e1677095a"
           }
         },
-        {
-          "client_id": "885608699743-6rib9t40cai6rkfp7s8l2j64gn5b38as.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBe7I1hbqeKX0k0-2fUzBD_9Wy_dOMUWc8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "885608699743-6rib9t40cai6rkfp7s8l2j64gn5b38as.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:885608699743:android:562f65a53c742ac15b88ea",
-        "android_client_info": {
-          "package_name": "com.example.qootapplication"
-        }
-      },
-      "oauth_client": [
         {
           "client_id": "885608699743-6rib9t40cai6rkfp7s8l2j64gn5b38as.apps.googleusercontent.com",
           "client_type": 3

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,10 +28,12 @@ import java.util.Map;
 
 // i study 444
 public class RegisterAsDonator extends AppCompatActivity {
-    EditText username, email, password;
+    EditText mUsername, mEmail, mPassword;
     Button register;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    RadioGroup GenderGroup;
+    RadioButton gender;
     public static final String TAG = "RegisterAsDonator";
 
 
@@ -37,12 +41,17 @@ public class RegisterAsDonator extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_as_donator);
-        username = findViewById(R.id.userText);
-        email = findViewById(R.id.emailText);
-        password = findViewById(R.id.passwordText);
+        mUsername = findViewById(R.id.userText);
+        mEmail = findViewById(R.id.emailText);
+        mPassword = findViewById(R.id.passwordText);
         register = findViewById(R.id.button);
         mAuth = FirebaseAuth.getInstance();
+        GenderGroup = (RadioGroup) findViewById(R.id.radioGender);
 
+        // RADIO CODE..
+        int selectedId = GenderGroup.getCheckedRadioButtonId();
+        gender = (RadioButton) findViewById(selectedId);
+        Toast.makeText(RegisterAsDonator.this, gender.getText(), Toast.LENGTH_SHORT).show();
         /*if(mAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), checking.class));
             finish();
@@ -50,32 +59,38 @@ public class RegisterAsDonator extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Em = email.getText().toString().trim();
-                String passW = password.getText().toString().trim();
+                final String username= mUsername.getText().toString();
+                final String email = mEmail.getText().toString().trim();
+                String password = mPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(Em)) {
-                    email.setError("Please Enter Your Email, It Is Required");
+                if (TextUtils.isEmpty(email)) {
+                    mEmail.setError("Please Enter Your Email, It Is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(passW)) {
-                    password.setError("Please Enter Password, It Is Required");
+                if (TextUtils.isEmpty(password)) {
+                    mPassword.setError("Please Enter Password, It Is Required");
                     return;
                 }
 
-                if (passW.length() < 8) {
-                    password.setError("The Characters Must Be At Least 8 Characters ");
+                if (password.length() < 8) {
+                    mPassword.setError("The Characters Must Be At Least 8 Characters ");
                     return;
                 }
                 //register user
-                mAuth.createUserWithEmailAndPassword(Em, passW).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterAsDonator.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
                             //we MUST CHANGE THIS to THE HOME PAGE
                             // here call save user
-                            saveUSer();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                           // saveUSer();
+                            db = FirebaseFirestore.getInstance();
+                            String  USER = mAuth.getCurrentUser().getUid();
+                            Donator donator = new Donator(username,email,(String)gender.getText());
+                            db.collection("users").document(USER).set(donator);
+
+                            startActivity(new Intent(getApplicationContext(), DonatorProfile.class));
                         } else {
                             Toast.makeText(RegisterAsDonator.this, "Something Went Wrong " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -84,11 +99,14 @@ public class RegisterAsDonator extends AppCompatActivity {
             }
         });
     }
+    /*
     public void  saveUSer(){
         db = FirebaseFirestore.getInstance();
         String  USER = mAuth.getCurrentUser().getUid();
-        DocumentReference dRef = db.collection("Donators").document(USER);
-        Map<String, Object> Donator = new HashMap<>();
+       // DocumentReference dRef = db.collection("Donators").document(USER);
+        Donator donator = new Donator()
+
+       Map<String, Object> Donator = new HashMap<>();
         Donator.put("Name", username);
         Donator.put("Email",email);
         Donator.put("Phone","0500000000");
@@ -99,7 +117,7 @@ public class RegisterAsDonator extends AppCompatActivity {
                 Log.d(TAG,"onSuccess: Added user successfully!");
             }
         });
-    }
+    }*/
 
     public void OpenSignInPage(View view) {
         startActivity(new Intent(RegisterAsDonator.this,LogIn.class));

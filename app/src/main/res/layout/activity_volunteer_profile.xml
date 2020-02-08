@@ -22,22 +22,20 @@
             android:layout_width="149dp"
             android:layout_height="54dp"
             android:layout_marginStart="169dp"
-            android:layout_marginLeft="169dp"
-            android:layout_marginTop="220dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="184dp"
-            android:layout_marginRight="184dp"
             android:text="UserName"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.417"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/UserImage" />
 
         <ImageView
             android:id="@+id/UserImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="72dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +46,15 @@
             android:id="@+id/edit_profile_v"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_edit_black_24dp"
-            tools:ignore="MissingConstraints,VectorDrawableCompat"
+            android:layout_marginStart="371dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:onClick="OpenEditProfilePage"
-            tools:layout_editor_absoluteX="371dp"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            tools:ignore="MissingConstraints,VectorDrawableCompat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,14 +82,13 @@
             android:id="@+id/Rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="73dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
             android:text="Ratings"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Volunteered"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

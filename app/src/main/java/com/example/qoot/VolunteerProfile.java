@@ -26,7 +26,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
     // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
-    FirebaseFirestore fstore;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +37,17 @@ public class VolunteerProfile extends AppCompatActivity {
         Photo = findViewById(R.id.UserImage);
 
         mAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
-        String Uid = mAuth.getCurrentUser().getUid();
-        DocumentReference docRef = fstore.collection("users").document(Uid);
-        docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        String userId=mAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference =db.collection("Volunteers").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-              //  Username.setText(documentSnapshot.getString("username"));
+                Username.setText(documentSnapshot.getString("UserName"));
+
+
             }
         });
     }

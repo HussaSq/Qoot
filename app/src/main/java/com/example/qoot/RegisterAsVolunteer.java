@@ -65,7 +65,6 @@ public class RegisterAsVolunteer extends AppCompatActivity {
 
         //initialize firebase Authentication
         mAuth = FirebaseAuth.getInstance();
-
         // DROP DOWN CODE
         final String[] types = new String[]{"Small", "Medium", "Truck","None"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, types);

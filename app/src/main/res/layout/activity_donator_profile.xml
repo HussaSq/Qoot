@@ -51,7 +51,8 @@
             app:srcCompat="@drawable/ic_edit_black_24dp"
             tools:ignore="MissingConstraints,VectorDrawableCompat"
             tools:layout_editor_absoluteX="358dp"
-            tools:layout_editor_absoluteY="27dp" />
+            tools:layout_editor_absoluteY="27dp"
+            android:onClick="OpenEditProfilePage"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -159,7 +160,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            android:onClick="OpenLogOut"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

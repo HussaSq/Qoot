@@ -3,17 +3,13 @@ package com.example.qoot;
 public class Volunteer extends Object {
 
     private String UserName;
-    private String Name;
     private String PhoneNumber;
-    private String Password;
     private String Email;
     private String Gender;
     private String Vehicle;
 
     public Volunteer(){
         UserName="";
-        Name="";
-        Password="";
         PhoneNumber="";
         Email="";
         Gender="";
@@ -29,13 +25,7 @@ public class Volunteer extends Object {
         UserName = userName;
     }
 
-    public String getName() {
-        return Name;
-    }
 
-    public void setName(String name) {
-        Name = name;
-    }
 
     public String getPhoneNumber() {
         return PhoneNumber;
@@ -43,14 +33,6 @@ public class Volunteer extends Object {
 
     public void setPhoneNumber(String phoneNumber) {
         PhoneNumber = phoneNumber;
-    }
-
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
     }
 
     public String getEmail() {
@@ -78,14 +60,11 @@ public class Volunteer extends Object {
     }
 
     public Volunteer(String userName , String Email, String password, String Vehicle , String Gender){
-
         this.UserName=userName;
         this.Email= Email;
         this.Gender=Gender;
         this.Vehicle=Vehicle;
         this.PhoneNumber="05xxxxxxxx";
-        this.Name=userName.trim();
-        this.Password=password;
     }
 
 

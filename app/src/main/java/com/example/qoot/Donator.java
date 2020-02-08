@@ -1,53 +1,56 @@
 package com.example.qoot;
 
 public class Donator {
-    String username,email,gender,phone;
+    private String UserName;
+    private String Email;
+    private String Gender;
+    private String PhoneNumber;
 
 
     public Donator(){
-        username="";
-        email="";
-        gender="";
-        phone="";
+        UserName="";
+        Email="";
+        Gender="";
+        PhoneNumber="";
 
     }
 
     public Donator(String u,String e,String g){
-        username=u;
-        email=e;
-        gender=g;
-        phone = "0500000000";
+        UserName=u;
+        Email=e;
+        Gender=g;
+        PhoneNumber = "05xxxxxxxx";
     }
 
     public String getEmail() {
-        return email;
+        return Email;
     }
 
     public String getGender() {
-        return gender;
+        return Gender;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return UserName;
     }
 
     public String getPhone() {
-        return phone;
+        return PhoneNumber;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmail(String Email) {
+        this.Email = Email;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGender(String Gender) {
+        this.Gender = Gender;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(String PhoneNumber) {
+        this.PhoneNumber = PhoneNumber;
     }
 }

@@ -34,6 +34,7 @@ public class RegisterAsDonator extends AppCompatActivity {
     FirebaseFirestore db;
     RadioGroup GenderGroup;
     RadioButton gender;
+    String username,email;
     public static final String TAG = "RegisterAsDonator";
 
 
@@ -56,11 +57,12 @@ public class RegisterAsDonator extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), checking.class));
             finish();
         }*/
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username= mUsername.getText().toString();
-                final String email = mEmail.getText().toString().trim();
+                  username= mUsername.getText().toString();
+                  email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
@@ -82,9 +84,7 @@ public class RegisterAsDonator extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterAsDonator.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
-                            //we MUST CHANGE THIS to THE HOME PAGE
-                            // here call save user
-                           // saveUSer();
+
                             db = FirebaseFirestore.getInstance();
                             String  USER = mAuth.getCurrentUser().getUid();
                             Donator donator = new Donator(username,email,(String)gender.getText());

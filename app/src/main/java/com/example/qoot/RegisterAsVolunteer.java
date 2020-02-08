@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -34,13 +35,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RegisterAsVolunteer extends AppCompatActivity {
 
     // text fields in the form
-    EditText username, email, password;
+    EditText mUsername, mEmail, mPassword;
     Spinner cars;
     Button register;
     RadioGroup GenderGroup;
@@ -48,7 +51,9 @@ public class RegisterAsVolunteer extends AppCompatActivity {
 
         // variables for db
     FirebaseAuth mAuth;
-    FirebaseFirestore fstore ;
+    FirebaseFirestore db ;
+    public static final String TAG = "RegisterAsVolunteer";
+    String userId,username,email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +61,9 @@ public class RegisterAsVolunteer extends AppCompatActivity {
         setContentView(R.layout.activity_register_as_volunteer);
 
         //initialize textViews
-        username = findViewById(R.id.userText);
-        email = findViewById(R.id.emailText);
-        password = findViewById(R.id.passwordText);
+        mUsername = findViewById(R.id.userText);
+        mEmail = findViewById(R.id.emailText);
+        mPassword = findViewById(R.id.passwordText);
         register = findViewById(R.id.button);
         GenderGroup = (RadioGroup) findViewById(R.id.radioGender);
         cars = findViewById(R.id.carDD);
@@ -79,35 +84,85 @@ public class RegisterAsVolunteer extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = username.getText().toString().trim();
-                String Em = email.getText().toString().trim();
-                final String passW = password.getText().toString().trim();
+                 username = mUsername.getText().toString().trim();
+                 email = mEmail.getText().toString().trim();
+                  String password = mPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(name)) {
-                    username.setError("Please Enter Your Name, It is Required");
+                if (TextUtils.isEmpty(username)) {
+                    mUsername.setError("Please Enter Your Name, It is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(Em)) {
-                    email.setError("Please Enter Your Email, It is Required");
+                if (TextUtils.isEmpty(email)) {
+                    mEmail.setError("Please Enter Your Email, It is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(passW)) {
-                    password.setError("Please Enter Password, It is Required");
+                if (TextUtils.isEmpty(password)) {
+                    mPassword.setError("Please Enter Password, It is Required");
                     return;
                 }
 
-                if (passW.length() < 8) {
-                    password.setError("The Characters Must Be At Least 8 Characters ");
+                if (password.length() < 8) {
+                    mPassword.setError("The Characters Must Be At Least 8 Characters ");
                     return;
                 }
 
                 //register user with authentication and firestore
-                mAuth.createUserWithEmailAndPassword(Em, passW).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterAsVolunteer.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
+                            userId = mAuth.getCurrentUser().getUid();
 
+
+                            // Donator don = new Donator(username,email,gender.getText().toString());
+                            db= FirebaseFirestore.getInstance();
+
+                            DocumentReference documentReference=db.collection("Volunteers").document(userId);
+                            Map<String,Object> volunteer = new HashMap<>();
+                            volunteer.put("UserName",username);
+                            volunteer.put("Email",email);
+                            volunteer.put("Gender",(String)gender.getText());
+                            volunteer.put("PhoneNumber","05xxxxxxxx");
+                            volunteer.put("Vehicle",cars.getSelectedItem().toString());
+                            documentReference.set(volunteer).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                }
+                            });
+                            DocumentReference documentReference1=db.collection("users").document(userId);
+                            Map<String,Object> user = new HashMap<>();
+                            user.put("Type","Volunteer");
+                            user.put("email",email);
+                            documentReference1.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                }
+                            });
+
+                            //db.collection("users").document(userid).set(don);
+
+                           /* db = FirebaseFirestore.getInstance();
+                            String  USER = mAuth.getCurrentUser().getUid();
+                            Donator donator = new Donator(username,email,(String)gender.getText());
+                            db.collection("users").document(USER).set(donator);*/
+
+                           // startActivity(new Intent(RegisterAsDonator.this, DonatorProfile.class));
+/*
                                   // create the object
                             Volunteer vol = new Volunteer(
                                     username.getText().toString()
@@ -123,6 +178,8 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                                 // now go to the volunteer profile activity
 
                                                                 // this have to change v
+
+ */
                             startActivity(new Intent(getApplicationContext(), VolunteerProfile.class));
                         } else {
                             Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();

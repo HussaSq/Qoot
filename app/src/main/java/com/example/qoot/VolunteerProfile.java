@@ -44,7 +44,7 @@ public class VolunteerProfile extends AppCompatActivity {
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                Username.setText(documentSnapshot.getString("username"));
+              //  Username.setText(documentSnapshot.getString("username"));
             }
         });
     }

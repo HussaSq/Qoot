@@ -2,69 +2,69 @@ package com.example.qoot;
 
 public class Volunteer extends Object {
 
-    private String UserName;
-    private String PhoneNumber;
-    private String Email;
-    private String Gender;
-    private String Vehicle;
+    private String username;
+    private String phoneNumber;
+    private String email;
+    private String gender;
+    private String vehicle;
 
     public Volunteer(){
-        UserName="";
-        PhoneNumber="";
-        Email="";
-        Gender="";
-        Vehicle="";
+        username ="";
+        phoneNumber ="";
+        email ="";
+        gender ="";
+        vehicle ="";
     }
 
 
-    public String getUserName() {
-        return UserName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
 
     public String getPhoneNumber() {
-        return PhoneNumber;
+        return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getGender() {
-        return Gender;
+        return gender;
     }
 
     public void setGender(String gender) {
-        Gender = gender;
+        this.gender = gender;
     }
 
     public String getVehicle() {
-        return Vehicle;
+        return vehicle;
     }
 
     public void setVehicle(String vehicle) {
-        Vehicle = vehicle;
+        this.vehicle = vehicle;
     }
 
     public Volunteer(String userName , String Email, String password, String Vehicle , String Gender){
-        this.UserName=userName;
-        this.Email= Email;
-        this.Gender=Gender;
-        this.Vehicle=Vehicle;
-        this.PhoneNumber="05xxxxxxxx";
+        this.username =userName;
+        this.email = Email;
+        this.gender =Gender;
+        this.vehicle =Vehicle;
+        this.phoneNumber ="05xxxxxxxx";
     }
 
 

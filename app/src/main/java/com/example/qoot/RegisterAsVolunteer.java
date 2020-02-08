@@ -124,7 +124,7 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                                 // now go to the volunteer profile activity
 
                                                                 // this have to change v
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), VolunteerProfile.class));
                         } else {
                             Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -132,7 +132,6 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                 });
             }
         });
-
     }
     public void OpenSignupAsPage(View view) {
         startActivity(new Intent(RegisterAsVolunteer.this,SignUpAs.class));

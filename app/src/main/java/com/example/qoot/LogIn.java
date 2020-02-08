@@ -91,9 +91,7 @@ public class LogIn extends AppCompatActivity {
                                     startActivity(new Intent(LogIn.this,DonatorProfile.class));
                                 }
                             }else {
-
                                 Toast.makeText(LogIn.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
                             }
                         }
                     });
@@ -102,7 +100,6 @@ public class LogIn extends AppCompatActivity {
         });
     }
     public String checkType(DocumentReference doc){
-
         doc.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

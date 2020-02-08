@@ -26,7 +26,7 @@ public class DonatorProfile extends AppCompatActivity {
 
     FirebaseAuth mAuth ;
     FirebaseFirestore fstore;
-
+    DocumentReference docRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +39,7 @@ public class DonatorProfile extends AppCompatActivity {
         fstore = FirebaseFirestore.getInstance();
 
         String Uid = mAuth.getCurrentUser().getUid();
-        DocumentReference docRef = fstore.collection("users").document(Uid);
+        docRef = fstore.collection("users").document(Uid);
         docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

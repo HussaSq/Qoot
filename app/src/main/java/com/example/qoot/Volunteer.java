@@ -17,7 +17,6 @@ public class Volunteer extends Object {
         vehicle ="";
     }
 
-
     public String getUsername() {
         return username;
     }

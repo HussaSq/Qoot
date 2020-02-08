@@ -25,10 +25,8 @@ public class VolunteerProfile extends AppCompatActivity {
     private ImageView Photo;
 
     // eventually we will add comments and ratings as well
-
     FirebaseAuth mAuth ;
     FirebaseFirestore fstore;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

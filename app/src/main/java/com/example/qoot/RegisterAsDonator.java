@@ -90,7 +90,7 @@ public class RegisterAsDonator extends AppCompatActivity {
                             Donator donator = new Donator(username,email,(String)gender.getText());
                             db.collection("users").document(USER).set(donator);
 
-                            startActivity(new Intent(getApplicationContext(), DonatorProfile.class));
+                            startActivity(new Intent(RegisterAsDonator.this, DonatorProfile.class));
                         } else {
                             Toast.makeText(RegisterAsDonator.this, "Something Went Wrong " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }

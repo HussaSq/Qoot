@@ -87,7 +87,6 @@ tools:context=".RegisterAsDonator">
                     android:layout_width="231dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:checkedButton="@id/male"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +101,7 @@ tools:context=".RegisterAsDonator">
                         android:layout_height="53dp"
                         android:buttonTint="#3f4658"
                         android:text="Male"
+                        android:checked="true"
                         android:textColor="#3f4658"
                         android:textColorLink="#000000"
                         android:textSize="22sp"
@@ -149,7 +149,7 @@ tools:context=".RegisterAsDonator">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="already have Acount?"
+                        android:text="already have Account?"
                         android:textSize="16sp" />
 
                     <TextView

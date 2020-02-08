@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,68 +24,47 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
+import java.util.List;
 
 
 public class RegisterAsVolunteer extends AppCompatActivity {
+
+    // text fields in the form
     EditText username, email, password;
     Spinner cars;
     Button register;
     RadioGroup GenderGroup;
     RadioButton gender;
-    TextView mDisplayDate;
-    //DatePickerDialog.OnDateSetListener mDateSetListener;
-   //private static final String TAG = "RegisterAsVolunteer";
+
+        // variables for db
     FirebaseAuth mAuth;
+    FirebaseFirestore fstore ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_as_volunteer);
+
+        //initialize textViews
         username = findViewById(R.id.userText);
         email = findViewById(R.id.emailText);
         password = findViewById(R.id.passwordText);
         register = findViewById(R.id.button);
         GenderGroup = (RadioGroup) findViewById(R.id.radioGender);
-        //mDisplayDate = (TextView) findViewById(R.id.Dob);
         cars = findViewById(R.id.carDD);
+
+        //initialize firebase Authentication
         mAuth = FirebaseAuth.getInstance();
-
-
-        /*//  DOB CODE
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(RegisterAsVolunteer.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener, year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
-                String date = day + "/" + month + "/" + year;
-                // Above 18 ..
-                mDisplayDate.setText(date);
-                int y = date.lastIndexOf('/');
-                int choose = Integer.parseInt(date.substring(y+1));
-                if((year - choose) <18){
-                    return;}
-            }
-        }; */
 
         // DROP DOWN CODE
         final String[] types = new String[]{"Small", "Medium", "Truck","None"};
@@ -95,15 +75,14 @@ public class RegisterAsVolunteer extends AppCompatActivity {
         // RADIO CODE..
         int selectedId = GenderGroup.getCheckedRadioButtonId();
         gender = (RadioButton) findViewById(selectedId);
-        Toast.makeText(RegisterAsVolunteer.this, gender.getText(), Toast.LENGTH_SHORT).show();
-        /////////
 
+        // checking
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = username.getText().toString().trim();
                 String Em = email.getText().toString().trim();
-                String passW = password.getText().toString().trim();
+                final String passW = password.getText().toString().trim();
 
                 if (TextUtils.isEmpty(name)) {
                     username.setError("Please Enter Username, It is Required");
@@ -122,13 +101,29 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                     password.setError("The Characters Must Be At Least 8 Characters ");
                     return;
                 }
-                //register user
+
+                //register user with authentication and firestore
                 mAuth.createUserWithEmailAndPassword(Em, passW).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(RegisterAsVolunteer.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
-                            //we MUST CHANGE THIS to THE HOME PAGE
+
+                                  // create the object
+                            Volunteer vol = new Volunteer(
+                                    username.getText().toString()
+                                    ,email.getText().toString()
+                                    ,password.getText().toString()
+                                    ,cars.getSelectedItem().toString() // not sure about this
+                                    ,gender.getText().toString());
+
+                                // now add this to firebase
+                                fstore= FirebaseFirestore.getInstance();
+                                String v = mAuth.getCurrentUser().getUid();
+                                fstore.collection("users").document(v).set(vol);
+                                // now go to the volunteer profile activity
+
+                                                                // this have to change v
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -139,7 +134,6 @@ public class RegisterAsVolunteer extends AppCompatActivity {
         });
 
     }
-
     public void OpenSignupAsPage(View view) {
         startActivity(new Intent(RegisterAsVolunteer.this,SignUpAs.class));
     }

@@ -57,7 +57,7 @@ tools:context=".RegisterAsDonator">
                     android:layout_marginLeft="12dp"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:hint="User Name"/>
+                    android:hint="Name"/>
 
 
 

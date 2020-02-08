@@ -52,7 +52,7 @@ public class RegisterAsDonator extends AppCompatActivity {
         // RADIO CODE..
         int selectedId = GenderGroup.getCheckedRadioButtonId();
         gender = (RadioButton) findViewById(selectedId);
-        Toast.makeText(RegisterAsDonator.this, gender.getText(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(RegisterAsDonator.this, gender.getText(), Toast.LENGTH_SHORT).show();
         /*if(mAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), checking.class));
             finish();
@@ -61,10 +61,14 @@ public class RegisterAsDonator extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  username= mUsername.getText().toString();
+                  username = mUsername.getText().toString();
                   email = mEmail.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
 
+                if (TextUtils.isEmpty(username)) {
+                    mUsername.setError("Please Enter Your Name, It is Required");
+                    return;
+                }
                 if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Please Enter Your Email, It Is Required");
                     return;

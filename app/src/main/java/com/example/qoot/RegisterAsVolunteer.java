@@ -85,7 +85,7 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                 final String passW = password.getText().toString().trim();
 
                 if (TextUtils.isEmpty(name)) {
-                    username.setError("Please Enter Username, It is Required");
+                    username.setError("Please Enter Your Name, It is Required");
                     return;
                 }
                 if (TextUtils.isEmpty(Em)) {

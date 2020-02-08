@@ -73,7 +73,7 @@
                     android:layout_height="60dp"
                     android:layout_marginLeft="12dp"
                     android:ems="10"
-                    android:hint="User Name"
+                    android:hint="Name"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -173,7 +173,6 @@
                     android:layout_width="231dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:checkedButton="@id/male"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toTopOf="@+id/button"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -188,6 +187,7 @@
                         android:layout_height="53dp"
                         android:buttonTint="#3f4658"
                         android:text="Male"
+                        android:checked="true"
                         android:textColor="#3f4658"
                         android:textColorLink="#000000"
                         android:textSize="22sp"
@@ -235,7 +235,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="already have Acount?"
+                        android:text="already have Account?"
                         android:textSize="16sp" />
 
                     <TextView

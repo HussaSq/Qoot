@@ -20,31 +20,33 @@ import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
 
-    private TextView Username;
-    private ImageView Photo;
+     TextView Username;
+     ImageView Photo;
 
     // eventually we will add comments and ratings as well
 
     FirebaseAuth mAuth ;
-    FirebaseFirestore fstore;
-    DocumentReference docRef;
+    FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_profile);
 
-        Username = findViewById(R.id.UserNameV);
+        Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);
 
         mAuth = FirebaseAuth.getInstance();
-        fstore = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
+        String userId=mAuth.getCurrentUser().getUid();
 
-        String Uid = mAuth.getCurrentUser().getUid();
-        docRef = fstore.collection("users").document(Uid);
-        docRef.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        DocumentReference documentReference =db.collection("Donators").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-               // Username.setText(documentSnapshot.getString("username"));
+                Username.setText(documentSnapshot.getString("UserName"));
+
+
             }
         });
 

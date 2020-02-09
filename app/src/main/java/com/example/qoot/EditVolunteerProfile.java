@@ -1,5 +1,6 @@
 package com.example.qoot;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,7 +16,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class EditVolunteerProfile extends AppCompatActivity {
 
@@ -25,6 +29,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
     String userId;
+    String actualCar;
 
 
     //  save button
@@ -47,6 +52,8 @@ public class EditVolunteerProfile extends AppCompatActivity {
         // I think here we need to fetch the type from DB.. not like the above
 
 
+
+
         NEW_NAME = findViewById(R.id.Name);
         NEW_PHONE = findViewById(R.id.Phone_v);
 
@@ -60,6 +67,9 @@ public class EditVolunteerProfile extends AppCompatActivity {
         db=FirebaseFirestore.getInstance();
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userId=mAuth.getCurrentUser().getUid();
+
+        // read the actual car
+        actualCar = ReadCar();
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +113,13 @@ public class EditVolunteerProfile extends AppCompatActivity {
                         return;
                     }
                 }//end if empty
+                if (cars.getSelectedItem().toString().equals(actualCar)) { // if same
+                    Toast.makeText(EditVolunteerProfile.this, "No Changes on Vehicle", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (cars.getSelectedItem().toString().equals(null)) { // not sure about this
+                    return;
+                }
                 s1 = NEW_NAME.getText().toString();
                 s2 = NEW_PHONE.getText().toString();
                 // معليش على البدائيه بس اذا عندكم حل احسن قولو
@@ -122,7 +139,11 @@ public class EditVolunteerProfile extends AppCompatActivity {
                     }
                     else
                         counter++;
-                    if (counter == 2)
+                    if (!(cars.getSelectedItem().toString().equals(actualCar))) { // if NOT same then UPDATE
+                        UpdateVehicle(cars.getSelectedItem().toString());
+                    }else
+                        counter++;
+                    if (counter == 3)
                     {
                         Toast.makeText(EditVolunteerProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditVolunteerProfile.this, VolunteerProfile.class));
@@ -132,6 +153,19 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String ReadCar() {
+
+        DocumentReference documentReference =db.collection("Volunteers").document(userId);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                actualCar= documentSnapshot.getString("Vehicle");
+            }
+        });
+
+ return actualCar;
     }
 
     public void OpenProfile(View view) {
@@ -189,6 +223,21 @@ public class EditVolunteerProfile extends AppCompatActivity {
         return containsLetters;
     }
 
+    public void UpdateVehicle(String newVehicle){
+
+
+        DocumentReference documentReference =db.collection("Volunteers").document(userId);
+        documentReference.update("Vehicle",newVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText( EditVolunteerProfile.this,"Vehicle updated",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
+
+
 
 

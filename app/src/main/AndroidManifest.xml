@@ -14,18 +14,21 @@
         <activity android:name=".EditVolunteerProfile" />
         <activity android:name=".VolunteerProfile" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".LogIn" />
+        <activity android:name=".LogIn">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+        </activity>
         <activity android:name=".RegisterAsDonator" />
         <activity android:name=".RegisterAsVolunteer" />
         <activity android:name=".SignUpAs"/>
-        <activity android:name=".MainActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
+
     </application>
 
 </manifest>

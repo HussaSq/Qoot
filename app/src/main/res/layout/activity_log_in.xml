@@ -18,12 +18,12 @@
     </ImageView>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="309dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="50dp"
         android:orientation="vertical"
-        android:paddingRight="12dp">
+        android:paddingRight="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,36 +44,34 @@
             android:textSize="20dp" />
 
 
-
         <EditText
             android:id="@+id/emailText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:ems="10"
-            android:inputType="textEmailAddress"
             android:layout_marginLeft="12dp"
-            android:hint="Email"/>
-
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
 
 
         <EditText
             android:id="@+id/passwordText"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:ems="10"
-            android:inputType="textPassword"
             android:layout_marginLeft="12dp"
-            android:hint="Password"/>
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="12dp"
+            android:onClick="openForPassPage"
             android:text="Forgot your Password?"
             android:textColor="#3f4658"
-            android:textSize="14dp"
-            android:onClick="openForPassPage"/>
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/LogInBTN"
@@ -82,11 +80,10 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_button"
+            android:onClick="OpenSignupPage"
             android:text="Log In"
             android:textColor="#ffff"
-            android:textSize="24sp"
-            android:onClick="OpenSignupPage"/>
-
+            android:textSize="18sp" />
 
 
         <LinearLayout
@@ -109,10 +106,10 @@
 
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:onClick="OpenSignupAsPage"
                 android:text="Register Now"
                 android:textColor="#AED581"
-                android:textSize="16dp"
-                android:onClick="OpenSignupAsPage"/>
+                android:textSize="16dp" />
         </LinearLayout>
 
     </LinearLayout>

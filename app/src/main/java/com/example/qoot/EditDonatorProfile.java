@@ -51,7 +51,7 @@ public class EditDonatorProfile extends AppCompatActivity {
             NEW_IMAGE = findViewById(R.id.UserImage);
 
             saveButton = findViewById(R.id.button);
-            editIcon = findViewById(R.id.edit_photo);
+
 
             // firebase initialize
             mAuth = FirebaseAuth.getInstance();

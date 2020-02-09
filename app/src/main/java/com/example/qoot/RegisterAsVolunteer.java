@@ -47,13 +47,13 @@ public class RegisterAsVolunteer extends AppCompatActivity {
     Spinner cars;
     Button register;
     RadioGroup GenderGroup;
-    RadioButton gender;
+    RadioButton gender,male,female;
 
         // variables for db
     FirebaseAuth mAuth;
     FirebaseFirestore db ;
     public static final String TAG = "RegisterAsVolunteer";
-    String userId,username,email;
+    String userId,username,email,gen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,8 @@ public class RegisterAsVolunteer extends AppCompatActivity {
         register = findViewById(R.id.button);
         GenderGroup = (RadioGroup) findViewById(R.id.radioGender);
         cars = findViewById(R.id.carDD);
+        male= findViewById(R.id.male);
+        female= findViewById(R.id.female);
 
         //initialize firebase Authentication
         mAuth = FirebaseAuth.getInstance();
@@ -105,7 +107,10 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                     mPassword.setError("The Characters Must Be At Least 8 Characters ");
                     return;
                 }
-
+                if(male.isChecked())
+                    gen="Male";
+                if(female.isChecked())
+                    gen="Female";
                 //register user with authentication and firestore
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -122,7 +127,7 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                             Map<String,Object> volunteer = new HashMap<>();
                             volunteer.put("UserName",username);
                             volunteer.put("Email",email);
-                            volunteer.put("Gender",(String)gender.getText());
+                            volunteer.put("Gender",gen);
                             volunteer.put("PhoneNumber","05xxxxxxxx");
                             volunteer.put("Vehicle",cars.getSelectedItem().toString());
                             documentReference.set(volunteer).addOnSuccessListener(new OnSuccessListener<Void>() {

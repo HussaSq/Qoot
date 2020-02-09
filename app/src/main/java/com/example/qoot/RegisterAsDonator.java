@@ -34,8 +34,9 @@ public class RegisterAsDonator extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     RadioGroup GenderGroup;
-    RadioButton gender;
-    String username,email;
+    RadioButton gender,male,female;
+
+    String username,email,gen;
     public static final String TAG = "RegisterAsDonator";
     String userId;
 
@@ -50,6 +51,8 @@ public class RegisterAsDonator extends AppCompatActivity {
         register = findViewById(R.id.button);
         mAuth = FirebaseAuth.getInstance();
         GenderGroup = (RadioGroup) findViewById(R.id.radioGender);
+        male= findViewById(R.id.male);
+        female= findViewById(R.id.female);
 
         // RADIO CODE..
         int selectedId = GenderGroup.getCheckedRadioButtonId();
@@ -84,6 +87,10 @@ public class RegisterAsDonator extends AppCompatActivity {
                     mPassword.setError("The Characters Must Be At Least 8 Characters ");
                     return;
                 }
+                if(male.isChecked())
+                    gen="Male";
+                if(female.isChecked())
+                    gen="Female";
                 //register user
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -99,7 +106,7 @@ public class RegisterAsDonator extends AppCompatActivity {
                             Map<String,Object> donators = new HashMap<>();
                             donators.put("UserName",username);
                             donators.put("Email",email);
-                            donators.put("Gender",(String)gender.getText());
+                            donators.put("Gender",gen);
                             donators.put("PhoneNumber","05xxxxxxxx");
                             documentReference.set(donators).addOnSuccessListener(new OnSuccessListener<Void>() {
 

@@ -65,9 +65,13 @@ public class RegisterAsDonator extends AppCompatActivity {
             public void onClick(View v) {
                 username= mUsername.getText().toString();
                 email = mEmail.getText().toString().trim();
-                String password = mPassword.getText().toString().trim();
 
-                if (TextUtils.isEmpty(email)) {
+                String password = mPassword.getText().toString().trim();
+                if (TextUtils.isEmpty(username)) {
+                    mUsername.setError("Please Enter Your Name, It is Required");
+                    return;
+
+                }if (TextUtils.isEmpty(email)) {
                     mEmail.setError("Please Enter Your Email, It Is Required");
                     return;
                 }
@@ -169,6 +173,9 @@ public class RegisterAsDonator extends AppCompatActivity {
     public void OpenSignupAsPage(View view) {
         startActivity(new Intent(RegisterAsDonator.this,SignUpAs.class));
     }
+
+
+
 }
 
 

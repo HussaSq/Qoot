@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,6 +59,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
     public void OpenLogOut(View view){
         FirebaseAuth.getInstance().signOut();
+        Toast.makeText(VolunteerProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(VolunteerProfile.this,LogIn.class));
     }
 }

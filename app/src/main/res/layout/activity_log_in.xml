@@ -9,8 +9,8 @@
     tools:context=".LogIn">
 
     <ImageView
-        android:layout_width="189dp"
-        android:layout_height="60dp"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="90dp"
         android:src="@drawable/picture">
@@ -29,10 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:text="Hello"
             android:textColor="#3f4658"
-            android:textSize="38dp" />
+            android:textSize="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_marginTop="-8dp"
             android:text="Sign into your Account"
             android:textColor="#E43F4658"
-            android:textSize="22dp" />
+            android:textSize="20dp" />
 
 
 
@@ -77,8 +77,8 @@
 
         <Button
             android:id="@+id/LogInBTN"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_button"

@@ -46,7 +46,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
 
         // DROP DOWN CODE
         cars = findViewById(R.id.carDD);
-        final String[] types = new String[]{"Small", "Medium", "Truck","None"};
+        final String[] types = new String[]{"Default","Small", "Medium", "Truck","None"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, types);
         cars.setAdapter(adapter);
         // I think here we need to fetch the type from DB.. not like the above
@@ -68,8 +68,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userId=mAuth.getCurrentUser().getUid();
 
-        // read the actual car
-        actualCar = ReadCar();
+
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +79,9 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 //take from user
                 s1 = NEW_NAME.getText().toString();
                 s2 = NEW_PHONE.getText().toString();
+                // read the actual car
+                actualCar = ReadCar();
+                int counter=0;
                 //------ check name -------------
                 if (containsDigit(s1)) {
                     NEW_NAME.setError("Please enter a valid name with no numbers");
@@ -113,18 +115,26 @@ public class EditVolunteerProfile extends AppCompatActivity {
                         return;
                     }
                 }//end if empty
-                if (cars.getSelectedItem().toString().equals(actualCar)) { // if same
+                //check on car
+               /* if (cars.getSelectedItem().toString().equals(actualCar)) { // if same
                     Toast.makeText(EditVolunteerProfile.this, "No Changes on Vehicle", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                if (cars.getSelectedItem().toString().equals(null)) { // not sure about this
+                }*/
+                /*if (cars.getSelectedItem().toString().equals(null)) { // not sure about this
                     return;
+                }*/
+                if (!(cars.getSelectedItem().toString().equals("Default"))) { // if NOT same then UPDATE
+                    UpdateVehicle(cars.getSelectedItem().toString());
+
+                }else{
+                        counter++;
                 }
+
                 s1 = NEW_NAME.getText().toString();
                 s2 = NEW_PHONE.getText().toString();
                 // معليش على البدائيه بس اذا عندكم حل احسن قولو
                 //حلك رائع بلا دراما:)
-                int counter=0;
+
                 if (Uid != null) {
                     if (!(s1.isEmpty()) ){
                         if (s1 != null)
@@ -139,16 +149,14 @@ public class EditVolunteerProfile extends AppCompatActivity {
                     }
                     else
                         counter++;
-                    if (!(cars.getSelectedItem().toString().equals(actualCar))) { // if NOT same then UPDATE
-                        UpdateVehicle(cars.getSelectedItem().toString());
-                    }else
-                        counter++;
+
                     if (counter == 3)
                     {
                         Toast.makeText(EditVolunteerProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditVolunteerProfile.this, VolunteerProfile.class));
                     }
                     Toast.makeText(EditVolunteerProfile.this, "Changes Saved successfully", Toast.LENGTH_SHORT).show();
+
                     startActivity(new Intent(EditVolunteerProfile.this, VolunteerProfile.class));
                 }
             }

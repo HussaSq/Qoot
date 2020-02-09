@@ -121,7 +121,7 @@
                 tools:layout_editor_absoluteX="16dp"
                 tools:layout_editor_absoluteY="502dp" />
 
-            <!-- <ImageView
+            <!-- <ImageView 000
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

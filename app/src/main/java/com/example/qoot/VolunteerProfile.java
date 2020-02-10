@@ -61,5 +61,6 @@ public class VolunteerProfile extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         Toast.makeText(VolunteerProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(VolunteerProfile.this,LogIn.class));
+        finish();
     }
 }

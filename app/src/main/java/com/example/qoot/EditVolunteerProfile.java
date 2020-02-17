@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,11 +33,16 @@ public class EditVolunteerProfile extends AppCompatActivity {
     String actualCar;
 
 
+
     //  save button
     Button saveButton;
 
     // what user type in fields
     String s1, s2, Uid;
+    //String[]  types = new String[]{",","Small", "Medium", "Truck","None"};
+    String[]  types = new String[]{"Sedan", "SUV", "Truck"};
+    String[]  types1 = new String[]{".", "Medium", "Truck","None"};
+    String urCar;
 
 
     @Override
@@ -46,9 +52,10 @@ public class EditVolunteerProfile extends AppCompatActivity {
 
         // DROP DOWN CODE
         cars = findViewById(R.id.carDD);
-        final String[] types = new String[]{"Default","Small", "Medium", "Truck","None"};
+
+       /* final String[] types = new String[]{"Default","Small", "Medium", "Truck","None"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, types);
-        cars.setAdapter(adapter);
+        cars.setAdapter(adapter);*/
         // I think here we need to fetch the type from DB.. not like the above
 
 
@@ -67,7 +74,59 @@ public class EditVolunteerProfile extends AppCompatActivity {
         db=FirebaseFirestore.getInstance();
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userId=mAuth.getCurrentUser().getUid();
+        /* the last one
+        DocumentReference documentReference =db.collection("Volunteers").document(Uid);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                types[0] = (String)documentSnapshot.getString("Vehicle")+",";
+                magic.setText(documentSnapshot.getString("Vehicle"));
+                urCar=magic.getText().toString() ;
 
+
+            }
+        });*/
+        DocumentReference documentReference =db.collection("Volunteers").document(Uid);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                types1[0] = (String)documentSnapshot.getString("Vehicle")+"";
+               // urCar = (String)documentSnapshot.getString("Vehicle")+"";
+             //   magic.setText(documentSnapshot.getString("Vehicle"));
+                int index =-1  ;
+                for(int i=0;i<types.length;i++){
+                   // Toast.makeText( EditVolunteerProfile.this,""+i,Toast.LENGTH_SHORT).show();
+                    if(types1[0].equals(types[i]) ){
+                        index = i;
+                       // Toast.makeText( EditVolunteerProfile.this,"inside 1 if",Toast.LENGTH_LONG).show();
+                        if(index != -1) {
+                            String temp = types[0];
+                            types[0] = types[index];
+                            types[index] = temp;
+                          //  Toast.makeText( EditVolunteerProfile.this,"inside 2 if",Toast.LENGTH_LONG).show();
+                            return;
+                        }// end if 2
+                    }//end if
+
+                }
+
+
+
+
+            }
+        });
+
+
+        //  actualCar = ReadCar();
+
+
+
+
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, types);
+        cars.setAdapter(adapter);
 
 
 
@@ -123,7 +182,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 /*if (cars.getSelectedItem().toString().equals(null)) { // not sure about this
                     return;
                 }*/
-                if (!(cars.getSelectedItem().toString().equals("Default"))) { // if NOT same then UPDATE
+                if (!(cars.getSelectedItem().toString().equals(types[0]))) { // if NOT same then UPDATE
                     UpdateVehicle(cars.getSelectedItem().toString());
 
                 }else{
@@ -170,6 +229,8 @@ public class EditVolunteerProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 actualCar= documentSnapshot.getString("Vehicle");
+               // magic.setText(documentSnapshot.getString("Vehicle"));
+               // urCar =(String)magic.getText().toString();
             }
         });
 

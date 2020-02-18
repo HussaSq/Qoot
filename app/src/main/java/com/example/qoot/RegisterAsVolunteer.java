@@ -127,10 +127,10 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure: Email Not Sent"+e.getMessage());
+                                    Log.d(TAG,"OnFailure: Email Not Sent");
                                 }
                             });
-                            Toast.makeText(RegisterAsVolunteer.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(RegisterAsVolunteer.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
                             userId = mAuth.getCurrentUser().getUid();
 
 
@@ -148,12 +148,12 @@ public class RegisterAsVolunteer extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                  //  Log.d(TAG,"OnSuccess: user profile is created for"+userId);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                   // Log.d(TAG,"OnFailure "+ e.toString());
                                 }
                             });
                             DocumentReference documentReference1=db.collection("users").document(userId);
@@ -164,12 +164,12 @@ public class RegisterAsVolunteer extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                  //  Log.d(TAG,"OnSuccess: user profile is created for"+userId);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                   // Log.d(TAG,"OnFailure "+ e.toString());
                                 }
                             });
 
@@ -201,7 +201,7 @@ public class RegisterAsVolunteer extends AppCompatActivity {
  */
                             startActivity(new Intent(getApplicationContext(), VolunteerProfile.class));
                         } else {
-                            Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -58,7 +58,7 @@ public class RegisterAsDonator extends AppCompatActivity {
         // RADIO CODE..
         int selectedId = GenderGroup.getCheckedRadioButtonId();
         gender = (RadioButton) findViewById(selectedId);
-        Toast.makeText(RegisterAsDonator.this, gender.getText(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(RegisterAsDonator.this, gender.getText(), Toast.LENGTH_SHORT).show();
         /*if(mAuth.getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), checking.class));
             finish();
@@ -107,12 +107,12 @@ public class RegisterAsDonator extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure: Email Not Sent"+e.getMessage());
+                                    Log.d(TAG,"OnFailure: Email Not Sent");
                                 }
                             });
-
+// NEED TO WAIT FOR Abby
                             userId = mAuth.getCurrentUser().getUid();
-                            Toast.makeText(RegisterAsDonator.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(RegisterAsDonator.this, "Registration Was Successful!!", Toast.LENGTH_SHORT).show();
 
                             // Donator don = new Donator(username,email,gender.getText().toString());
                             db= FirebaseFirestore.getInstance();
@@ -127,12 +127,12 @@ public class RegisterAsDonator extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                   // Log.d(TAG,"OnSuccess: user profile is created for"+userId);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                 //  Log.d(TAG,"OnFailure "+ e.toString());
                                 }
                             });
                             DocumentReference documentReference1=db.collection("users").document(userId);
@@ -143,12 +143,12 @@ public class RegisterAsDonator extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                //    Log.d(TAG,"OnSuccess: user profile is created for"+userId);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Log.d(TAG,"OnFailure "+ e.toString());
+                                   // Log.d(TAG,"OnFailure "+ e.toString());
                                 }
                             });
 
@@ -161,7 +161,7 @@ public class RegisterAsDonator extends AppCompatActivity {
 
                             startActivity(new Intent(RegisterAsDonator.this, DonatorProfile.class));
                         } else {
-                            Toast.makeText(RegisterAsDonator.this, "Something Went Wrong " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterAsDonator.this, "Something Went Wrong,Try Again !  " , Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

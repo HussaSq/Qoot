@@ -34,7 +34,7 @@ tools:context=".RegisterAsDonator">
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:text="Create Account"
-        android:textColor="#3f4658"
+        android:textColor="#F5F5F5"
         android:textSize="20dp" />
 
 

@@ -92,7 +92,7 @@ public class LogIn extends AppCompatActivity {
 
 
 
-                                Toast.makeText(LogIn.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LogIn.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
 
                             }
 

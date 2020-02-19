@@ -46,18 +46,19 @@ public class DonatorProfile extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
 
-
             }
         });
-
     }
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
     }
 
     public void OpenLogOut(View view) {
-        FirebaseAuth.getInstance().signOut();
         Toast.makeText(DonatorProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(DonatorProfile.this,LogIn.class));
+        Intent intent = new Intent(DonatorProfile.this,LogIn.class);
+      //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        FirebaseAuth.getInstance().signOut();
+
     }
 }

@@ -39,9 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="12dp"
+        android:onClick="editPhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="#929292"
+        android:padding="4dp"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -103,7 +106,29 @@
                 android:inputType="phone" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <EditText
+                android:id="@+id/emailDonator"
+                android:layout_width="338dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:hint="example@example.com"
+                android:inputType="textEmailAddress" />
+
+        </LinearLayout>
+        <EditText
+            android:id="@+id/Password"
+            android:layout_width="338dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="12dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
         <Button
             android:id="@+id/button"
             android:layout_width="140dp"

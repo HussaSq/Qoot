@@ -16,29 +16,32 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.regex.Pattern;
+
 public class EditVolunteerProfile extends AppCompatActivity {
 
     Spinner cars;
     public EditText NEW_NAME;
     public EditText NEW_PHONE;
+    public EditText NEW_EMAIL;
+    public EditText NEW_PASSWORD;
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
     String userId;
     String actualCar;
 
-
-
     //  save button
     Button saveButton;
 
     // what user type in fields
-    String s1, s2, Uid;
+    String s1, s2, s3,s4,Uid;
     //String[]  types = new String[]{",","Small", "Medium", "Truck","None"};
     String[]  types = new String[]{"Sedan", "SUV", "Truck"};
     String[]  types1 = new String[]{".", "Medium", "Truck","None"};
@@ -63,8 +66,8 @@ public class EditVolunteerProfile extends AppCompatActivity {
 
         NEW_NAME = findViewById(R.id.Name);
         NEW_PHONE = findViewById(R.id.Phone_v);
-
-
+        NEW_EMAIL = findViewById(R.id.EmailV);
+        NEW_PASSWORD = findViewById(R.id.Pass);
         saveButton = findViewById(R.id.button);
 
 
@@ -74,6 +77,31 @@ public class EditVolunteerProfile extends AppCompatActivity {
         db=FirebaseFirestore.getInstance();
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userId=mAuth.getCurrentUser().getUid();
+
+
+        // ---------------------- setting Hints -----------------------
+
+        DocumentReference documentReference =db.collection("Volunteers").document(Uid);
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                NEW_NAME.setHint(documentSnapshot.getString("UserName"));
+            }
+        });
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                NEW_PHONE.setHint(documentSnapshot.getString("PhoneNumber"));
+            }
+        });
+        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                NEW_EMAIL.setHint(documentSnapshot.getString("Email"));
+            }
+        });
+
+
         /* the last one
         DocumentReference documentReference =db.collection("Volunteers").document(Uid);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -86,7 +114,6 @@ public class EditVolunteerProfile extends AppCompatActivity {
 
             }
         });*/
-        DocumentReference documentReference =db.collection("Volunteers").document(Uid);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -107,27 +134,15 @@ public class EditVolunteerProfile extends AppCompatActivity {
                             return;
                         }// end if 2
                     }//end if
-
                 }
-
-
-
-
             }
         });
 
 
         //  actualCar = ReadCar();
 
-
-
-
-
-
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, types);
         cars.setAdapter(adapter);
-
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -138,42 +153,47 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 //take from user
                 s1 = NEW_NAME.getText().toString();
                 s2 = NEW_PHONE.getText().toString();
+                s3 = NEW_PASSWORD.getText().toString();
+                s4 = NEW_EMAIL.getText().toString();
                 // read the actual car
                 actualCar = ReadCar();
                 int counter=0;
                 //------ check name -------------
-                if (containsDigit(s1)) {
-                    NEW_NAME.setError("Please enter a valid name with no numbers");
-                    return;
-                }
-                if (s1.length() == 1) {
-                    NEW_NAME.setError("Please enter a valid name length");
-                    return;
-                }
+              if (!s1.isEmpty()) {
+                  if (s1.length() == 1) {
+                      NEW_NAME.setError("Please enter a valid name length");
+                      return;
+                  }
+              }
+              if (!s4.isEmpty()){
+                  if (!isValid(s4)){
+                      NEW_EMAIL.setError("Enter a valid Email");
+                      return; }
+              }
                 // ---------------- check number -------------
                 if(!s2.isEmpty()) {
-                    s2 = NEW_PHONE.getText().toString();
-                    if (s2.length() > 10) {
-                        NEW_PHONE.setError("Please enter a valid phone length (10 Digits)");
+                    if (s2.length() != 10) {
+                        NEW_PHONE.setError("Enter a valid phone (10 Digits)");
                         return;
                     }
-                    s2 = NEW_PHONE.getText().toString();
-
-                    if (s2.length() < 10) {
-                        NEW_PHONE.setError("Please enter a valid phone length (10 Digits)");
-                        return;
-                    }
-
-                    s2 = NEW_PHONE.getText().toString();
                     if (!s2.startsWith("05")) {
-                        NEW_PHONE.setError("Please enter a valid phone length (Start with 05)");
+                        NEW_PHONE.setError("Enter a valid phone (Start with 05)");
                         return;
                     }
                     if (containsLetters(s2)) {
-                        NEW_PHONE.setError("Please enter a valid phone number with no letters");
+                        NEW_PHONE.setError("Enter a phone number with no letters");
                         return;
                     }
                 }//end if empty
+                // ------------------ check email --------------------
+                if (!s3.isEmpty()){
+                    if (s3.length() < 8) {
+                        NEW_PASSWORD.setError("Must Be At Least 8 Characters");
+                        return;
+                    }
+                }
+
+
                 //check on car
                /* if (cars.getSelectedItem().toString().equals(actualCar)) { // if same
                     Toast.makeText(EditVolunteerProfile.this, "No Changes on Vehicle", Toast.LENGTH_SHORT).show();
@@ -191,6 +211,8 @@ public class EditVolunteerProfile extends AppCompatActivity {
 
                 s1 = NEW_NAME.getText().toString();
                 s2 = NEW_PHONE.getText().toString();
+                s3 = NEW_PASSWORD.getText().toString();
+                s4 = NEW_EMAIL.getText().toString();
                 // معليش على البدائيه بس اذا عندكم حل احسن قولو
                 //حلك رائع بلا دراما:)
 
@@ -208,8 +230,18 @@ public class EditVolunteerProfile extends AppCompatActivity {
                     }
                     else
                         counter++;
+                    if (!s3.isEmpty()){
+                        UpdatePassword(s3);
+                    }
+                    else
+                        counter++;
+                    if (!s4.isEmpty()){
+                        UpdateEmail(s4);
+                    }
+                    else
+                        counter++;
 
-                    if (counter == 3)
+                    if (counter == 5)
                     {
                         Toast.makeText(EditVolunteerProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditVolunteerProfile.this, VolunteerProfile.class));
@@ -264,6 +296,22 @@ public class EditVolunteerProfile extends AppCompatActivity {
         });
     }
 
+
+
+    public void UpdatePassword(String pass){
+        // abeer
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            user.updatePassword(pass);
+        }
+    }
+    public void UpdateEmail(String em){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null){
+            user.updateEmail(em);
+        }
+    }
+
     // extra methods for checking
     public final boolean containsDigit(String s) {
         boolean containsDigit = false;
@@ -290,6 +338,18 @@ public class EditVolunteerProfile extends AppCompatActivity {
         }
 
         return containsLetters;
+    }
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 
     public void UpdateVehicle(String newVehicle){

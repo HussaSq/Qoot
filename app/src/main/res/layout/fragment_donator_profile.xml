@@ -104,7 +104,7 @@ android:statusBarColor="#AED581">
         </androidx.cardview.widget.CardView>
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/turnOff"
             android:layout_width="41dp"
             android:layout_height="41dp"
             android:layout_marginStart="363dp"
@@ -113,7 +113,8 @@ android:statusBarColor="#AED581">
             android:src="@drawable/ic_power_settings_new_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="OpenLogOut"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -135,6 +136,7 @@ android:statusBarColor="#AED581">
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/Donations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -157,6 +159,7 @@ android:statusBarColor="#AED581">
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/RateD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

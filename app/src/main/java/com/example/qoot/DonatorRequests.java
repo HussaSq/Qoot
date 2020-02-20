@@ -26,7 +26,7 @@ public class DonatorRequests extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.notifi_don:
-                    startActivity(new Intent(getApplicationContext(),notification_donator.class));
+                    startActivity(new Intent(getApplicationContext(),DonatorNotificationFragment.class));
                     overridePendingTransition(0,0);
                     return true;
 

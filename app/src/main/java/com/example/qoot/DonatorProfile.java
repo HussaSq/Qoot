@@ -1,14 +1,17 @@
 package com.example.qoot;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +35,37 @@ public class DonatorProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_profile);
+
+        //***********************************bottom navigation
+
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navi_D);
+        bottomNavigationView.setSelectedItemId(R.id.prfile_don);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.Req_don:
+                        startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    case R.id.prfile_don:
+                        return true;
+
+                    case R.id.notifi_don:
+                        startActivity(new Intent(getApplicationContext(),notification_donator.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
+        //***********************************bottom navigation
+
+
 
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);

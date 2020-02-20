@@ -14,18 +14,17 @@ public class AllRequests extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tab3, tab4;
-   // public pageAdapter pagerAdapter1;
+    public pageAdapter1 pagerAdapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_requests);
-    /*
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tab3 = (TabItem) findViewById(R.id.Tab3);
         tab4 = (TabItem) findViewById(R.id.Tab4);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        pagerAdapter1 = new pageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter1 = new pageAdapter1(getSupportFragmentManager(), tabLayout.getTabCount());
        viewPager.setAdapter(pagerAdapter1);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
@@ -61,5 +60,5 @@ public class AllRequests extends AppCompatActivity {
 
     public void openScheduleForm(View view) {
         startActivity(new Intent(AllRequests.this,tab4.class));
-    } */
-    }}
+    }
+}

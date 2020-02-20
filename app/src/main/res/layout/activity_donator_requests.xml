@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,7 +36,7 @@
 
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:id="@+id/bottom_navi_D"
@@ -44,7 +44,7 @@
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
         app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"/> -->
 
 
 
@@ -143,20 +143,13 @@
 
     </LinearLayout>-->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newReq"
+    <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="275dp"
-        android:layout_marginTop="485dp"
-        android:clickable="true"
-        android:tint="#FDFCFC"
-        app:fabCustomSize="80dp"
-        app:fabSize="auto"
-        app:maxImageSize="48dp"
-        app:srcCompat="@android:drawable/ic_input_add"
-        app:useCompatPadding="false" />
+        android:layout_marginLeft="270dp"
+        android:layout_marginTop="300dp"
+        android:src="@drawable/ic_add_circle" />
     <!-- android:onClick="" -->
 
 
-</RelativeLayout>
+</LinearLayout>

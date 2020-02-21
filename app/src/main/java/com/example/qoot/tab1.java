@@ -36,7 +36,7 @@ public class tab1 extends Fragment {
         dateTimeDisplay = (TextView)view.findViewById(R.id.pickUpDate);
         calendar = Calendar.getInstance();
         year=calendar.get(Calendar.YEAR);
-        month=calendar.get(Calendar.MONTH);
+        month=calendar.get(Calendar.MONTH)+1;
         day=calendar.get(Calendar.DAY_OF_MONTH);
         dateTimeDisplay.setText(year+"/"+month+"/"+day);
 

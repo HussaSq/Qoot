@@ -25,8 +25,8 @@ import com.google.android.material.tabs.TabLayout;
         tab1 = (TabItem) findViewById(R.id.Tab1);
         tab2 = (TabItem) findViewById(R.id.Tab2);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-      //  pagerAdapter = new pageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-      //  viewPager.setAdapter(pagerAdapter);
+      pagerAdapter = new pageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+      viewPager.setAdapter(pagerAdapter);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

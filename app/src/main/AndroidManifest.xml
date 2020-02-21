@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".DonatorNotifications"></activity>
-        <activity android:name=".DonatorMain" />
         <activity android:name=".DonatorNotificationFragment" />
         <activity android:name=".single_offer" />
         <activity android:name=".list_offers" />
@@ -23,7 +22,13 @@
 
         </activity>
         <activity android:name=".EditDonatorProfile" />
-        <activity android:name=".DonatorProfile" />
+        <activity android:name=".DonatorProfile" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
         <activity android:name=".EditVolunteerProfile" />
         <activity android:name=".VolunteerProfile" />
         <activity android:name=".ForgotPassword" />
@@ -36,13 +41,8 @@
         <activity android:name=".VolunteerRequests">
 
         </activity>
-        <activity android:name=".AllRequests">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".AllRequests"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

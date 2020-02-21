@@ -206,9 +206,9 @@ public class EditDonatorProfile extends AppCompatActivity {
             });
         }
 
-    public void OpenProfileDonator(View view) {
-        startActivity(new Intent(EditDonatorProfile.this,DonatorMain.class));
-    }
+  //  public void OpenProfileDonator(View view) {
+        //startActivity(new Intent(EditDonatorProfile.this,DonatorMain.class));
+    //}
 
     // -------------------------------------------------METHODS------------------------------------------------
     public void editPhoto(View v){

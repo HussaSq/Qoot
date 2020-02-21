@@ -261,6 +261,7 @@
 
 
     <ImageView
+        android:id="@+id/Chat"
         android:layout_width="50dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"

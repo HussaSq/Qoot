@@ -205,6 +205,11 @@ public class EditDonatorProfile extends AppCompatActivity {
                 }
             });
         }
+
+    public void OpenProfileDonator(View view) {
+        startActivity(new Intent(EditDonatorProfile.this,DonatorMain.class));
+    }
+
     // -------------------------------------------------METHODS------------------------------------------------
     public void editPhoto(View v){
 
@@ -289,9 +294,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         return pat.matcher(email).matches();
     }
 
-  //  public void OpenProfileDonator(View view) {
-    //    startActivity(new Intent(EditDonatorProfile.this,DonatorMain.class));
-  //  }
+
 
         /*      اذا ما ضبط اللي فوق هذي بلان بي -عبير
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

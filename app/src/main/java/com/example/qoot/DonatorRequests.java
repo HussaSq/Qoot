@@ -116,6 +116,11 @@ public int CollectionLength(CollectionReference col){
     return Collectionsize;
 }
 
+public void OpenDonaterRequestInfo(){
+
+}
+
+
 }
 
 class Request {

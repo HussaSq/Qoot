@@ -1,12 +1,16 @@
 package com.example.qoot;
-
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 
 /**
@@ -14,6 +18,10 @@ import androidx.fragment.app.Fragment;
  */
 public class tab1 extends Fragment {
 
+    TextView textView;
+    TextView dateTimeDisplay;
+    Calendar calendar;
+    int day,month,year;
 
     public tab1() {
         // Required empty public constructor
@@ -24,7 +32,25 @@ public class tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab1, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        dateTimeDisplay = (TextView)view.findViewById(R.id.pickUpDate);
+        calendar = Calendar.getInstance();
+        year=calendar.get(Calendar.YEAR);
+        month=calendar.get(Calendar.MONTH);
+        day=calendar.get(Calendar.DAY_OF_MONTH);
+        dateTimeDisplay.setText(year+"/"+month+"/"+day);
 
+        textView = (TextView) view.findViewById(R.id.pickUpTime);
+        textView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "TimePicker");
+            }
+
+        });
+        return view;
+
+    }
 }

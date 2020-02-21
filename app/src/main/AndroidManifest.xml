@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DonatorMain"></activity>
+        <activity android:name=".DonatorNotifications"></activity>
+        <activity android:name=".DonatorMain" />
         <activity android:name=".DonatorNotificationFragment" />
         <activity android:name=".single_offer" />
         <activity android:name=".list_offers" />

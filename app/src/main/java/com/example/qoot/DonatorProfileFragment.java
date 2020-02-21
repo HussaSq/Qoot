@@ -1,6 +1,5 @@
 package com.example.qoot;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,17 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import javax.annotation.Nullable;
 
 
 public class DonatorProfileFragment extends Fragment {
@@ -65,8 +59,8 @@ public class DonatorProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_donator_profile, container, false);
-        Photo = view.findViewById(R.id.imageView2);
-        Username =  view.findViewById(R.id.textView4);
+        Photo = view.findViewById(R.id.UserImage);
+        Username =  view.findViewById(R.id.UserNameD);
         email =  view.findViewById(R.id.emailDonator);
         Ratings =  view.findViewById(R.id.RateD);
         Donations =  view.findViewById(R.id.Donations);

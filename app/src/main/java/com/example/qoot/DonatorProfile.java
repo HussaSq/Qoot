@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -37,7 +38,7 @@ public class DonatorProfile extends AppCompatActivity {
         setContentView(R.layout.activity_donator_profile);
 
         //***********************************bottom navigation
-
+/*
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navi);
         bottomNavigationView.setSelectedItemId(R.id.prfile_don);
 
@@ -49,10 +50,8 @@ public class DonatorProfile extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
                         overridePendingTransition(0,0);
                         return true;
-
                     case R.id.prfile_don:
                         return true;
-
                     case R.id.notifi_don:
                         startActivity(new Intent(getApplicationContext(),DonatorNotificationFragment.class));
                         overridePendingTransition(0,0);
@@ -63,9 +62,7 @@ public class DonatorProfile extends AppCompatActivity {
             }
         });
 
-        //***********************************bottom navigation
-
-
+        //***********************************bottom navigation */
 
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);
@@ -82,6 +79,10 @@ public class DonatorProfile extends AppCompatActivity {
 
             }
         });
+
+        CollectionReference col = db.collection("users");
+        col.whereEqualTo("gender","male");
+
     }
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
@@ -95,4 +96,5 @@ public class DonatorProfile extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
 
     }
+
 }

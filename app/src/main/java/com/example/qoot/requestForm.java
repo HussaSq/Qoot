@@ -10,11 +10,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
-/* public class requestForm extends AppCompatActivity {
+ public class requestForm extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tab1, tab2;
-   // public pageAdapter pagerAdapter;
+    public pageAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ import com.google.android.material.tabs.TabLayout;
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getPosition() == 0) {
-              //      pagerAdapter.notifyDataSetChanged();
+                    pagerAdapter.notifyDataSetChanged();
                 } else if (tab.getPosition() == 1) {
                     pagerAdapter.notifyDataSetChanged();
                 }
@@ -56,10 +56,10 @@ import com.google.android.material.tabs.TabLayout;
     }
 
     public void openUrgentForm(View view) {
-      <!--  startActivity(new Intent(requestForm.this, tab1.class)); -->
+        startActivity(new Intent(requestForm.this, tab1.class));
     }
 
     public void openScheduleForm(View view) {
         startActivity(new Intent(requestForm.this,tab2.class));
     }
-}  */
+}

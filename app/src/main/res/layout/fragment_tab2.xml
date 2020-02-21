@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tab2">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/food"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/FoodType"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:layout_marginLeft="12dp"
+            android:hint="Type Of Event"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="60dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/guest"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/numberOfGuest"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="number"
+            android:layout_marginLeft="12dp"
+            android:hint="Number Of Guest"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="120dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/pickuptime"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/pickUpTime"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:ems="10"
+            android:inputType="time"
+            android:layout_marginLeft="12dp"
+            android:hint="Pick Up Time"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="180dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/map"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- <com.google.android.gms.maps.MapView
+             android:id="@+id/mapView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" /> -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_marginTop="240dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:src="@drawable/note"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:layout_marginLeft="12dp"
+            android:hint="Any Note?"
+            android:gravity="start|top"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+</FrameLayout>

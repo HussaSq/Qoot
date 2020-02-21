@@ -18,7 +18,7 @@ public class DonatorRequests extends AppCompatActivity {
 
 
 
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navi_D);
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottomNavDon);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

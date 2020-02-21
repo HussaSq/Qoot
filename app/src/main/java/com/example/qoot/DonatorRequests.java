@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,7 +19,7 @@ public class DonatorRequests extends AppCompatActivity {
 
 
 
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottomNavDon);
+       /* BottomNavigationView bottomNavigationView =findViewById(R.id.bottomNavDon);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -41,8 +42,16 @@ public class DonatorRequests extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
     }
 
 
+    public void OpenRequestForm(View view) {
+        startActivity(new Intent(DonatorRequests.this,requestForm.class));
+    }
+
+
+    public void OpenDonaterRequestInfo(View view) {
+        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+    }
 }

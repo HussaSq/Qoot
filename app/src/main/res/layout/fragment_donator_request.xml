@@ -146,7 +146,8 @@
         android:layout_marginTop="300dp"
         android:src="@drawable/ic_add_circle_outline_black_24dp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="80dp"/>
+        tools:layout_editor_absoluteY="80dp"
+        android:onClick="OpenRequestForm"/>
     <!-- android:onClick="" -->
 
 </LinearLayout>

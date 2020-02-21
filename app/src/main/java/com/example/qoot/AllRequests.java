@@ -25,7 +25,7 @@ public class AllRequests extends AppCompatActivity {
         tab4 = (TabItem) findViewById(R.id.Tab4);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         pagerAdapter1 = new pageAdapter1(getSupportFragmentManager(), tabLayout.getTabCount());
-       viewPager.setAdapter(pagerAdapter1);
+        viewPager.setAdapter(pagerAdapter1);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -60,5 +60,9 @@ public class AllRequests extends AppCompatActivity {
 
     public void openScheduleForm(View view) {
         startActivity(new Intent(AllRequests.this,tab4.class));
+    }
+
+    public void OpenVolunteerRequests(View view) {
+        startActivity(new Intent(AllRequests.this,VolunteerRequests.class));
     }
 }

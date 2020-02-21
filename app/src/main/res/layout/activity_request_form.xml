@@ -22,7 +22,8 @@
             android:layout_marginTop="15dp"
             android:src="@drawable/downarrow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="OpenDonatorRequest"/>
 
 
         <TextView

@@ -62,4 +62,8 @@ import com.google.android.material.tabs.TabLayout;
     public void openScheduleForm(View view) {
         startActivity(new Intent(requestForm.this,tab2.class));
     }
-}
+
+     public void OpenDonatorRequest(View view) {
+         startActivity(new Intent(requestForm.this,DonatorRequests.class));
+     }
+ }

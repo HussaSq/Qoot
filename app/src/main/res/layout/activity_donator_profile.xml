@@ -63,6 +63,7 @@
             android:layout_marginBottom="49dp"
             app:cardBackgroundColor="#AED581"
             app:cardCornerRadius="16dp"
+            android:onClick="OpenEditProfilePage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.629"

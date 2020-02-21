@@ -80,9 +80,6 @@ public class DonatorProfile extends AppCompatActivity {
             }
         });
 
-        CollectionReference col = db.collection("users");
-        col.whereEqualTo("gender","male");
-
     }
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));

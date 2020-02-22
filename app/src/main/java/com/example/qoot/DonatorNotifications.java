@@ -29,6 +29,7 @@ public class DonatorNotifications extends AppCompatActivity {
                         return true;
 
                     case R.id.notifi_don:
+
                         return true;
 
                     case R.id.prfile_don:

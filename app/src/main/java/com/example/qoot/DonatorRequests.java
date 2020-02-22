@@ -7,9 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
@@ -28,13 +26,14 @@ import java.util.ArrayList;
 public class DonatorRequests extends AppCompatActivity {
 
 
-    FirebaseAuth mAuth ;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db;
-    String UserID;
-    String RequestID;
+    String UserID= mAuth.getCurrentUser().getUid();
+
+
 
     int Collectionsize=0;
-     Request req [] ;
+    Request req [] ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +53,15 @@ public class DonatorRequests extends AppCompatActivity {
                         return true;
 
                     case R.id.prfile_don:
-                        return true;
-
-                    case R.id.Req_don:
-                        startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
+                        startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
                         return true;
 
-                }// pllls
+                    case R.id.Req_don:
+
+                        return true;
+
+                }
                 return false;
             }
         });
@@ -70,7 +70,7 @@ public class DonatorRequests extends AppCompatActivity {
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        UserID = mAuth.getCurrentUser().getUid();
+        // UserID = mAuth.getCurrentUser().getUid();
         CollectionReference col = db.collection("Requests");
         Collectionsize = CollectionLength(col);
 
@@ -82,7 +82,7 @@ public class DonatorRequests extends AppCompatActivity {
             // (عشان نتنقل اسهل في صنع الريكويست حق علياء)
             req = new Request [Collectionsize];
             col.whereEqualTo("Donator",mAuth.getCurrentUser().getUid());
-          //  addCollectionToArray(col);
+            //  addCollectionToArray(col);
 
 
 
@@ -90,65 +90,55 @@ public class DonatorRequests extends AppCompatActivity {
 
 
     }
-public void NewRequest(){
+    public void NewRequest(){
 
         // this is the bigger request layout ((Root))
-    LinearLayout parent = new LinearLayout(this);
-    parent.setLayoutParams(new
-            LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-    parent.setOrientation(LinearLayout.VERTICAL);
-    parent.setClickable(true);
+        LinearLayout parent = new LinearLayout(this);
+        parent.setLayoutParams(new
+                LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        parent.setOrientation(LinearLayout.VERTICAL);
+        parent.setClickable(true);
         //add the children of this parent or root
-    TextView EventType  =  new TextView(this);
-    EventType.setText("EventType");
-    EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
-    EventType.setPadding(30,20,0,0);
-    EventType.setTextSize(22);
-    // ---------------------------------------------------------------------
-    TextView Status = new TextView(this);
-    Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
-    EventType.setPadding(30,5,0,0);
-    EventType.setTextSize(22);
-    EventType.setText("EventType");
-    //--------------------------------------------------------------------
-    ImageView urgentIcon = new ImageView(this);
-    urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
-    urgentIcon.setPadding(70,8,0,0);
-    //urgentIcon.set();
-  //  android:src="@drawable/urgent" />
 
 
-}
+    }
 
-public int CollectionLength(CollectionReference col){
-    db.collection("Requests")
-            .whereEqualTo("Donator", mAuth.getCurrentUser().getUid())
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                        //    Log.d(TAG, document.getId() + " => " + document.getData());
+    public int CollectionLength(CollectionReference col){
+        db.collection("Requests").whereEqualTo("Donator",mAuth.getCurrentUser().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Collectionsize++;
+                            }
+                        } else {
 
                         }
-                    } else {
-
                     }
-                }
-            });
-    return 0;
-}
+                });
+        return Collectionsize;
+    }
 
-public void OpenDonaterRequestInfo(){
-   // String RequestID  = db.collection("Requests").document("");
-    startActivity(new Intent(this,DonatorRequestInfo.class));
+    public void OpenDonaterRequestInfo(){
 
-}
+    }
 
 
+    public void OpenRequestForm(View view) {
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        String name = intent1.getStringExtra("Name");
+
+        Intent intent = new Intent(DonatorRequests.this,requestForm.class);
+        intent.putExtra("user", userId);
+        intent.putExtra("Name", name);
+        startActivity(intent);
+        // startActivity(new Intent(DonatorRequests.this,requestForm.class));
+    }
 }
 
 class Request {
@@ -156,7 +146,7 @@ class Request {
     String EventType;
     String Status;
     String UserID;
-    String RequestID;
+
 
     public Request(){
 
@@ -166,7 +156,6 @@ class Request {
         EventType = type;
         Status = stat;
         UserID = id;
-
     }
 
     public String getEventType() {
@@ -193,3 +182,4 @@ class Request {
         UserID = userID;
     }
 }
+

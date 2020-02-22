@@ -32,7 +32,7 @@ public class LogIn extends AppCompatActivity {
     Button loginbtn;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
-    String userId;
+    String userId,name;
     TextView tes;
 
     @Override
@@ -122,10 +122,35 @@ public class LogIn extends AppCompatActivity {
     }
 
     public void goOn(String t){
-        if(t.equals("Donator"))
-            startActivity(new Intent(LogIn.this, DonatorProfile.class));
-        if(t.equals("Volunteer"))
-            startActivity(new Intent(LogIn.this, VolunteerProfile.class));
+
+        if(t.equals("Donator")){
+            DocumentReference documentReference =db.collection("Donators").document(userId);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    name =documentSnapshot.getString("UserName");
+                }
+            });
+            Intent intent = new Intent(LogIn.this, DonatorRequests.class);
+            intent.putExtra("user", userId);
+            intent.putExtra("Name", name);
+            startActivity(intent);
+            // startActivity(new Intent(LogIn.this, DonatorRequests.class));
+        }
+        if(t.equals("Volunteer")) {
+            DocumentReference documentReference =db.collection("Volunteers").document(userId);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    name =documentSnapshot.getString("UserName");
+                }
+            });
+            Intent intent = new Intent(LogIn.this, VolunteerProfile.class);
+            intent.putExtra("user", userId);
+            intent.putExtra("Name", name);
+            startActivity(intent);
+            //startActivity(new Intent(LogIn.this, VolunteerProfile.class));
+        }
 
     }
     public void OpenSignupAsPage(View view) {

@@ -18,11 +18,6 @@
         <activity android:name=".DonatorRequestInfo" />
 
         <activity android:name=".requestForm" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
     </activity>
         <activity android:name=".DonatorRequests"></activity>
 
@@ -32,15 +27,17 @@
 
 
         <activity android:name=".EditVolunteerProfile" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
     </activity>
         <activity android:name=".VolunteerProfile" />
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".LogIn"></activity>
+        <activity android:name=".LogIn">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".RegisterAsDonator" />
         <activity android:name=".RegisterAsVolunteer" />
         <activity android:name=".SignUpAs" />

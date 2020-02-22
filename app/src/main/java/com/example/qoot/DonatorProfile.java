@@ -50,6 +50,7 @@ public class DonatorProfile extends AppCompatActivity {
                         return true;
 
                     case R.id.prfile_don:
+
                         return true;
 
                     case R.id.Req_don:
@@ -80,7 +81,15 @@ public class DonatorProfile extends AppCompatActivity {
 
     }
     public void OpenEditProfilePage(View view){
-        startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        String name = intent1.getStringExtra("Name");
+
+        Intent intent = new Intent(DonatorProfile.this,EditDonatorProfile.class);
+        intent.putExtra("user", userId);
+        intent.putExtra("Name", name);
+        startActivity(intent);
+        //startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
     }
 
     public void OpenLogOut(View view) {

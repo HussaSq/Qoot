@@ -35,7 +35,8 @@ public class tab3 extends Fragment {
 
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(tab3.this,VolunteerRequestInfo.class));
+
+                startActivity(new Intent(getActivity(),VolunteerRequestInfo.class));
             }
 
         });

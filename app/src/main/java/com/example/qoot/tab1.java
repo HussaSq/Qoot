@@ -1,4 +1,5 @@
 package com.example.qoot;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,6 +25,7 @@ public class tab1 extends Fragment {
     TextView dateTimeDisplay;
     Calendar calendar;
     int day,month,year;
+    FloatingActionButton floatingActionButton;
 
     public tab1() {
         // Required empty public constructor
@@ -47,6 +51,17 @@ public class tab1 extends Fragment {
             public void onClick(View v) {
                 DialogFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "TimePicker");
+            }
+
+        });
+
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.sendrequest);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(getActivity(),DonatorRequests.class));
             }
 
         });

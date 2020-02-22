@@ -37,23 +37,23 @@ public class DonatorProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_profile);
 
-        //***********************************bottom navigation
-/*
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navi);
-        bottomNavigationView.setSelectedItemId(R.id.prfile_don);
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
+        bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.Req_don:
-                        startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
+                    case R.id.notifi_don:
+                        startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
                         overridePendingTransition(0,0);
                         return true;
+
                     case R.id.prfile_don:
                         return true;
-                    case R.id.notifi_don:
-                        startActivity(new Intent(getApplicationContext(),DonatorNotificationFragment.class));
+
+                    case R.id.Req_don:
+                        startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
                         overridePendingTransition(0,0);
                         return true;
 
@@ -61,8 +61,6 @@ public class DonatorProfile extends AppCompatActivity {
                 return false;
             }
         });
-
-        //***********************************bottom navigation */
 
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);

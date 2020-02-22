@@ -11,14 +11,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".volunteer_notification"></activity>
         <activity android:name=".DonatorNotifications" />
-        <activity android:name=".DonatorNotificationFragment" />
+
         <activity android:name=".single_offer" />
         <activity android:name=".list_offers" />
         <activity android:name=".VolunteerRequestInfo" />
         <activity android:name=".DonatorRequestInfo" />
         <activity android:name=".requestForm"></activity>
         <activity android:name=".DonatorRequests"></activity>
-        <activity android:name=".EditDonatorProfile" />
+
         <activity android:name=".DonatorProfile"/>
 
         <activity android:name=".EditVolunteerProfile" >

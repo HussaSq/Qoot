@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5FA"
     tools:context=".tab4">
 
     <!-- TODO: Update blank fragment layout -->
@@ -17,8 +18,8 @@
             android:layout_width="160dp"
             android:layout_height="125dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="6dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="10dp"
             android:background="#80E4E2E2"
             android:clickable="true"
@@ -91,6 +92,7 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/pickuptime" />
+
                 <TextView
                     android:id="@+id/time2"
                     android:layout_width="68dp"

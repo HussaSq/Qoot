@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f7f7f0"
+    android:backgroundTint="#F5F5FA"
     android:orientation="vertical"
-    tools:context=".DonatorRequests"
-    android:background="#f7f7f0">
+    tools:context=".DonatorRequests">
 
     <Toolbar
         android:id="@+id/req_bar"
@@ -14,7 +15,7 @@
         android:layout_height="45dp"
         android:background="#AED581">
 
-       <!-- <ImageView
+        <!-- <ImageView
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="20dp"
@@ -35,8 +36,7 @@
     </Toolbar>
 
 
-
-<!--    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:id="@+id/bottom_navi_D"
@@ -47,18 +47,17 @@
         android:layout_alignParentBottom="true"/> -->
 
 
-
     <LinearLayout
-        android:layout_below="@+id/req_bar"
         android:id="@+id/req1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/req_bar"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="10dp"
         android:background="#80E4E2E2"
         android:clickable="true"
-        android:orientation="vertical"
-        android:onClick="OpenDonaterRequestInfo">
+        android:onClick="OpenDonaterRequestInfo"
+        android:orientation="vertical">
         <!-- android:onClick="" -->
 
 
@@ -149,8 +148,8 @@
         android:layout_height="80dp"
         android:layout_marginLeft="270dp"
         android:layout_marginTop="300dp"
-        android:src="@drawable/ic_add_circle"
-        android:onClick="OpenRequestForm"/>
+        android:onClick="OpenRequestForm"
+        android:src="@drawable/ic_add_circle" />
     <!-- android:onClick="" -->
 
 

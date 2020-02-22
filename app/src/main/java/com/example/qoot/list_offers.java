@@ -2,6 +2,7 @@ package com.example.qoot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,10 @@ public class list_offers extends AppCompatActivity{
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,Offers);
 
+    }
+
+    public void OpenDonatorRequestInfo(View view) {
+        startActivity(new Intent(list_offers.this,DonatorRequestInfo.class));
     }
 
     class MyCustomAdapter extends BaseAdapter

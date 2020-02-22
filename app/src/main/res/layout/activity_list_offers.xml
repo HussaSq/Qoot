@@ -19,7 +19,7 @@
             android:src="@drawable/downarrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="OoenDonatorRequestInfo"/>
+            android:onClick="OpenDonatorRequestInfo"/>
 
         <TextView
             android:layout_width="wrap_content"

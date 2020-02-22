@@ -15,6 +15,7 @@ public class volunteer_notification extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_notification);
+
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.notifi_don);
 
@@ -25,7 +26,7 @@ public class volunteer_notification extends AppCompatActivity {
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.notifi_don:
                         return true;
@@ -33,7 +34,7 @@ public class volunteer_notification extends AppCompatActivity {
                     case R.id.Req_don:
                         startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                 }
                 return false;

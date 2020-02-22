@@ -17,7 +17,7 @@ public class DonatorNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_donator_notifications);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.Req_don);
+        bottomNavigationView.setSelectedItemId(R.id.notifi_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -26,7 +26,7 @@ public class DonatorNotifications extends AppCompatActivity {
                     case R.id.Req_don:
                         startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.notifi_don:
 
@@ -35,7 +35,7 @@ public class DonatorNotifications extends AppCompatActivity {
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                 }
                 return false;

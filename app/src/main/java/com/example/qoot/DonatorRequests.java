@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,12 +52,12 @@ public class DonatorRequests extends AppCompatActivity {
                     case R.id.notifi_don:
                         startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.Req_don:
 

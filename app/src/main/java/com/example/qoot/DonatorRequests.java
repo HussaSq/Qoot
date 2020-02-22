@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
@@ -28,6 +31,7 @@ public class DonatorRequests extends AppCompatActivity {
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     String UserID;
+    String RequestID;
 
     int Collectionsize=0;
      Request req [] ;
@@ -94,29 +98,50 @@ public void NewRequest(){
     parent.setOrientation(LinearLayout.VERTICAL);
     parent.setClickable(true);
         //add the children of this parent or root
+    TextView EventType  =  new TextView(this);
+    EventType.setText("EventType");
+    EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
+    EventType.setPadding(30,20,0,0);
+    EventType.setTextSize(22);
+    // ---------------------------------------------------------------------
+    TextView Status = new TextView(this);
+    Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
+    EventType.setPadding(30,5,0,0);
+    EventType.setTextSize(22);
+    EventType.setText("EventType");
+    //--------------------------------------------------------------------
+    ImageView urgentIcon = new ImageView(this);
+    urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
+    urgentIcon.setPadding(70,8,0,0);
+    //urgentIcon.set();
+  //  android:src="@drawable/urgent" />
 
 
 }
 
 public int CollectionLength(CollectionReference col){
-    db.collection("Requests").whereEqualTo("Donator",mAuth.getCurrentUser().getUid())
+    db.collection("Requests")
+            .whereEqualTo("Donator", mAuth.getCurrentUser().getUid())
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
-                        for (DocumentSnapshot document : task.getResult()) {
-                            Collectionsize++;
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        //    Log.d(TAG, document.getId() + " => " + document.getData());
+
                         }
                     } else {
 
                     }
                 }
             });
-    return Collectionsize;
+    return 0;
 }
 
 public void OpenDonaterRequestInfo(){
+   // String RequestID  = db.collection("Requests").document("");
+    startActivity(new Intent(this,DonatorRequestInfo.class));
 
 }
 
@@ -128,7 +153,7 @@ class Request {
     String EventType;
     String Status;
     String UserID;
-
+    String RequestID;
 
     public Request(){
 
@@ -138,6 +163,7 @@ class Request {
         EventType = type;
         Status = stat;
         UserID = id;
+
     }
 
     public String getEventType() {

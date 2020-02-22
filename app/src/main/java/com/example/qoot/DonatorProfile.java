@@ -97,7 +97,7 @@ public class DonatorProfile extends AppCompatActivity {
         Intent intent = new Intent(DonatorProfile.this,LogIn.class);
       //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        FirebaseAuth.getInstance().signOut();
+      //  FirebaseAuth.getInstance().signOut();
 
     }
 

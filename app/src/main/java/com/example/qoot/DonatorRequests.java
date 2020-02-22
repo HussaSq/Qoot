@@ -90,7 +90,7 @@ public class DonatorRequests extends AppCompatActivity {
 
 
     }
-    public void NewRequest(){
+public void NewRequestXML(){
 
         // this is the bigger request layout ((Root))
         LinearLayout parent = new LinearLayout(this);
@@ -101,6 +101,23 @@ public class DonatorRequests extends AppCompatActivity {
         parent.setOrientation(LinearLayout.VERTICAL);
         parent.setClickable(true);
         //add the children of this parent or root
+    TextView EventType  =  new TextView(this);
+    EventType.setText("EventType");
+    EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
+    EventType.setPadding(30,20,0,0);
+    EventType.setTextSize(22);
+    // ---------------------------------------------------------------------
+    TextView Status = new TextView(this);
+    Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
+    EventType.setPadding(30,5,0,0);
+    EventType.setTextSize(22);
+    EventType.setText("Status");
+    //--------------------------------------------------------------------
+    ImageView urgentIcon = new ImageView(this);
+    urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
+    urgentIcon.setPadding(70,8,0,0);
+    //urgentIcon.set();
+  //  android:src="@drawable/urgent" />
 
 
     }

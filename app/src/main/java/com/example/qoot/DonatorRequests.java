@@ -90,7 +90,7 @@ public class DonatorRequests extends AppCompatActivity {
 
 
     }
-public void NewRequest(){
+public void NewRequestXML(){
 
         // this is the bigger request layout ((Root))
     LinearLayout parent = new LinearLayout(this);
@@ -111,7 +111,7 @@ public void NewRequest(){
     Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
     EventType.setPadding(30,5,0,0);
     EventType.setTextSize(22);
-    EventType.setText("EventType");
+    EventType.setText("Status");
     //--------------------------------------------------------------------
     ImageView urgentIcon = new ImageView(this);
     urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));

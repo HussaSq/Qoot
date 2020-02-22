@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5FA"
     android:orientation="vertical"
+    android:id="@+id/Parent"
     tools:context=".VolunteerRequests">
 
     <Toolbar
@@ -33,61 +34,6 @@
             android:textSize="20dp"
             android:textStyle="bold" />
     </Toolbar>
-
-    <LinearLayout
-        android:id="@+id/req1"
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="10dp"
-        android:background="#80E4E2E2"
-        android:clickable="true"
-
-        android:onClick="OpenVolunteerRequestInfo"
-        android:orientation="vertical">
-
-        android:orientation="vertical"
-        android:layout_below="@+id/bar"
-        android:onClick="OpenVolunteerRequestInfo">
-
-        <!-- android:onClick="" -->
-
-
-        <TextView
-            android:id="@+id/EventType1"
-            android:layout_width="199dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:text="EventType"
-            android:textSize="22dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/status1"
-                android:layout_width="199dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
-                android:text="status"
-                android:textSize="20dp" />
-
-            <ImageView
-                android:id="@+id/reqType1"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="70dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/urgent" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     <!--<LinearLayout
         android:id="@+id/req2"
@@ -148,6 +94,75 @@
         android:src="@drawable/search"
         app:useCompatPadding="false" />-->
 
+
+    <LinearLayout
+        android:id="@+id/req1"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        android:background="#80E4E2E2"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:layout_below="@+id/bar"
+        android:onClick="OpenVolunteerRequestInfo">
+
+
+
+        <!-- android:onClick="" -->
+
+
+        <TextView
+            android:id="@+id/EventType1"
+            android:layout_width="199dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="EventType"
+            android:textSize="22dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/status1"
+                android:layout_width="199dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:text="status"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/reqType1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/urgent" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/NO"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+
+        android:layout_marginTop="10dp"
+        android:text="No Requests"
+        android:textAlignment="center"
+        android:textColor="#3f4658"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <ImageView
         android:layout_width="80dp"

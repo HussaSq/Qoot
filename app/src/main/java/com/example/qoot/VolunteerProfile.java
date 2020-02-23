@@ -37,6 +37,7 @@ public class VolunteerProfile extends AppCompatActivity {
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     FirebaseUser user ;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +69,13 @@ public class VolunteerProfile extends AppCompatActivity {
             }
         });
 
-
-
-
-
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
-
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         warn = findViewById(R.id.warn);
         warnM = findViewById(R.id.warnMess);
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        String userId=mAuth.getCurrentUser().getUid();
         FirebaseUser user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
             warn.setVisibility(View.VISIBLE);
@@ -96,21 +93,21 @@ public class VolunteerProfile extends AppCompatActivity {
                 }
             });
         }
-
-        String userId=mAuth.getCurrentUser().getUid();
-
         DocumentReference documentReference =db.collection("Volunteers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
 
-
             }
         });
+
     }
 
     public void OpenEditProfilePage(View view){
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        String name = intent1.getStringExtra("Name");
         startActivity(new Intent(VolunteerProfile.this,EditVolunteerProfile.class));
     }
 

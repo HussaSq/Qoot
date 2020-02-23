@@ -146,7 +146,7 @@ public class LogIn extends AppCompatActivity {
                     name[0] =documentSnapshot.getString("UserName");
                 }
             });
-            Intent intent = new Intent(LogIn.this, VolunteerProfile.class);
+            Intent intent = new Intent(LogIn.this, VolunteerRequests.class);
             intent.putExtra("user", userId);
            // intent.putExtra("Name", name);
             startActivity(intent);

@@ -15,12 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,24 +33,36 @@ import com.google.firebase.firestore.auth.User;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import javax.annotation.Nullable;
+
 public class DonatorRequests extends AppCompatActivity {
 
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String UserID;
+    String UserID,reqID;
+
+
+    TextView test1, test2 ;
 
     RelativeLayout Rl;
     LinearLayout req1;
     int Collectionsize=0;
     int max; // max number of request;
     Request[] req;
+    Request MAGIC;
+    TextView secret;
+    LinearLayout parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
         Rl = findViewById(R.id.parent);
         req1 = findViewById(R.id.req1);
+
+
+        test1 = findViewById(R.id.EventType1);
+        test2 = findViewById(R.id.status1);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
@@ -78,7 +94,6 @@ public class DonatorRequests extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
-        Rl.removeView(req1);
 
             Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
             q1.get()
@@ -86,20 +101,25 @@ public class DonatorRequests extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                               // Rl.removeView(req1);
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     String State = document.getString("State");
                                     String Event = document.getString("TypeOfEvent");
-                                    NewRequestXML(Event,State,Rl);
-                                    max++;
-
-                                    if (max != 5){
-                                        String ID = document.getId();
-                                        Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
-                                        req [max]=  R;
-                                    }
-                                    else {
+                                    reqID = document.getString("RequestID");
+                                    test1.setText(Event);
+                                    test2.setText(State);
+                                    Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
+                                   // NewRequestXML(Event,State,Rl,reqID);
+                                    MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                                    //max++;
+                                    //if (max != 5){
+                                      //  String ID = document.getId();
+                                        //Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
+                                        //req [max]=  R;
+                                   // }
+                                   // else {
                                         //   Toast.makeText(this, ")
-                                    }
+                                   // }
 
 
                                 }
@@ -111,21 +131,28 @@ public class DonatorRequests extends AppCompatActivity {
                     });
         }
 
-
-public void NewRequestXML(String Event, String Time, RelativeLayout whole){
+String reqId;
+public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
 
         // this is the bigger request layout ((Root))
-        LinearLayout parent = new LinearLayout(this);
+         parent = new LinearLayout(this);
         parent.setLayoutParams(new
                 LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         parent.setOrientation(LinearLayout.VERTICAL);
         parent.setClickable(true);
+
+
+    secret.setText(id);
+    Toast.makeText(DonatorRequests.this, "It id: "+id, Toast.LENGTH_SHORT).show();
+    secret.setVisibility(View.INVISIBLE);
         parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OpenDonaterRequestInfo();
+              //  OpenDonaterRequestInfo();
+                OpenDonaterRequestInfo(parent);
+
             }
         });
         //android:layout_marginTop="6dp"
@@ -137,13 +164,14 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole){
     EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
     EventType.setPadding(30,20,0,0);
     EventType.setTextSize(22);
+
     // ---------------------------------------------------------------------
     TextView Status = new TextView(this);
     Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
-    EventType.setPadding(30,5,0,0);
-    EventType.setTextSize(22);
+    Status.setPadding(30,5,0,0);
+    Status.setTextSize(22);
     // حتى هنا
-    EventType.setText(Time);
+    Status.setText(Time);
     //--------------------------------------------------------------------
     ImageView urgentIcon = new ImageView(this);
     urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
@@ -174,13 +202,8 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole){
         return Collectionsize;
     }
 
-    public void OpenDonaterRequestInfo(){
-        Intent intent = getIntent();
-        //Request [] Requestat  = intent.getStringExtra("Requests");
-        Intent intent2 = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
-        //intent2.putExtra("Requests", Requestat);
-        //   startActivity(this,);
-    }
+   // public void OpenDonaterRequestInfo(String id){
+    //}
 
     public void OpenRequestForm(View view) {
         Intent intent1 = getIntent();
@@ -194,8 +217,19 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole){
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
 
+
+
+
     public void OpenDonaterRequestInfo(View view) {
-        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+
+
+        Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
+        intent.putExtra("RequestID",reqID);
+        //if (reqID!= null)
+        //{
+            Toast.makeText(DonatorRequests.this, "It "+reqID, Toast.LENGTH_SHORT).show();
+        //}
+        startActivity(intent);
     }
 }
 

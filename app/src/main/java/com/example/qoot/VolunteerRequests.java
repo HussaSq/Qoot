@@ -12,9 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class VolunteerRequests extends AppCompatActivity {
-
+    FirebaseAuth mAuth ;
+    FirebaseFirestore db;
+    String UserID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,7 @@ public class VolunteerRequests extends AppCompatActivity {
                         return false;
 
                     case R.id.prfile_don:
+
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
                         return false;
@@ -45,7 +50,9 @@ public class VolunteerRequests extends AppCompatActivity {
             }
         });
 
-
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        UserID = mAuth.getCurrentUser().getUid();
 
         // if this exact volunteer mAuth.getCurrentUser().getUId();   accepted the request
         // we add this accepted request to his/her list.

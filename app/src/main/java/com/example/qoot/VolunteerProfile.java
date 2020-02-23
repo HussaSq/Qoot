@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +32,13 @@ public class VolunteerProfile extends AppCompatActivity {
 
     private TextView Username,warnM;
     private ImageView Photo,warn;
+    LinearLayout linearLayout;
     public static final String TAG = "VoluntterProfile";
 
     // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     FirebaseUser user ;
-    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +70,22 @@ public class VolunteerProfile extends AppCompatActivity {
             }
         });
 
+
+
+
+
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
-        warn = findViewById(R.id.warn);
-        warnM = findViewById(R.id.warnMess);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        String userId=mAuth.getCurrentUser().getUid();
+        linearLayout=findViewById(R.id.valid);
+        //warn = findViewById(R.id.warn);
+        //warnM = findViewById(R.id.warnMess);
         FirebaseUser user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
-            warn.setVisibility(View.VISIBLE);
-            warnM.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
+            //warnM.setVisibility(View.VISIBLE);
 
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -93,21 +99,21 @@ public class VolunteerProfile extends AppCompatActivity {
                 }
             });
         }
+
+        String userId=mAuth.getCurrentUser().getUid();
+
         DocumentReference documentReference =db.collection("Volunteers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
 
+
             }
         });
-
     }
 
     public void OpenEditProfilePage(View view){
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
-        String name = intent1.getStringExtra("Name");
         startActivity(new Intent(VolunteerProfile.this,EditVolunteerProfile.class));
     }
 

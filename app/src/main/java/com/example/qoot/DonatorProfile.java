@@ -2,6 +2,7 @@ package com.example.qoot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +34,9 @@ public class DonatorProfile extends AppCompatActivity {
      TextView Username,warnM;
      ImageView Photo,warn;
      String userId,name;
+     LinearLayout linearLayout;
+
+     ConstraintLayout root ;
 
     // eventually we will add comments and ratings as well
 
@@ -74,15 +79,17 @@ public class DonatorProfile extends AppCompatActivity {
 
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);
-        warn = findViewById(R.id.warn);
-        warnM = findViewById(R.id.warnMess);
+        linearLayout = findViewById(R.id.valid);
+        root = findViewById(R.id.rootProfile);
+        //warnM = findViewById(R.id.warnMess);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         String userId=mAuth.getCurrentUser().getUid();
         FirebaseUser user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
-            warn.setVisibility(View.VISIBLE);
-            warnM.setVisibility(View.VISIBLE);
+            root.removeView(linearLayout);
+            //linearLayout.setVisibility(View.VISIBLE);
+            //warnM.setVisibility(View.VISIBLE);
 
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

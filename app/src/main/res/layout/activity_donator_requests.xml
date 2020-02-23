@@ -146,12 +146,24 @@
 
     <!-- android:onClick="" -->
 
+    <ListView
+
+        android:id="@+id/list_Request"
+        android:layout_width="match_parent"
+        android:layout_height="513dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_below="@+id/req_bar"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="111dp" />
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="550dp"
+        android:id="@+id/addrequest"
+        android:layout_width="66dp"
+        android:layout_height="82dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="570dp"
+        android:layout_marginBottom="1dp"
         android:onClick="OpenRequestForm"
         android:src="@drawable/ic_add_circle" />
 
@@ -165,12 +177,5 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"
          />
-
-    <ListView
-        android:id="@+id/ListRequests"
-        android:layout_width="match_parent"
-        android:layout_height="343dp"
-        android:layout_above="@+id/bottom_navigation_don"
-        android:layout_marginBottom="264dp" />
 
 </RelativeLayout>

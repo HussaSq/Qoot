@@ -85,15 +85,12 @@ public class DonatorRequests extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.Req_don:
                         return true;
-
                 }
                 return false;
             }
@@ -236,6 +233,7 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
     public void OpenDonaterRequestInfo(View view) {
 
 
+
         Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
         intent.putExtra("RequestID",reqID);
         //if (reqID!= null)
@@ -243,6 +241,9 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
             Toast.makeText(DonatorRequests.this, "It "+reqID, Toast.LENGTH_SHORT).show();
         //}
         startActivity(intent);
+
+        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+
     }
 }
 

@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
@@ -28,11 +30,9 @@ import java.util.ArrayList;
 public class DonatorRequests extends AppCompatActivity {
 
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String UserID= mAuth.getCurrentUser().getUid();
-
-
+    String UserID;
 
     int Collectionsize=0;
     Request req [] ;
@@ -60,7 +60,6 @@ public class DonatorRequests extends AppCompatActivity {
                         return false;
 
                     case R.id.Req_don:
-
                         return true;
 
                 }
@@ -72,27 +71,29 @@ public class DonatorRequests extends AppCompatActivity {
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        // UserID = mAuth.getCurrentUser().getUid();
-        CollectionReference col = db.collection("Requests");
-        Collectionsize = CollectionLength(col);
+        UserID = mAuth.getCurrentUser().getUid();
 
-        // if the user actually has a collection of requests
-        if (Collectionsize > 0){
+            Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
 
-            // since we got the length of collection,
-            // initiate the array to navigate easier
-            // (عشان نتنقل اسهل في صنع الريكويست حق علياء)
-            req = new Request [Collectionsize];
-            col.whereEqualTo("Donator",mAuth.getCurrentUser().getUid());
-            //  addCollectionToArray(col);
-
-
-
+            q1.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String State = document.getString("State");
+                                    String Event = document.getString("TypeOfEvent");
+                                    NewRequestXML(Event,State);
+                                }
+                            } else {
+                                // Log.d(TAG, "Error getting documents: ", task.getException());
+                               // no.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
         }
 
-
-    }
-public void NewRequestXML(){
+public void NewRequestXML(String Event, String Time){
 
         // this is the bigger request layout ((Root))
         LinearLayout parent = new LinearLayout(this);
@@ -104,7 +105,8 @@ public void NewRequestXML(){
         parent.setClickable(true);
         //add the children of this parent or root
     TextView EventType  =  new TextView(this);
-    EventType.setText("EventType");
+    // التيكست بتتغير حسب الديتابيس
+    EventType.setText(Event);
     EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
     EventType.setPadding(30,20,0,0);
     EventType.setTextSize(22);
@@ -113,14 +115,17 @@ public void NewRequestXML(){
     Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
     EventType.setPadding(30,5,0,0);
     EventType.setTextSize(22);
-    EventType.setText("Status");
+    // حتى هنا
+    EventType.setText(Time);
     //--------------------------------------------------------------------
     ImageView urgentIcon = new ImageView(this);
     urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
     urgentIcon.setPadding(70,8,0,0);
-    //urgentIcon.set();
-  //  android:src="@drawable/urgent" />
+    urgentIcon.setImageResource(R.drawable.urgent);
 
+    parent.addView(EventType);
+    parent.addView(Status);
+    parent.addView(urgentIcon);
 
     }
 
@@ -143,7 +148,10 @@ public void NewRequestXML(){
     }
 
     public void OpenDonaterRequestInfo(){
+        Intent intent = getIntent();
+        String RequestID;
 
+     //   startActivity(this,);
     }
 
 

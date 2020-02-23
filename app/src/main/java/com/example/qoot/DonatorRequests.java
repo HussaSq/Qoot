@@ -3,13 +3,18 @@ package com.example.qoot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +39,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
+import android.widget.AdapterView;
+import java.util.zip.Inflater;
+
+import static android.widget.BaseAdapter.*;
+
 
 public class DonatorRequests extends AppCompatActivity {
 
@@ -53,12 +63,15 @@ public class DonatorRequests extends AppCompatActivity {
     Request MAGIC;
     TextView secret;
     LinearLayout parent;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
         Rl = findViewById(R.id.parent);
         req1 = findViewById(R.id.req1);
+        listView=findViewById(R.id.list_Request);
+        final ArrayList<Request> request=new ArrayList<Request>();
 
 
         test1 = findViewById(R.id.EventType1);
@@ -111,6 +124,7 @@ public class DonatorRequests extends AppCompatActivity {
                                     Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
                                    // NewRequestXML(Event,State,Rl,reqID);
                                     MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                                    request.add(MAGIC);
                                     //max++;
                                     //if (max != 5){
                                       //  String ID = document.getId();
@@ -123,6 +137,9 @@ public class DonatorRequests extends AppCompatActivity {
 
 
                                 }
+
+                                MyRequestAdapter myRequestAdapter=new MyRequestAdapter(request);
+                                listView.setAdapter(myRequestAdapter);
                             } else {
                                 // Log.d(TAG, "Error getting documents: ", task.getException());
                                // no.setVisibility(View.VISIBLE);
@@ -132,7 +149,7 @@ public class DonatorRequests extends AppCompatActivity {
         }
 
 String reqId;
-public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
+/*public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
 
         // this is the bigger request layout ((Root))
          parent = new LinearLayout(this);
@@ -182,7 +199,7 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
     parent.addView(Status);
     parent.addView(urgentIcon);
     whole.addView(parent);
-    }
+    }*/
 
     public int CollectionLength(CollectionReference col){
         db.collection("Requests").whereEqualTo("Donator",mAuth.getCurrentUser().getUid())
@@ -235,10 +252,10 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
 
 class Request {
 
-    String EventType;
-    String Status;
-    String UserID;
-    String ID;
+    public String EventType;
+    public String Status;
+    public String UserID;
+    public String ID;
 
     public Request(){
 
@@ -284,3 +301,44 @@ class Request {
     }
 }
 
+class MyRequestAdapter extends BaseAdapter{
+    private Context context;
+    ArrayList<Request> request=new ArrayList<Request>();
+
+    MyRequestAdapter(Context context,ArrayList<Request> request){
+     this.request=request;
+     this.context=context;
+    }
+
+    public MyRequestAdapter(ArrayList<Request> request) {
+
+    }
+
+    @Override
+    public int getCount() {
+        return request.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return request.get(position).EventType+"/n"+request.get(position).Status;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        //LayoutInflater linflater =getLayoutInflater();
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
+        //View view=linflater.inflate(R.layout.activity_single_request,null);
+        TextView eventType=(TextView) view.findViewById(R.id.EventType1);
+        TextView status=(TextView) view.findViewById(R.id.status1);
+        eventType.setText(request.get(position).EventType);
+        status.setText(request.get(position).Status);
+        return view;
+    }
+}

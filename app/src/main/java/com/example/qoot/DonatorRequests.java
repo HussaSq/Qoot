@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import com.google.firebase.firestore.auth.User;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -44,6 +47,12 @@ public class DonatorRequests extends AppCompatActivity {
 
 
     TextView test1, test2 ;
+
+    ListView list;
+   //ArrayList<String> array = new ArrayList<>();
+
+    List<Request> lists = new ArrayList<>();
+    private List<String> ListRequests =new ArrayList<>();
 
     RelativeLayout Rl;
     LinearLayout req1;
@@ -61,6 +70,7 @@ public class DonatorRequests extends AppCompatActivity {
         req1 = findViewById(R.id.req1);
 
 
+        list = findViewById(R.id.ListRequests);
         test1 = findViewById(R.id.EventType1);
         test2 = findViewById(R.id.status1);
 
@@ -108,27 +118,30 @@ public class DonatorRequests extends AppCompatActivity {
                                     reqID = document.getString("RequestID");
                                     test1.setText(Event);
                                     test2.setText(State);
-                                    Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
                                    // NewRequestXML(Event,State,Rl,reqID);
                                     MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
-                                    //max++;
-                                    //if (max != 5){
-                                      //  String ID = document.getId();
-                                        //Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
-                                        //req [max]=  R;
-                                   // }
-                                   // else {
-                                        //   Toast.makeText(this, ")
-                                   // }
-
 
                                 }
                             } else {
-                                // Log.d(TAG, "Error getting documents: ", task.getException());
-                               // no.setVisibility(View.VISIBLE);
+
                             }
                         }
                     });
+
+
+
+            db.collection("Requests").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+               ListRequests.clear();
+
+               for(DocumentSnapshot snapshots :queryDocumentSnapshots){
+                 //  lists.add(snapshots.getString("RequestID"));
+
+               }
+                }
+            });
+
         }
 
 String reqId;
@@ -208,11 +221,11 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
     public void OpenRequestForm(View view) {
         Intent intent1 = getIntent();
         String userId = intent1.getStringExtra("user");
-        String name = intent1.getStringExtra("Name");
+      //  String name = intent1.getStringExtra("Name");
 
         Intent intent = new Intent(DonatorRequests.this,requestForm.class);
         intent.putExtra("user", userId);
-        intent.putExtra("Name", name);
+    //    intent.putExtra("Name", name);
         startActivity(intent);
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }

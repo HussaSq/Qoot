@@ -47,6 +47,7 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"/> -->
 
+    <!--
 
     <LinearLayout
         android:id="@+id/req1"
@@ -59,7 +60,7 @@
         android:clickable="true"
         android:onClick="OpenDonaterRequestInfo"
         android:orientation="vertical">
-        <!-- android:onClick="" -->
+        android:onClick=""
 
 
         <TextView
@@ -96,8 +97,7 @@
 
         </LinearLayout>
 
-
-    </LinearLayout>
+    </LinearLayout> -->
 
     <!--<LinearLayout
         android:id="@+id/req2"
@@ -144,17 +144,16 @@
 
     </LinearLayout>-->
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="300dp"
-        android:onClick="OpenRequestForm"
-        android:src="@drawable/ic_add_circle" />
     <!-- android:onClick="" -->
 
 
-
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="550dp"
+        android:onClick="OpenRequestForm"
+        android:src="@drawable/ic_add_circle" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -166,5 +165,12 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"
          />
+
+    <ListView
+        android:id="@+id/ListRequests"
+        android:layout_width="match_parent"
+        android:layout_height="343dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_marginBottom="264dp" />
 
 </RelativeLayout>

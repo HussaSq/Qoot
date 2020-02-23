@@ -134,9 +134,9 @@ public class LogIn extends AppCompatActivity {
             });
             Intent intent = new Intent(LogIn.this, DonatorRequests.class);
             intent.putExtra("user", userId);
-           // intent.putExtra("Name", name);
+           intent.putExtra("Name", name);
             startActivity(intent);
-            // startActivity(new Intent(LogIn.this, DonatorRequests.class));
+           // startActivity(new Intent(LogIn.this, DonatorRequests.class));
         }
         if(t.equals("Volunteer")) {
             DocumentReference documentReference =db.collection("Volunteers").document(userId);

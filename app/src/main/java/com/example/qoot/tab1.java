@@ -129,12 +129,10 @@ public class tab1 extends Fragment {
                 // here i will send the request to database ,
                 //Intent intent = getIntent();
                 Intent intent=getActivity().getIntent();
-
-
                 userId = intent.getStringExtra("user");
 
 
-                 userId=mAuth.getCurrentUser().getUid();
+                 //userId=mAuth.getCurrentUser().getUid();
 
                 db = FirebaseFirestore.getInstance();
 

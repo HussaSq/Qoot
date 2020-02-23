@@ -42,12 +42,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        /*
-                            this doesn't work since i don't have an idea
-                            on how to get the  exact Request ID but
-                            i'm working on it
-         */
-        DocumentReference documentReference =db.collection("Requests").document(/* هنا ريكويست الايدي*/);
+        DocumentReference documentReference = db.collection("Requests").document(/* هنا ريكويست الايدي*/);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

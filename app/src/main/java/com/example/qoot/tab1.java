@@ -131,9 +131,7 @@ public class tab1 extends Fragment {
                 Intent intent=getActivity().getIntent();
                 userId = intent.getStringExtra("user");
 
-
                  //userId=mAuth.getCurrentUser().getUid();
-
                 db = FirebaseFirestore.getInstance();
 
                 //String reqId = UUID.randomUUID().toString();
@@ -189,13 +187,10 @@ public class tab1 extends Fragment {
                             }
                         });
 
-               /* documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
-
+               /*documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         Log.d(TAG," Your Request Submitted Successfully");
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

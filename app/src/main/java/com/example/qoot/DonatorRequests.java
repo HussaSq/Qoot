@@ -100,9 +100,10 @@ public class DonatorRequests extends AppCompatActivity {
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        UserID = mAuth.getCurrentUser().getUid();
+        Intent intent=this.getIntent();
+       String  userId = intent.getStringExtra("user");
 
-            Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
+            Query q1 = db.collection("Requests").whereEqualTo("DonatorID",userId);
             q1.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -127,17 +128,7 @@ public class DonatorRequests extends AppCompatActivity {
 
 
 
-            db.collection("Requests").addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-               ListRequests.clear();
 
-               for(DocumentSnapshot snapshots :queryDocumentSnapshots){
-                 //  lists.add(snapshots.getString("RequestID"));
-
-               }
-                }
-            });
 
         }
 
@@ -242,7 +233,7 @@ public void NewRequestXML(String Event, String Time, RelativeLayout whole, Strin
         //}
         startActivity(intent);
 
-        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+      //  startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
 
     }
 }

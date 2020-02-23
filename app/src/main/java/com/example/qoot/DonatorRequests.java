@@ -140,6 +140,13 @@ public class DonatorRequests extends AppCompatActivity {
 
                                 MyRequestAdapter myRequestAdapter=new MyRequestAdapter(DonatorRequests.this,R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
+
+                                    }
+                                });
                             }
 
 

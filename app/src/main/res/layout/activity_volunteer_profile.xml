@@ -7,7 +7,21 @@
     android:background="@drawable/login_bg"
     android:statusBarColor="#AED581"
     tools:context=".VolunteerProfile">
-
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#AED581"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="MY PROFILE"
+            android:textColor="#3f4658"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </Toolbar>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"

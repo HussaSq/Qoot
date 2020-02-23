@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
     private TextView Username,warnM;
     private ImageView Photo,warn;
+    LinearLayout linearLayout;
     public static final String TAG = "VoluntterProfile";
 
     // eventually we will add comments and ratings as well
@@ -77,12 +79,13 @@ public class VolunteerProfile extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        warn = findViewById(R.id.warn);
-        warnM = findViewById(R.id.warnMess);
+        linearLayout=findViewById(R.id.valid);
+        //warn = findViewById(R.id.warn);
+        //warnM = findViewById(R.id.warnMess);
         FirebaseUser user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
-            warn.setVisibility(View.VISIBLE);
-            warnM.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
+            //warnM.setVisibility(View.VISIBLE);
 
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

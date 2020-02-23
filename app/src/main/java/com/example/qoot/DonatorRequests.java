@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,13 +36,18 @@ public class DonatorRequests extends AppCompatActivity {
     FirebaseFirestore db;
     String UserID;
 
+    RelativeLayout root;
+    LinearLayout req1;
+    private static final String TAG = "Donator Requests";
+
     int Collectionsize=0;
     Request req [] ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
-
+        root = findViewById(R.id.root);
+        req1 =findViewById(R.id.req1);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
@@ -80,13 +87,14 @@ public class DonatorRequests extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                root.removeView(req1);
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     String State = document.getString("State");
                                     String Event = document.getString("TypeOfEvent");
                                     NewRequestXML(Event,State);
                                 }
                             } else {
-                                // Log.d(TAG, "Error getting documents: ", task.getException());
+                                 Log.d(TAG, "Error getting documents: ", task.getException());
                                // no.setVisibility(View.VISIBLE);
                             }
                         }
@@ -101,7 +109,11 @@ public void NewRequestXML(String Event, String Time){
                 LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
+    parent.setPaddingRelative(50,30,50,30);
+    //parent.setPaddingRelative();
+
         parent.setOrientation(LinearLayout.VERTICAL);
+
         parent.setClickable(true);
         //add the children of this parent or root
     TextView EventType  =  new TextView(this);
@@ -126,6 +138,7 @@ public void NewRequestXML(String Event, String Time){
     parent.addView(EventType);
     parent.addView(Status);
     parent.addView(urgentIcon);
+    root.addView(parent);
 
     }
 
@@ -165,6 +178,10 @@ public void NewRequestXML(String Event, String Time){
         intent.putExtra("Name", name);
         startActivity(intent);
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
+    }
+
+    public void OpenDonaterRequestInfo(View view) {
+        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
     }
 }
 

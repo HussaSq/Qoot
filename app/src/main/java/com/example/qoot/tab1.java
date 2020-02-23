@@ -82,6 +82,8 @@ public class tab1 extends Fragment {
             }
 
         });
+
+
         mType = view.findViewById(R.id.FoodType);
         mNumOfGuest = view.findViewById(R.id.numberOfGuest);
         // mTime = view.findViewById(R.id.pickUpTime);
@@ -132,7 +134,7 @@ public class tab1 extends Fragment {
                 userId = intent.getStringExtra("user");
 
 
-                // userId=mAuth.getCurrentUser().getUid();
+                 userId=mAuth.getCurrentUser().getUid();
 
                 db= FirebaseFirestore.getInstance();
 

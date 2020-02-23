@@ -1,13 +1,17 @@
 package com.example.qoot;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class VolunteerRequests extends AppCompatActivity {
 
@@ -15,6 +19,32 @@ public class VolunteerRequests extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_requests);
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
+        bottomNavigationView.setSelectedItemId(R.id.Req_don);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.notifi_don:
+                        startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
+                    case R.id.prfile_don:
+                        startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
+                    case R.id.Req_don:
+
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
 
 
         // if this exact volunteer mAuth.getCurrentUser().getUId();   accepted the request

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -20,13 +21,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import static android.content.Intent.getIntent;
 
@@ -125,10 +131,20 @@ public class tab1 extends Fragment {
 
                 userId = intent.getStringExtra("user");
 
-                name = intent.getStringExtra("Name");
+
                 // userId=mAuth.getCurrentUser().getUid();
+
                 db= FirebaseFirestore.getInstance();
+
                 //String reqId = UUID.randomUUID().toString();
+                DocumentReference documentReference =db.collection("Donators").document(userId);
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        name =(String)documentSnapshot.getString("UserName");
+                    }
+                });
+
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
                 Map<String,Object> request = new HashMap<>();
@@ -149,13 +165,19 @@ public class tab1 extends Fragment {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                               // Toast
+                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getActivity(), DonatorRequests.class);
+                                startActivity(i);
+                                ((Activity) getActivity()).overridePendingTransition(0, 0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
+                                Toast.makeText(getActivity(), "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
+                               // Log.w(TAG, "Error adding document", e);
                             }
                         });
 

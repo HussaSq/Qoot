@@ -26,7 +26,7 @@ public class DonatorNotifications extends AppCompatActivity {
                     case R.id.Req_don:
                         startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.notifi_don:
 
@@ -35,7 +35,7 @@ public class DonatorNotifications extends AppCompatActivity {
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                 }
                 return false;

@@ -25,7 +25,7 @@ public class volunteer_notification extends AppCompatActivity {
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                     case R.id.notifi_don:
                         return true;
@@ -33,7 +33,7 @@ public class volunteer_notification extends AppCompatActivity {
                     case R.id.Req_don:
                         startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
                         overridePendingTransition(0,0);
-                        return true;
+                        return false;
 
                 }
                 return false;

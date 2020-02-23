@@ -32,7 +32,8 @@ public class LogIn extends AppCompatActivity {
     Button loginbtn;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
-    String userId,name;
+    String userId;
+    String[] name = new String[2];
     TextView tes;
 
     @Override
@@ -113,7 +114,7 @@ public class LogIn extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                String t =documentSnapshot.getString("Type");
+                String t =documentSnapshot.getString("Type")+"";
 
                 goOn(t);
 
@@ -128,12 +129,12 @@ public class LogIn extends AppCompatActivity {
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    name =documentSnapshot.getString("UserName");
+                    name[0] =documentSnapshot.getString("UserName");
                 }
             });
             Intent intent = new Intent(LogIn.this, DonatorRequests.class);
             intent.putExtra("user", userId);
-            intent.putExtra("Name", name);
+           // intent.putExtra("Name", name);
             startActivity(intent);
             // startActivity(new Intent(LogIn.this, DonatorRequests.class));
         }
@@ -142,12 +143,12 @@ public class LogIn extends AppCompatActivity {
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    name =documentSnapshot.getString("UserName");
+                    name[0] =documentSnapshot.getString("UserName");
                 }
             });
             Intent intent = new Intent(LogIn.this, VolunteerProfile.class);
             intent.putExtra("user", userId);
-            intent.putExtra("Name", name);
+           // intent.putExtra("Name", name);
             startActivity(intent);
             //startActivity(new Intent(LogIn.this, VolunteerProfile.class));
         }

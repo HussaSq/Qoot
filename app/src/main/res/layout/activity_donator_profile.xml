@@ -22,6 +22,35 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <ImageView
+            android:id="@+id/warn"
+            android:layout_width="35dp"
+            android:layout_height="25dp"
+
+            android:layout_marginTop="28dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.312"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/warning" />
+
+        <TextView
+            android:id="@+id/warnMess"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginStart="19dp"
+            android:text="Please Verify Your Email"
+            android:textColor="#3f4658"
+
+            android:textSize="12dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/UserNameD"
+            app:layout_constraintEnd_toStartOf="@+id/LogoutButtonD"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/warn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.384" />
 
         <ImageView
             android:id="@+id/UserImage"

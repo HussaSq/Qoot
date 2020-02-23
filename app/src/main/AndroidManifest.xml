@@ -24,7 +24,7 @@
 
 
         <activity android:name=".DonatorProfile"/>
-
+        <activity android:name=".EditDonatorProfile"/>
 
         <activity android:name=".EditVolunteerProfile" >
 

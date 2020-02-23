@@ -47,6 +47,57 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"/> -->
 
+    <!--
+
+    <LinearLayout
+        android:id="@+id/req1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/req_bar"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="10dp"
+        android:background="#80E4E2E2"
+        android:clickable="true"
+        android:onClick="OpenDonaterRequestInfo"
+        android:orientation="vertical">
+        android:onClick=""
+
+
+        <TextView
+            android:id="@+id/EventType1"
+            android:layout_width="199dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:text="EventType"
+            android:textSize="22dp" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/status1"
+                android:layout_width="199dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:text="status"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/reqType1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/urgent" />
+
+        </LinearLayout>
+
+    </LinearLayout> -->
 
     <!--<LinearLayout
         android:id="@+id/req2"
@@ -96,21 +147,11 @@
     <!-- android:onClick="" -->
 
 
-    <ListView
-        android:id="@+id/list_Request"
-        android:layout_width="wrap_content"
-        android:layout_height="610dp"
-        android:layout_below="@+id/req_bar"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"></ListView>
-
     <ImageView
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="550dp"
         android:onClick="OpenRequestForm"
         android:src="@drawable/ic_add_circle" />
 
@@ -124,5 +165,12 @@
         app:menu="@menu/menu_navigation"
         android:layout_alignParentBottom="true"
          />
+
+    <ListView
+        android:id="@+id/ListRequests"
+        android:layout_width="match_parent"
+        android:layout_height="343dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_marginBottom="264dp" />
 
 </RelativeLayout>

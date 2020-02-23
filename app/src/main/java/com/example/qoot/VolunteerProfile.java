@@ -72,8 +72,6 @@ public class VolunteerProfile extends AppCompatActivity {
 
 
 
-
-
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
 
@@ -102,7 +100,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
         String userId=mAuth.getCurrentUser().getUid();
 
-        DocumentReference documentReference =db.collection("Volunteers").document(userId);
+        DocumentReference documentReference =db.collection("Volunteers").document(user.getUid());
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

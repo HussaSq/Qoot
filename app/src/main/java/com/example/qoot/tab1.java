@@ -129,24 +129,19 @@ public class tab1 extends Fragment {
                 // here i will send the request to database ,
                 //Intent intent = getIntent();
                 Intent intent=getActivity().getIntent();
-
-
                 userId = intent.getStringExtra("user");
 
-
-                 userId=mAuth.getCurrentUser().getUid();
-
-                db= FirebaseFirestore.getInstance();
+                 //userId=mAuth.getCurrentUser().getUid();
+                db = FirebaseFirestore.getInstance();
 
                 //String reqId = UUID.randomUUID().toString();
-                DocumentReference documentReference =db.collection("Donators").document(userId);
+                DocumentReference documentReference = db.collection("Donators").document(userId);
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         name =(String)documentSnapshot.getString("UserName");
                     }
                 });
-
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
                 Map<String,Object> request = new HashMap<>();
@@ -161,8 +156,7 @@ public class tab1 extends Fragment {
                 request.put("DonatorName",name);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
-                request.put("RequestID","");
-
+                request.put("RequestID","--");
 
                 db.collection("Requests")
                         .add(request)
@@ -193,13 +187,10 @@ public class tab1 extends Fragment {
                             }
                         });
 
-               /* documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
-
+               /*documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         Log.d(TAG," Your Request Submitted Successfully");
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -209,12 +200,6 @@ public class tab1 extends Fragment {
                 });*/
             }
         });
-
-
-
-
-
-
 
         return view;
 

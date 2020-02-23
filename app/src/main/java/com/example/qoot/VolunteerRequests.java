@@ -10,15 +10,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class VolunteerRequests extends AppCompatActivity {
+
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
-    String UserID;
+    String USerID;
+    String RequestID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +40,15 @@ public class VolunteerRequests extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.notifi_don:
-                        startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
+                        startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.prfile_don:
-
-                        startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
+                        startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.Req_don:
-
                         return true;
-
                 }
                 return false;
             }
@@ -52,17 +56,27 @@ public class VolunteerRequests extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        UserID = mAuth.getCurrentUser().getUid();
 
-        // if this exact volunteer mAuth.getCurrentUser().getUId();   accepted the request
-        // we add this accepted request to his/her list.
+       Intent intent=this.getIntent();
+        USerID = intent.getStringExtra("user");
 
+        Query q1 = db.collection("Requests").whereEqualTo("VolunteerID",USerID);
+        q1.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String State = document.getString("State");
+                                String Event = document.getString("TypeOfEvent");
+                               RequestID = document.getString("RequestID");
+                            }
+                        } else {
 
-
-
+                        }
+                    }
+                });
     }
-
-
 
     public void NewRequestXML(){
 
@@ -98,10 +112,20 @@ public class VolunteerRequests extends AppCompatActivity {
 
 
     public void OpenVolunteerRequestInfo(View view) {
-        startActivity(new Intent(VolunteerRequests.this,VolunteerRequestInfo.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(VolunteerRequests.this,VolunteerRequestInfo.class);
+        intent.putExtra("user",userId);
+        intent.putExtra("RequestID",RequestID);
+        startActivity(intent);
     }
 
     public void OpenAllRequests(View view) {
-        startActivity(new Intent(VolunteerRequests.this,AllRequests.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(VolunteerRequests.this,AllRequests.class);
+        intent.putExtra("user",userId);
+        intent.putExtra("RequestID",RequestID);
+        startActivity(intent);
     }
 }

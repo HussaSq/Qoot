@@ -3,15 +3,12 @@ package com.example.qoot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -37,13 +34,9 @@ import com.google.firebase.firestore.auth.User;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
-import android.widget.AdapterView;
-import java.util.zip.Inflater;
-
-import static android.widget.BaseAdapter.*;
-
 
 public class DonatorRequests extends AppCompatActivity {
 
@@ -55,6 +48,12 @@ public class DonatorRequests extends AppCompatActivity {
 
     TextView test1, test2 ;
 
+    ListView list;
+   //ArrayList<String> array = new ArrayList<>();
+
+    List<Request> lists = new ArrayList<>();
+    private List<String> ListRequests =new ArrayList<>();
+
     RelativeLayout Rl;
     LinearLayout req1;
     int Collectionsize=0;
@@ -63,17 +62,15 @@ public class DonatorRequests extends AppCompatActivity {
     Request MAGIC;
     TextView secret;
     LinearLayout parent;
-    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
         Rl = findViewById(R.id.parent);
         req1 = findViewById(R.id.req1);
-        listView=findViewById(R.id.list_Request);
-        final ArrayList<Request> request=new ArrayList<Request>();
 
 
+        list = findViewById(R.id.ListRequests);
         test1 = findViewById(R.id.EventType1);
         test2 = findViewById(R.id.status1);
 
@@ -88,15 +85,12 @@ public class DonatorRequests extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(),DonatorNotifications.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.prfile_don:
                         startActivity(new Intent(getApplicationContext(),DonatorProfile.class));
                         overridePendingTransition(0,0);
                         return false;
-
                     case R.id.Req_don:
                         return true;
-
                 }
                 return false;
             }
@@ -106,9 +100,10 @@ public class DonatorRequests extends AppCompatActivity {
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        UserID = mAuth.getCurrentUser().getUid();
+        Intent intent=this.getIntent();
+       String  userId = intent.getStringExtra("user");
 
-            Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
+            Query q1 = db.collection("Requests").whereEqualTo("DonatorID",userId);
             q1.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -121,35 +116,24 @@ public class DonatorRequests extends AppCompatActivity {
                                     reqID = document.getString("RequestID");
                                     test1.setText(Event);
                                     test2.setText(State);
-                                    Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
                                    // NewRequestXML(Event,State,Rl,reqID);
                                     MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
-                                    request.add(MAGIC);
-                                    //max++;
-                                    //if (max != 5){
-                                      //  String ID = document.getId();
-                                        //Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
-                                        //req [max]=  R;
-                                   // }
-                                   // else {
-                                        //   Toast.makeText(this, ")
-                                   // }
-
 
                                 }
-
-                                MyRequestAdapter myRequestAdapter=new MyRequestAdapter(request);
-                                listView.setAdapter(myRequestAdapter);
                             } else {
-                                // Log.d(TAG, "Error getting documents: ", task.getException());
-                               // no.setVisibility(View.VISIBLE);
+
                             }
                         }
                     });
+
+
+
+
+
         }
 
 String reqId;
-/*public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
+public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
 
         // this is the bigger request layout ((Root))
          parent = new LinearLayout(this);
@@ -199,7 +183,7 @@ String reqId;
     parent.addView(Status);
     parent.addView(urgentIcon);
     whole.addView(parent);
-    }*/
+    }
 
     public int CollectionLength(CollectionReference col){
         db.collection("Requests").whereEqualTo("Donator",mAuth.getCurrentUser().getUid())
@@ -225,11 +209,11 @@ String reqId;
     public void OpenRequestForm(View view) {
         Intent intent1 = getIntent();
         String userId = intent1.getStringExtra("user");
-        String name = intent1.getStringExtra("Name");
+      //  String name = intent1.getStringExtra("Name");
 
         Intent intent = new Intent(DonatorRequests.this,requestForm.class);
         intent.putExtra("user", userId);
-        intent.putExtra("Name", name);
+    //    intent.putExtra("Name", name);
         startActivity(intent);
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
@@ -240,6 +224,7 @@ String reqId;
     public void OpenDonaterRequestInfo(View view) {
 
 
+
         Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
         intent.putExtra("RequestID",reqID);
         //if (reqID!= null)
@@ -247,15 +232,18 @@ String reqId;
             Toast.makeText(DonatorRequests.this, "It "+reqID, Toast.LENGTH_SHORT).show();
         //}
         startActivity(intent);
+
+      //  startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+
     }
 }
 
 class Request {
 
-    public String EventType;
-    public String Status;
-    public String UserID;
-    public String ID;
+    String EventType;
+    String Status;
+    String UserID;
+    String ID;
 
     public Request(){
 
@@ -301,44 +289,3 @@ class Request {
     }
 }
 
-class MyRequestAdapter extends BaseAdapter{
-    private Context context;
-    ArrayList<Request> request=new ArrayList<Request>();
-
-    MyRequestAdapter(Context context,ArrayList<Request> request){
-     this.request=request;
-     this.context=context;
-    }
-
-    public MyRequestAdapter(ArrayList<Request> request) {
-
-    }
-
-    @Override
-    public int getCount() {
-        return request.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return request.get(position).EventType+"/n"+request.get(position).Status;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        //LayoutInflater linflater =getLayoutInflater();
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
-        //View view=linflater.inflate(R.layout.activity_single_request,null);
-        TextView eventType=(TextView) view.findViewById(R.id.EventType1);
-        TextView status=(TextView) view.findViewById(R.id.status1);
-        eventType.setText(request.get(position).EventType);
-        status.setText(request.get(position).Status);
-        return view;
-    }
-}

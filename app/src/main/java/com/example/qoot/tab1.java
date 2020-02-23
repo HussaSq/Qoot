@@ -50,7 +50,7 @@ public class tab1 extends Fragment {
     FloatingActionButton submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    String type,numOfGuest,userId,time,date,location,name;
+    String type,numOfGuest,userId,time,date,location,name,reqID;
     private static final String TAG = "tab1";
 
 
@@ -161,12 +161,22 @@ public class tab1 extends Fragment {
                 request.put("DonatorName",name);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
+                request.put("RequestID","");
+
 
                 db.collection("Requests")
                         .add(request)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
+                                documentReference.update("RequestID",documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                //    reqID= documentReference.getId();
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                      //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                // Toast
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                 Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();

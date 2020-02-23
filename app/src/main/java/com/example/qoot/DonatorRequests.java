@@ -10,7 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,13 +36,17 @@ public class DonatorRequests extends AppCompatActivity {
     FirebaseFirestore db;
     String UserID;
 
+    RelativeLayout Rl;
+    LinearLayout req1;
     int Collectionsize=0;
-    Request req [] ;
+    int max; // max number of request;
+    Request[] req;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
-
+        Rl = findViewById(R.id.parent);
+        req1 = findViewById(R.id.req1);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
@@ -72,9 +78,9 @@ public class DonatorRequests extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
+        Rl.removeView(req1);
 
             Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
-
             q1.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -83,7 +89,19 @@ public class DonatorRequests extends AppCompatActivity {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     String State = document.getString("State");
                                     String Event = document.getString("TypeOfEvent");
-                                    NewRequestXML(Event,State);
+                                    NewRequestXML(Event,State,Rl);
+                                    max++;
+
+                                    if (max != 5){
+                                        String ID = document.getId();
+                                        Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
+                                        req [max]=  R;
+                                    }
+                                    else {
+                                        //   Toast.makeText(this, ")
+                                    }
+
+
                                 }
                             } else {
                                 // Log.d(TAG, "Error getting documents: ", task.getException());
@@ -93,7 +111,8 @@ public class DonatorRequests extends AppCompatActivity {
                     });
         }
 
-public void NewRequestXML(String Event, String Time){
+
+public void NewRequestXML(String Event, String Time, RelativeLayout whole){
 
         // this is the bigger request layout ((Root))
         LinearLayout parent = new LinearLayout(this);
@@ -103,6 +122,14 @@ public void NewRequestXML(String Event, String Time){
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         parent.setOrientation(LinearLayout.VERTICAL);
         parent.setClickable(true);
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenDonaterRequestInfo();
+            }
+        });
+        //android:layout_marginTop="6dp"
+    //  android:layout_marginBottom="10dp"
         //add the children of this parent or root
     TextView EventType  =  new TextView(this);
     // التيكست بتتغير حسب الديتابيس
@@ -126,7 +153,7 @@ public void NewRequestXML(String Event, String Time){
     parent.addView(EventType);
     parent.addView(Status);
     parent.addView(urgentIcon);
-
+    whole.addView(parent);
     }
 
     public int CollectionLength(CollectionReference col){
@@ -149,11 +176,11 @@ public void NewRequestXML(String Event, String Time){
 
     public void OpenDonaterRequestInfo(){
         Intent intent = getIntent();
-        String RequestID;
-
-     //   startActivity(this,);
+        //Request [] Requestat  = intent.getStringExtra("Requests");
+        Intent intent2 = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
+        //intent2.putExtra("Requests", Requestat);
+        //   startActivity(this,);
     }
-
 
     public void OpenRequestForm(View view) {
         Intent intent1 = getIntent();
@@ -166,6 +193,10 @@ public void NewRequestXML(String Event, String Time){
         startActivity(intent);
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
+
+    public void OpenDonaterRequestInfo(View view) {
+        startActivity(new Intent(DonatorRequests.this,DonatorRequestInfo.class));
+    }
 }
 
 class Request {
@@ -173,16 +204,25 @@ class Request {
     String EventType;
     String Status;
     String UserID;
-
+    String ID;
 
     public Request(){
 
     }
 
-    public Request(String type, String stat, String id){
+    public Request(String type, String stat, String id, String reqID){
         EventType = type;
         Status = stat;
         UserID = id;
+        ID = reqID;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
     }
 
     public String getEventType() {

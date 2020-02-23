@@ -134,17 +134,16 @@ public class tab1 extends Fragment {
 
                 // userId=mAuth.getCurrentUser().getUid();
 
-                db= FirebaseFirestore.getInstance();
+                db = FirebaseFirestore.getInstance();
 
                 //String reqId = UUID.randomUUID().toString();
-                DocumentReference documentReference =db.collection("Donators").document(userId);
+                DocumentReference documentReference = db.collection("Donators").document(userId);
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         name =(String)documentSnapshot.getString("UserName");
                     }
                 });
-
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
                 Map<String,Object> request = new HashMap<>();
@@ -159,8 +158,7 @@ public class tab1 extends Fragment {
                 request.put("DonatorName",name);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
-                request.put("RequestID","");
-
+                request.put("RequestID","--");
 
                 db.collection("Requests")
                         .add(request)
@@ -207,12 +205,6 @@ public class tab1 extends Fragment {
                 });*/
             }
         });
-
-
-
-
-
-
 
         return view;
 

@@ -279,7 +279,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         documentReference.update("UserName",NEW_NAME.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -291,7 +291,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         documentReference.update("PhoneNumber",NEW_PHONE.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                //Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -359,7 +359,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         documentReference.update("Vehicle",newVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditVolunteerProfile.this,"Vehicle updated",Toast.LENGTH_SHORT).show();
+                //Toast.makeText( EditVolunteerProfile.this,"Vehicle updated",Toast.LENGTH_SHORT).show();
             }
         });
     }

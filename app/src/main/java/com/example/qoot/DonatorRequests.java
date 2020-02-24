@@ -76,8 +76,8 @@ public class DonatorRequests extends AppCompatActivity {
 
 
 
-//        test1 = findViewById(R.id.EventType1);
-//        test2 = findViewById(R.id.status1);
+    test1 = findViewById(R.id.EventType1);
+    test2 = findViewById(R.id.status1);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
@@ -305,7 +305,7 @@ class MyRequestAdapter extends BaseAdapter{
 
     @Override
     public Object getItem(int position) {
-        return request.get(position).EventType+"/n"+request.get(position).Status;
+        return request.get(position).EventType;
     }
 
     @Override

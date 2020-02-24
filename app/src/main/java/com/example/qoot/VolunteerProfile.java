@@ -90,7 +90,7 @@ public class VolunteerProfile extends AppCompatActivity {
         linearLayout=findViewById(R.id.valid);
         //warn = findViewById(R.id.warn);
         //warnM = findViewById(R.id.warnMess);
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
             linearLayout.setVisibility(View.VISIBLE);
             //warnM.setVisibility(View.VISIBLE);

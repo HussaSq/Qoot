@@ -107,7 +107,12 @@ public class tab1 extends Fragment {
                 if (TextUtils.isEmpty(type)) {
                     mType.setError("Please Enter Your Event Type, It is Required");
                     return;
-                }   if (TextUtils.isEmpty(numOfGuest)) {
+                }
+                type = mType.getText().toString();
+                if (type.length()>20) {
+                    mType.setError("The Characters Must Be At Most 20");
+                    return;
+                }if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter Amount Of Guests , It is Required");
                     return;
                 }   if (TextUtils.isEmpty(time)) {
@@ -130,6 +135,7 @@ public class tab1 extends Fragment {
                 //Intent intent = getIntent();
                 Intent intent=getActivity().getIntent();
                 userId = intent.getStringExtra("user");
+               // Toast.makeText( getActivity(),"user in tab"+userId,Toast.LENGTH_SHORT).show();
 
                  //userId=mAuth.getCurrentUser().getUid();
                 db = FirebaseFirestore.getInstance();

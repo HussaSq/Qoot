@@ -85,7 +85,7 @@ public class DonatorProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         String userId=mAuth.getCurrentUser().getUid();
-        FirebaseUser user = mAuth.getCurrentUser();
+         user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
             root.removeView(linearLayout);
             //linearLayout.setVisibility(View.VISIBLE);

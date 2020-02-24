@@ -119,6 +119,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginBottom="4dp"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/edit_profile_v"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.035"

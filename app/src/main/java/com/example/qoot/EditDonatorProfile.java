@@ -229,7 +229,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("UserName",NEW_NAME.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -254,7 +254,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("PhoneNumber",NEW_PHONE.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+               // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
     }

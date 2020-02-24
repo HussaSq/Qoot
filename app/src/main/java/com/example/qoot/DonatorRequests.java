@@ -124,7 +124,7 @@ public class DonatorRequests extends AppCompatActivity {
                                 reqID = document.getString("RequestID");
                                 //test1.setText(Event);
                                 //test2.setText(State);
-                                Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
                                 // NewRequestXML(Event,State,Rl,reqID);
                                 MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
                                 request.add(MAGIC);

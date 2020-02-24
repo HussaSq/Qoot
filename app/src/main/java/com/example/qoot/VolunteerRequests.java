@@ -37,7 +37,7 @@ public class VolunteerRequests extends AppCompatActivity {
     String RequestID;
 
     String userId;
-
+    LinearLayout linearLayou;
     Request MAGIC;
     //حق النكبه
     int count = 1;
@@ -66,14 +66,14 @@ public class VolunteerRequests extends AppCompatActivity {
                 switch (menuItem.getItemId()){
                     case R.id.notifi_don:
                         Intent i = new Intent(VolunteerRequests.this,volunteer_notification.class);
-                        i.putExtra("user",userId);
+                       // i.putExtra("user",userId);
                         startActivity(i);
                        // startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
                         overridePendingTransition(0,0);
                         return false;
                     case R.id.prfile_don:
                         Intent i2 = new Intent(VolunteerRequests.this,VolunteerProfile.class);
-                        i2.putExtra("user",userId);
+                       // i2.putExtra("user",userId);
                        startActivity(i2);
                        // startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
                         overridePendingTransition(0,0);
@@ -86,25 +86,30 @@ public class VolunteerRequests extends AppCompatActivity {
         });
 
         Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",USerID);
+        Toast.makeText(VolunteerRequests.this, "out loop " +USerID, Toast.LENGTH_SHORT).show();
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 String Event = document.getString("TypeOfEvent");
                                 String State = document.getString("State");
                                 RequestID = document.getString("RequestID");
+                                Toast.makeText(VolunteerRequests.this, "inside loop " +RequestID, Toast.LENGTH_SHORT).show();
+
                                 // retreive then
                                 MAGIC =new Request(Event,State, USerID,RequestID);
                                 request.add(MAGIC);
-                                MyVolunteerRequestAdapter myRequestAdapter=new MyVolunteerRequestAdapter(VolunteerRequests.this,R.layout.activity_single_request,request);
+                                MyVolunteerRequestAdapter myRequestAdapter=new MyVolunteerRequestAdapter(VolunteerRequests.this,R.layout.activity_volunteer_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
+
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
+                                        LinearLayout  linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
 
                                     }
                                 });
@@ -134,6 +139,16 @@ public class VolunteerRequests extends AppCompatActivity {
         intent.putExtra("RequestID",RequestID);
         startActivity(intent);
     }
+
+    public void OpenVolunteerRequestInfor(View view) {
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(VolunteerRequests.this,VolunteerRequestInfo.class);
+        intent.putExtra("user",userId);
+        intent.putExtra("RequestID",RequestID);
+        startActivity(intent);
+
+    }
 }
 
         class MyVolunteerRequestAdapter extends BaseAdapter {
@@ -146,11 +161,11 @@ public class VolunteerRequests extends AppCompatActivity {
         this.context=context;
     }
 
-    public MyVolunteerRequestAdapter(Context context, int activity_single_request, ArrayList<Request> request)
+    public MyVolunteerRequestAdapter(Context context, int activity_volunteer_single_request, ArrayList<Request> request)
     {
         this.request=request;
         this.context=context;
-        this.layoutResourseId=activity_single_request;
+        this.layoutResourseId=activity_volunteer_single_request;
         int size=getCount();
        // Toast.makeText(context,"size :", Toast.LENGTH_SHORT).show();
     }

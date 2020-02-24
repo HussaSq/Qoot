@@ -86,7 +86,7 @@ public class VolunteerRequests extends AppCompatActivity {
         });
 
         Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",USerID);
-        Toast.makeText(VolunteerRequests.this, "out loop " +USerID, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(VolunteerRequests.this, "out loop " +USerID, Toast.LENGTH_SHORT).show();
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -98,7 +98,7 @@ public class VolunteerRequests extends AppCompatActivity {
                                 String Event = document.getString("TypeOfEvent");
                                 String State = document.getString("State");
                                 RequestID = document.getString("RequestID");
-                                Toast.makeText(VolunteerRequests.this, "inside loop " +RequestID, Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(VolunteerRequests.this, "inside loop " +RequestID, Toast.LENGTH_SHORT).show();
 
                                 // retreive then
                                 MAGIC =new Request(Event,State, USerID,RequestID);

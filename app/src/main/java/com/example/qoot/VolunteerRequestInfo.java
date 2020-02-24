@@ -66,21 +66,20 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 time.setText(documentSnapshot.getString("Time"));
                 notes.setText(documentSnapshot.getString("Note"));
 
-
                 Acceptbtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         documentReference.update("State","Accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(VolunteerRequestInfo.this,"state changed",Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(VolunteerRequestInfo.this,"state changed",Toast.LENGTH_SHORT).show();
                             }
 
                         });
                         documentReference.update("VolunteerID",userID).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                               public void onSuccess(Void aVoid) {
-                                Toast.makeText( VolunteerRequestInfo.this,"changed vol id",Toast.LENGTH_SHORT).show();
+                                //Toast.makeText( VolunteerRequestInfo.this,"changed vol id",Toast.LENGTH_SHORT).show();
                           }
                   });
                /* documentReference.update(VolunteerName&quot;,vName).addOnSuccessListener(new
@@ -99,10 +98,14 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     }
 
 
-
-
     public void OpenVolunteerRequests(View view) {
-
-        startActivity(new Intent(VolunteerRequestInfo.this,VolunteerRequests.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        //String name = intent1.getStringExtra("Name");
+        Intent intent = new Intent(VolunteerRequestInfo.this,requestForm.class);
+        intent.putExtra("user", userId);
+        //intent.putExtra("Name", name);
+        startActivity(intent);
+       // startActivity(new Intent(VolunteerRequestInfo.this,VolunteerRequests.class));
     }
 }

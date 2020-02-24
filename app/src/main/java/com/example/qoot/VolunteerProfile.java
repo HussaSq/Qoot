@@ -120,13 +120,11 @@ public class VolunteerProfile extends AppCompatActivity {
             }
         });
     }
-
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(VolunteerProfile.this,EditVolunteerProfile.class));
     }
-
     public void OpenLogOut(View view){
-        FirebaseAuth.getInstance().signOut();
+        //FirebaseAuth.getInstance().signOut();
         Toast.makeText(VolunteerProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(VolunteerProfile.this,LogIn.class));
     }

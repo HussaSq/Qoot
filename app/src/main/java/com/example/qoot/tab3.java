@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -90,6 +91,13 @@ public class tab3 extends Fragment {
                                 request.add(MAGIC);
                                 MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
+
+                                    }
+                                });
                             }
                         } else {
 
@@ -165,6 +173,15 @@ public class tab3 extends Fragment {
                     android:textSize="20dp" />
             </LinearLayout>
         */
+    }
+
+    public void OpenVolunteerRequestInfo(View view) {
+        Intent intent1=getActivity().getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(getActivity(),VolunteerRequestInfo.class);
+        intent.putExtra("user",userId);
+        intent.putExtra("RequestID",RequestID);
+        startActivity(intent);
     }
 
 }

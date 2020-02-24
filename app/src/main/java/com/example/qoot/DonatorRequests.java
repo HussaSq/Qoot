@@ -128,16 +128,6 @@ public class DonatorRequests extends AppCompatActivity {
                                 // NewRequestXML(Event,State,Rl,reqID);
                                 MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
                                 request.add(MAGIC);
-                                //max++;
-                                //if (max != 5){
-                                //  String ID = document.getId();
-                                //Request R = new Request(Event, State, mAuth.getCurrentUser().getUid(),ID);
-                                //req [max]=  R;
-                                // }
-                                // else {
-                                //   Toast.makeText(this, ")
-                                // }
-
                                 MyRequestAdapter myRequestAdapter=new MyRequestAdapter(DonatorRequests.this,R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -164,8 +154,6 @@ public class DonatorRequests extends AppCompatActivity {
 
 
     }
-
-    String reqId;
 /*public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
 
         // this is the bigger request layout ((Root))
@@ -218,32 +206,11 @@ public class DonatorRequests extends AppCompatActivity {
     whole.addView(parent);
     }*/
 
-    public int CollectionLength(CollectionReference col){
-        db.collection("Requests").whereEqualTo("Donator",mAuth.getCurrentUser().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Collectionsize++;
-                            }
-                        } else {
-
-                        }
-                    }
-                });
-        return Collectionsize;
-    }
-
-    // public void OpenDonaterRequestInfo(String id){
-    //}
 
     public void OpenRequestForm(View view) {
         Intent intent1 = getIntent();
         String userId = intent1.getStringExtra("user");
         String name = intent1.getStringExtra("Name");
-
         Intent intent = new Intent(DonatorRequests.this,requestForm.class);
         intent.putExtra("user", userId);
         intent.putExtra("Name", name);
@@ -251,18 +218,12 @@ public class DonatorRequests extends AppCompatActivity {
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
 
-
-
-
     public void OpenDonaterRequestInfo(View view) {
-
-
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
         Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
         intent.putExtra("RequestID",reqID);
-        //if (reqID!= null)
-        //{
-        Toast.makeText(DonatorRequests.this, "It "+reqID, Toast.LENGTH_SHORT).show();
-        //}
+        intent.putExtra("user", userId);
         startActivity(intent);
     }
 }

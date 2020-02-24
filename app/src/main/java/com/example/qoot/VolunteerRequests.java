@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -100,51 +101,19 @@ public class VolunteerRequests extends AppCompatActivity {
                                 request.add(MAGIC);
                                 MyVolunteerRequestAdapter myRequestAdapter=new MyVolunteerRequestAdapter(VolunteerRequests.this,R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
+
+                                    }
+                                });
                             }
                         } else {
 
                         }
                     }
                 });
-    }
-
-    public void NewRequestXML(){
-
-        // this is the bigger request layout ((Root))
-        LinearLayout parent = new LinearLayout(this);
-        parent.setLayoutParams(new
-                LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        parent.setOrientation(LinearLayout.VERTICAL);
-        parent.setClickable(true);
-        //add the children of this parent or root
-        TextView EventType  =  new TextView(this);
-        EventType.setText("EventType");
-        EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
-        EventType.setPadding(30,20,0,0);
-        EventType.setTextSize(22);
-        // ---------------------------------------------------------------------
-        TextView Status = new TextView(this);
-        Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
-        EventType.setPadding(30,5,0,0);
-        EventType.setTextSize(22);
-        EventType.setText("Status");
-        //--------------------------------------------------------------------
-        ImageView urgentIcon = new ImageView(this);
-        urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
-        urgentIcon.setPadding(70,8,0,0);
-        //urgentIcon.set();
-        //  android:src="@drawable/urgent" />
-
-
-    }
-
-    public void UglyMethod(LinearLayout l, TextView t , TextView s, String type, String state ){
-
-        l.setVisibility(View.VISIBLE);
-        t.setText(type);
-        s.setText(state);
     }
 
 
@@ -199,7 +168,7 @@ public class VolunteerRequests extends AppCompatActivity {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_volunteer_single_request, null);
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
         eventType.setText(request.get(position).EventType);
@@ -210,6 +179,48 @@ public class VolunteerRequests extends AppCompatActivity {
 
 
 /*
+                                                خرابيط عبير
+
+    public void NewRequestXML(){
+
+        // this is the bigger request layout ((Root))
+        LinearLayout parent = new LinearLayout(this);
+        parent.setLayoutParams(new
+                LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        parent.setOrientation(LinearLayout.VERTICAL);
+        parent.setClickable(true);
+        //add the children of this parent or root
+        TextView EventType  =  new TextView(this);
+        EventType.setText("EventType");
+        EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
+        EventType.setPadding(30,20,0,0);
+        EventType.setTextSize(22);
+        // ---------------------------------------------------------------------
+        TextView Status = new TextView(this);
+        Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
+        EventType.setPadding(30,5,0,0);
+        EventType.setTextSize(22);
+        EventType.setText("Status");
+        //--------------------------------------------------------------------
+        ImageView urgentIcon = new ImageView(this);
+        urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
+        urgentIcon.setPadding(70,8,0,0);
+        //urgentIcon.set();
+        //  android:src="@drawable/urgent" />
+
+
+    }
+
+    public void UglyMethod(LinearLayout l, TextView t , TextView s, String type, String state ){
+
+        l.setVisibility(View.VISIBLE);
+        t.setText(type);
+        s.setText(state);
+    }
+
+
 
  l1 = findViewById(R.id.req1);
             l2 = findViewById(R.id.req2);

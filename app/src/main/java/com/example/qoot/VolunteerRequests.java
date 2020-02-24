@@ -51,8 +51,6 @@ public class VolunteerRequests extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
-
-
         listView=findViewById(R.id.list_Request);
         request=new ArrayList<Request>();
 

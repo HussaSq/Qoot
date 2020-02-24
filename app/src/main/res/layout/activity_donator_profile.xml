@@ -13,6 +13,15 @@
         android:layout_height="45dp"
         android:background="#AED581"
         tools:ignore="MissingConstraints">
+        <ImageView
+            android:id="@+id/LogoutButtonD"
+            android:layout_width="41dp"
+            android:layout_height="41dp"
+            android:src="@drawable/ic_power_settings_new_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="OpenLogOut"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +34,6 @@
     </Toolbar>
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
@@ -35,11 +43,9 @@
         android:layout_marginEnd="1dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
 
 
         <ImageView
@@ -64,12 +70,13 @@
             android:id="@+id/UserNameD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="38dp"
-            android:layout_marginTop="104dp"
-            android:layout_marginEnd="160dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="120dp"
             android:background="#F5F5FA"
             android:text="Name"
             android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/valid"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/UserImage"
@@ -79,18 +86,20 @@
             android:id="@+id/edit_profile_d"
             android:layout_width="193dp"
             android:layout_height="36dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="49dp"
+            android:onClick="OpenEditProfilePage"
             app:cardBackgroundColor="#AED581"
             app:cardCornerRadius="16dp"
-            android:onClick="OpenEditProfilePage"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.629"
-            app:layout_constraintStart_toEndOf="@+id/UserImage">
+            app:layout_constraintHorizontal_bias="0.612"
+            app:layout_constraintStart_toEndOf="@+id/UserImage"
+            app:layout_constraintTop_toBottomOf="@+id/valid">
 
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="121dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginLeft="50dp"
@@ -107,31 +116,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/LogoutButtonD"
-            android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="363dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_power_settings_new_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="OpenLogOut"/>
 
         <LinearLayout
             android:id="@+id/valid"
             android:layout_width="109dp"
             android:layout_height="40dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="120dp"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/edit_profile_d"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.536"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintHorizontal_bias="0.794"
+            app:layout_constraintStart_toEndOf="@+id/UserImage"
+            app:layout_constraintTop_toBottomOf="@+id/UserNameD">
 
 
             <ImageView

@@ -75,7 +75,7 @@ public class tab3 extends Fragment {
         USerID = intent.getStringExtra("user");
 
 
-        Query q1 = db.collection("Requests");
+        Query q1 = db.collection("Requests").whereEqualTo("State","Pending");
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -86,10 +86,9 @@ public class tab3 extends Fragment {
                                 String Event = document.getString("TypeOfEvent");
                                 String Time = document.getString("Time");
                                 RequestID = document.getString("RequestID");
-                                // retreive then
                                 MAGIC =new Request(Event,Time, USerID,RequestID);
                                 request.add(MAGIC);
-                                MyRequestAdapter myRequestAdapter=new MyRequestAdapter(getActivity(),R.layout.activity_single_request,request);
+                                MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
                             }
                         } else {
@@ -97,13 +96,7 @@ public class tab3 extends Fragment {
                         }
                     }
                 });
-
-
-
-
-
-
-
+/*
         linearLayout = (LinearLayout) view.findViewById(R.id.req1);
         linearLayout.setOnClickListener(new View.OnClickListener() {
 
@@ -112,7 +105,7 @@ public class tab3 extends Fragment {
                 startActivity(new Intent(getActivity(),VolunteerRequestInfo.class));
             }
 
-        });
+        });*/
         return view;
     }
 

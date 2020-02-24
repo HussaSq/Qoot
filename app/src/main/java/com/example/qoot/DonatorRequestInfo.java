@@ -24,9 +24,6 @@ public class DonatorRequestInfo extends AppCompatActivity {
     FirebaseFirestore db;
     TextView type,guests, location, date, time,notes, volName;
   //  DonatorRequests r =new DonatorRequests();
-   // String reqID;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +43,9 @@ public class DonatorRequestInfo extends AppCompatActivity {
         Bundle intent1 = getIntent().getExtras();
 
         if (intent1 != null) {
-            // String ReqIDDD = intent1.getStringExtra("RequestID");
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
-            Toast.makeText(DonatorRequestInfo.this, "It" + ReqIDDD, Toast.LENGTH_SHORT).show();
-
+            // String ReqIDDD = intent1.getStringExtra("RequestID");
+           // Toast.makeText(DonatorRequestInfo.this, "It" + ReqIDDD, Toast.LENGTH_SHORT).show();
             DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override

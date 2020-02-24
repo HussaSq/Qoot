@@ -40,6 +40,7 @@ public class VolunteerProfile extends AppCompatActivity {
     FirebaseFirestore db;
     FirebaseUser user ;
 
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,12 +49,18 @@ public class VolunteerProfile extends AppCompatActivity {
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.prfile_don);
 
+        Intent intent1 = getIntent();
+       userId = intent1.getStringExtra("user");
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.notifi_don:
-                        startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
+                        Intent i = new Intent(VolunteerProfile.this,volunteer_notification.class);
+                        i.putExtra("user",userId);
+                       // startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
+                        startActivity(i);
                         overridePendingTransition(0,0);
                         return false;
 
@@ -61,7 +68,10 @@ public class VolunteerProfile extends AppCompatActivity {
                         return true;
 
                     case R.id.Req_don:
-                        startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
+                        Intent i2 = new Intent(VolunteerProfile.this,VolunteerRequests.class);
+                        i2.putExtra("user",userId);
+                        startActivity(i2);
+                        //startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
                         overridePendingTransition(0,0);
                         return false;
 

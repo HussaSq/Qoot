@@ -59,12 +59,10 @@ public class LogIn extends AppCompatActivity {
                     userEmail.setError("Please Enter Your Email, It Is Required");
                     return;
                 }
-
                 else if(TextUtils.isEmpty(password)){
                     userPassword.setError("Please Enter Password, It Is Required");
                     return;
                 }
-
                 else if(password.length() < 8){
                     userPassword.setError("The Characters Must Be At Least 8 Characters");
                     return;
@@ -134,7 +132,7 @@ public class LogIn extends AppCompatActivity {
             });
             Intent intent = new Intent(LogIn.this, DonatorRequests.class);
             intent.putExtra("user", userId);
-           intent.putExtra("Name", name);
+          // intent.putExtra("Name", name); بس خليت ذا كومنت ما سويت شيء - عبير
             startActivity(intent);
            // startActivity(new Intent(LogIn.this, DonatorRequests.class));
         }

@@ -6,17 +6,30 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,6 +37,14 @@ import org.w3c.dom.Text;
  */
 public class tab3 extends Fragment {
     LinearLayout linearLayout;
+
+    FirebaseAuth mAuth ;
+    FirebaseFirestore db;
+    String USerID;
+    String RequestID;
+    Request MAGIC;
+    ListView listView;
+    ArrayList <Request> request;
 
     private Context mContext;
 
@@ -44,12 +65,50 @@ public class tab3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_tab3, container, false);
+
+        listView=view.findViewById(R.id.list_Request);
+        request=new ArrayList<Request>();
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        Intent intent=getActivity().getIntent();
+        USerID = intent.getStringExtra("user");
+
+
+        Query q1 = db.collection("Requests");
+        q1.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String Event = document.getString("TypeOfEvent");
+                                String Time = document.getString("Time");
+                                RequestID = document.getString("RequestID");
+                                // retreive then
+                                MAGIC =new Request(Event,Time, USerID,RequestID);
+                                request.add(MAGIC);
+                                MyRequestAdapter myRequestAdapter=new MyRequestAdapter(getActivity(),R.layout.activity_single_request,request);
+                                listView.setAdapter(myRequestAdapter);
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
+
+
+
+
+
+
         linearLayout = (LinearLayout) view.findViewById(R.id.req1);
         linearLayout.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(getActivity(),VolunteerRequestInfo.class));
             }
 
@@ -115,4 +174,43 @@ public class tab3 extends Fragment {
         */
     }
 
+}
+class MyBrowseRequestAdapter extends BaseAdapter {
+    private Context context;
+    ArrayList<Request> request;
+    int layoutResourseId;
+
+    MyBrowseRequestAdapter(Context context,ArrayList<Request> request){
+        this.request=request;
+        this.context=context;
+    }
+    public MyBrowseRequestAdapter(Context context, int activity_single_request, ArrayList<Request> request)
+    {
+        this.request=request;
+        this.context=context;
+        this.layoutResourseId=activity_single_request;
+        int size=getCount();
+        // Toast.makeText(context,"size :", Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public int getCount() {
+        return request.size();
+    }
+    @Override
+    public Object getItem(int position) {
+        return request.get(position).EventType+"/n"+request.get(position).Status;
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
+        TextView eventType=(TextView) view.findViewById(R.id.EventType1);
+        TextView status=(TextView) view.findViewById(R.id.status1);
+        eventType.setText(request.get(position).EventType);
+        status.setText(request.get(position).Status);
+        return view;
+    }
 }

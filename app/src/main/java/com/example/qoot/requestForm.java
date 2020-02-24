@@ -56,7 +56,11 @@ import com.google.android.material.tabs.TabLayout;
     }
 
     public void openUrgentForm(View view) {
-        startActivity(new Intent(requestForm.this, tab1.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(requestForm.this,tab1.class);
+        intent.putExtra("user", userId);
+        startActivity(intent);
     }
 
     public void openScheduleForm(View view) {
@@ -64,6 +68,11 @@ import com.google.android.material.tabs.TabLayout;
     }
 
      public void OpenDonatorRequest(View view) {
-         startActivity(new Intent(requestForm.this,DonatorRequests.class));
+         Intent intent1 = getIntent();
+         String userId = intent1.getStringExtra("user");
+         Intent intent = new Intent(requestForm.this,DonatorRequests.class);
+         intent.putExtra("user", userId);
+        // startActivity(new Intent(requestForm.this,DonatorRequests.class));
+         startActivity(intent);
      }
  }

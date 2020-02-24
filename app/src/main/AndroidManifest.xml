@@ -9,23 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".volunteer_notification"></activity>
+        <activity android:name=".BrowseSingleRequest"></activity>
+        <activity android:name=".volunteerSingleRequest" />
+        <activity android:name=".volunteer_notification" />
         <activity android:name=".DonatorNotifications" />
-
         <activity android:name=".single_offer" />
         <activity android:name=".list_offers" />
         <activity android:name=".VolunteerRequestInfo" />
         <activity android:name=".DonatorRequestInfo" />
-
         <activity android:name=".requestForm" />
-
-        <activity android:name=".DonatorRequests"/>
-
-        <activity android:name=".DonatorProfile"/>
-        <activity android:name=".EditDonatorProfile"/>
-
+        <activity android:name=".DonatorRequests" />
+        <activity android:name=".DonatorProfile" />
+        <activity android:name=".EditDonatorProfile" />
         <activity android:name=".EditVolunteerProfile" />
-
         <activity android:name=".VolunteerProfile" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".LogIn">
@@ -38,16 +34,8 @@
         <activity android:name=".RegisterAsDonator" />
         <activity android:name=".RegisterAsVolunteer" />
         <activity android:name=".SignUpAs" />
-
-        <activity android:name=".VolunteerRequests">
-
-        </activity>
-        <activity android:name=".AllRequests">
-
-        </activity>
-
-
-
+        <activity android:name=".VolunteerRequests" />
+        <activity android:name=".AllRequests" />
     </application>
 
 </manifest>

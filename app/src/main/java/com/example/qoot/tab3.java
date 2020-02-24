@@ -216,7 +216,7 @@ class MyBrowseRequestAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_volunteer_single_request, null);
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
         eventType.setText(request.get(position).EventType);

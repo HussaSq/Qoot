@@ -2,11 +2,14 @@ package com.example.qoot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -20,6 +23,43 @@ public class AllRequests extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_requests);
+
+        //*********************************bottom nav
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_vol);
+        bottomNavigationView.setSelectedItemId(R.id.browse_vol);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.notifi_don:
+                        startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
+                    case R.id.browse_vol:
+                        return true;
+
+                    case R.id.Req_vol:
+                        startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
+                    case R.id.prfile_vol:
+                        startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
+
+                }
+                return false;
+            }
+        });
+
+
+
+        //********************************bottom nav
+
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tab3 = (TabItem) findViewById(R.id.Tab3);
         tab4 = (TabItem) findViewById(R.id.Tab4);

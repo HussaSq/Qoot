@@ -6,17 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".volunteer_notification">
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation_don"
+        android:id="@+id/bottom_navigation_vol"
+        app:labelVisibilityMode="labeled"
         app:itemBackground="@color/colorPrimary"
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"
-        />
+        app:menu="@menu/menu_navigation_vol"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
+
+
 
     <ImageView
         android:id="@+id/imageView2"

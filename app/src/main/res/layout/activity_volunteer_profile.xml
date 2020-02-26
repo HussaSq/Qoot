@@ -8,6 +8,11 @@
     android:statusBarColor="#AED581"
     tools:context=".VolunteerProfile">
 
+    <!--<***********************************************
+   Bottom nav
+        />-->
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
@@ -102,6 +107,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -173,13 +180,16 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation_don"
+        android:id="@+id/bottom_navigation_vol"
         app:itemBackground="@color/colorPrimary"
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu_navigation"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_navigation_vol"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

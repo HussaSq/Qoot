@@ -15,7 +15,7 @@
         app:itemBackground="@color/colorPrimary"
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu_navigation"
+        app:menu="@menu/menu_navigation_don"
         android:layout_alignParentBottom="true"
         />
 

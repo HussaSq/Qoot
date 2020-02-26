@@ -26,25 +26,31 @@ public class VolunteerRequests extends AppCompatActivity {
 
 
 
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.Req_don);
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_vol);
+        bottomNavigationView.setSelectedItemId(R.id.Req_vol);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.notifi_don:
+                    case R.id.notifi_vol:
                         startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
                         overridePendingTransition(0,0);
                         return false;
 
-                    case R.id.Req_don:
+                    case R.id.Req_vol:
                         return true;
 
-                    case R.id.prfile_don:
+                    case R.id.prfile_vol:
                         startActivity(new Intent(getApplicationContext(),VolunteerProfile.class));
                         overridePendingTransition(0,0);
                         return false;
+
+                    case R.id.browse_vol:
+                        startActivity(new Intent(getApplicationContext(),AllRequests.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
 
                 }
                 return false;

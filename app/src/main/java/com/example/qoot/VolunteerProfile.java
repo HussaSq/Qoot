@@ -37,8 +37,8 @@ public class VolunteerProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_profile);
 
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.prfile_don);
+        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_vol);
+        bottomNavigationView.setSelectedItemId(R.id.prfile_vol);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -49,13 +49,19 @@ public class VolunteerProfile extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return false;
 
-                    case R.id.prfile_don:
+                    case R.id.prfile_vol:
                         return true;
 
-                    case R.id.Req_don:
+                    case R.id.Req_vol:
                         startActivity(new Intent(getApplicationContext(),VolunteerRequests.class));
                         overridePendingTransition(0,0);
                         return false;
+
+                    case R.id.browse_vol:
+                        startActivity(new Intent(getApplicationContext(),AllRequests.class));
+                        overridePendingTransition(0,0);
+                        return false;
+
 
                 }
                 return false;

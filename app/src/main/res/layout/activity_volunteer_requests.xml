@@ -9,7 +9,7 @@
     tools:context=".VolunteerRequests">
 
     <Toolbar
-        android:id="@+id/bar"
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#AED581">
@@ -36,21 +36,16 @@
 
     <LinearLayout
         android:id="@+id/req1"
+        android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="10dp"
         android:background="#80E4E2E2"
         android:clickable="true"
-        android:layout_below="@+id/bar"
         android:onClick="OpenVolunteerRequestInfo"
         android:orientation="vertical">
 
-        android:orientation="vertical"
-        android:layout_below="@+id/bar"
-        android:onClick="OpenVolunteerRequestInfo">
-
-        <!-- android:onClick="" -->
 
 
         <TextView
@@ -62,7 +57,9 @@
             android:text="EventType"
             android:textSize="22dp" />
 
+
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -81,7 +78,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="70dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="1dp"
                 android:src="@drawable/urgent" />
 
         </LinearLayout>
@@ -148,32 +145,17 @@
         android:src="@drawable/search"
         app:useCompatPadding="false" />-->
 
-
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="260dp"
-
-        android:layout_marginTop="300dp"
-        android:onClick="OpenAllRequests"
-        android:src="@drawable/search" />
-    <!-- android:onClick="" -->
-
-        android:layout_marginTop="400dp"
-        android:src="@drawable/search"
-        android:onClick="OpenAllRequests"/>
-        <!-- android:onClick="" -->
-
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation_don"
+        android:id="@+id/bottom_navigation_vol"
+        app:labelVisibilityMode="labeled"
         app:itemBackground="@color/colorPrimary"
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu_navigation"
-        android:layout_alignParentBottom="true"
-        />
+        app:menu="@menu/menu_navigation_vol"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

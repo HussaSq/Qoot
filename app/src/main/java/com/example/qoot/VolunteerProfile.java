@@ -38,7 +38,7 @@ public class VolunteerProfile extends AppCompatActivity {
         setContentView(R.layout.activity_volunteer_profile);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.notifi_don);
+        bottomNavigationView.setSelectedItemId(R.id.prfile_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -68,7 +68,6 @@ public class VolunteerProfile extends AppCompatActivity {
 
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
-
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 

@@ -27,7 +27,7 @@ public class VolunteerRequests extends AppCompatActivity {
 
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.notifi_don);
+        bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

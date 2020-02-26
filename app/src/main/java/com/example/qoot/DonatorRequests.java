@@ -60,7 +60,6 @@ public class DonatorRequests extends AppCompatActivity {
                         return false;
 
                     case R.id.Req_don:
-
                         return true;
 
                 }

@@ -26,25 +26,29 @@
         <activity android:name=".DonatorProfile"/>
 
 
+
         <activity android:name=".EditVolunteerProfile" >
 
     </activity>
         <activity android:name=".VolunteerProfile" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
 
-        </activity>
+    </activity>
+
         <activity android:name=".ForgotPassword" />
         <activity android:name=".LogIn"/>
+
 
         <activity android:name=".RegisterAsDonator" />
         <activity android:name=".RegisterAsVolunteer" />
         <activity android:name=".SignUpAs" />
 
         <activity android:name=".VolunteerRequests"/>
+
 
         <activity android:name=".AllRequests">
 

@@ -29,14 +29,17 @@ import com.google.android.material.tabs.TabLayout;
       viewPager.setAdapter(pagerAdapter);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getPosition() == 0) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
                 } else if (tab.getPosition() == 1) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
                 }
             }

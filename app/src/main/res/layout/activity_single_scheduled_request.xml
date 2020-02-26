@@ -7,9 +7,7 @@
     android:background="#F5F5FA"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:layout_gravity="center"
-    tools:context=".VolunteerRequests"
-    >
+    android:layout_gravity="center">
 
 
     <LinearLayout
@@ -17,7 +15,7 @@
         android:layout_width="342dp"
         android:layout_height="100dp"
         android:clickable="true"
-        android:onClick="OpenVolunteerRequestInfor"
+        android:onClick="OpenDonaterRequestInfo"
         android:orientation="vertical"
         android:background="@drawable/box">
 
@@ -40,7 +38,7 @@
             <TextView
                 android:id="@+id/status1"
                 android:layout_width="199dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="5dp"
                 android:text="Status"
@@ -52,8 +50,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="15dp"
-
-                android:src="@drawable/greanclock" />
+                android:src="@drawable/geenschedule" />
 
         </LinearLayout>
 
@@ -62,5 +59,3 @@
     <!-- android:onClick="" -->
 
 </RelativeLayout>
-
-

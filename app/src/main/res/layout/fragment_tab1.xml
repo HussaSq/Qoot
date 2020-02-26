@@ -6,10 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tab1">
 
+
     <!-- TODO: Update blank fragment layout -->
+
+
+
     <LinearLayout
+
+        android:layout_height="430dp"
+        android:layout_width="330dp"
+        android:orientation="vertical"
+        android:background="@drawable/box"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        >
+
+    <LinearLayout
+        android:id="@+id/layout1"
         android:layout_height="60dp"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -19,7 +35,7 @@
             android:layout_marginTop="8dp"/>
         <EditText
             android:id="@+id/FoodType"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="60dp"
             android:ems="10"
             android:inputType="textPersonName"
@@ -30,7 +46,8 @@
     <LinearLayout
         android:layout_height="60dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="5dp"
+        >
 
         <ImageView
             android:layout_width="30dp"
@@ -40,7 +57,7 @@
             android:layout_marginTop="8dp"/>
         <EditText
             android:id="@+id/numberOfGuest"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="60dp"
             android:ems="10"
             android:inputType="number"
@@ -51,7 +68,7 @@
     <LinearLayout
         android:layout_height="60dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="120dp">
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -65,6 +82,7 @@
             android:layout_width="111dp"
             android:layout_height="35dp"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="Today Date"
             android:inputType="date"
@@ -77,22 +95,23 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/pickuptime" />
 
-        <EditText
+        <TextView
             android:id="@+id/pickUpTime"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_width="130dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="10dp"
             android:ems="10"
             android:hint="Pick Up Time"
             android:inputType="time"
-
+            android:textSize="20dp"
+            android:layout_marginTop="16dp"
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_height="60dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="180dp">
+        android:layout_marginTop="5dp">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="50dp"
@@ -102,10 +121,10 @@
 
         <EditText
             android:id="@+id/location"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="60dp"
             android:ems="10"
-            android:inputType="textMultiLine"
+            android:inputType="textPostalAddress"
             android:layout_marginLeft="12dp"
             android:hint="Location"/>
 
@@ -116,7 +135,7 @@
     <LinearLayout
         android:layout_height="60dp"
         android:layout_width="match_parent"
-        android:layout_marginTop="240dp">
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:layout_width="30dp"
@@ -126,36 +145,42 @@
             android:layout_marginTop="8dp"/>
         <EditText
             android:id="@+id/note"
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="60dp"
             android:ems="10"
-            android:inputType="textMultiLine"
+            android:inputType="textPersonName"
             android:layout_marginLeft="12dp"
             android:hint="Any Note?"
             android:gravity="start|top"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/submitReq"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="350dp"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="#FDAA3C"
-        android:elevation="10dp"
-        android:src="@drawable/arrow"
-        android:tint="@android:color/white"
-        android:visibility="visible"
-        app:elevation="0dp"
-        app:fabCustomSize="60dp"
-        app:fabSize="normal"
-        app:maxImageSize="30dp"
-        tools:ignore="RelativeOverlap"
-        tools:visibility="visible" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/submitReq"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="260dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#FDAA3C"
+            android:elevation="10dp"
+            android:src="@drawable/arrow"
+            android:tint="@android:color/white"
+            android:visibility="visible"
+            app:elevation="0dp"
+            app:fabCustomSize="60dp"
+            app:fabSize="normal"
+            app:maxImageSize="30dp"
+            tools:ignore="RelativeOverlap"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+
+
+
+
 
 </FrameLayout>
 

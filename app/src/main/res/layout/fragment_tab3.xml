@@ -4,22 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5FA"
+    android:orientation="vertical"
     tools:context=".tab3">
 
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <ListView
+
+        android:id="@+id/list_Request"
         android:layout_width="match_parent"
-        android:layout_height="661dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:layout_height="579dp"
 
-
-        <ListView
-            android:id="@+id/list_Request"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_marginTop="70dp"/>
-    </LinearLayout>
+        />
 
 </FrameLayout>

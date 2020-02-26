@@ -150,22 +150,21 @@
 
         android:id="@+id/list_Request"
         android:layout_width="match_parent"
-        android:layout_height="513dp"
+        android:layout_height="579dp"
         android:layout_above="@+id/bottom_navigation_don"
         android:layout_below="@+id/req_bar"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="111dp" />
+         />
 
     <ImageView
         android:id="@+id/addrequest"
-        android:layout_width="66dp"
-        android:layout_height="82dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/bottom_navigation_don"
-        android:layout_marginLeft="280dp"
+        android:layout_marginLeft="290dp"
         android:layout_marginTop="570dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="0dp"
         android:onClick="OpenRequestForm"
-        android:src="@drawable/ic_add_circle" />
+        android:src="@drawable/orangeplus" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

@@ -34,8 +34,10 @@ public class AllRequests extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getPosition() == 0) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter1.notifyDataSetChanged();
                 } else if (tab.getPosition() == 1) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter1.notifyDataSetChanged();
                 }
             }

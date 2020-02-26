@@ -3,140 +3,183 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5FA"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tab1">
 
+
     <!-- TODO: Update blank fragment layout -->
+
+
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/food" />
+        android:layout_height="430dp"
+        android:layout_width="330dp"
+        android:orientation="vertical"
+        android:background="@drawable/box"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        >
 
-        <EditText
-            android:id="@+id/FoodType"
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_height="60dp"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/food"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+            <EditText
+                android:id="@+id/FoodType"
+                android:layout_width="280dp"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_marginLeft="12dp"
+                android:hint="Type Of Event"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
-            android:ems="10"
-            android:hint="Type Of Event"
-            android:inputType="textPersonName" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="60dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/guest" />
-
-        <EditText
-            android:id="@+id/numberOfGuest"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/guest"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+            <EditText
+                android:id="@+id/numberOfGuest"
+                android:layout_width="280dp"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:inputType="number"
+                android:layout_marginLeft="12dp"
+                android:hint="Number Of Guests"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
-            android:ems="10"
-            android:hint="Number Of Guests"
-            android:inputType="number" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="120dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_today_black_24dp" />
-
-        <TextView
-            android:id="@+id/pickUpDate"
-            android:layout_width="111dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="15dp"
-            android:ems="10"
-            android:hint="Today Date"
-            android:inputType="date"
-            android:textSize="20dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/pickuptime" />
-
-        <EditText
-            android:id="@+id/pickUpTime"
-            android:layout_width="118dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="10dp"
-            android:ems="10"
-            android:hint="Pick Up Time"
-            android:inputType="time"
-
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="180dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/map" />
-
-        <EditText
-            android:id="@+id/location"
             android:layout_width="match_parent"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_today_black_24dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/pickUpDate1"
+                android:layout_width="111dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="16dp"
+                android:ems="10"
+                android:hint="Today Date"
+                android:inputType="date"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/pickuptime" />
+
+            <TextView
+                android:id="@+id/pickUpTime"
+                android:layout_width="130dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:ems="10"
+                android:hint="Pick Up Time"
+                android:inputType="time"
+                android:textSize="20dp"
+                android:layout_marginTop="16dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
-            android:ems="10"
-            android:hint="Location"
-            android:inputType="textMultiLine" />
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/map"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="280dp"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:inputType="textPostalAddress"
+                android:layout_marginLeft="12dp"
+                android:hint="Location"/>
 
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="60dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:src="@drawable/note"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"/>
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="280dp"
+                android:layout_height="60dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:layout_marginLeft="12dp"
+                android:hint="Any Note?"
+                android:gravity="start|top"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/submitReq"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="260dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#FDAA3C"
+            android:elevation="10dp"
+            android:src="@drawable/arrow"
+            android:tint="@android:color/white"
+            android:visibility="visible"
+            app:elevation="0dp"
+            app:fabCustomSize="60dp"
+            app:fabSize="normal"
+            app:maxImageSize="30dp"
+            tools:ignore="RelativeOverlap"
+            tools:visibility="visible" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="240dp">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/note" />
 
-        <EditText
-            android:id="@+id/note"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Any Note?"
-            android:inputType="textMultiLine" />
-    </LinearLayout>
+
 
 </FrameLayout>

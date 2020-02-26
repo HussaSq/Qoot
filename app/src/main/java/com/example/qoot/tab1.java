@@ -72,6 +72,8 @@ public class tab1 extends Fragment {
         day=calendar.get(Calendar.DAY_OF_MONTH);
         dateTimeDisplay.setText(year+"/"+month+"/"+day);
 
+
+
         textView = (TextView) view.findViewById(R.id.pickUpTime);
         textView.setOnClickListener(new View.OnClickListener() {
 
@@ -82,6 +84,8 @@ public class tab1 extends Fragment {
             }
 
         });
+
+
 
 
         mType = view.findViewById(R.id.FoodType);

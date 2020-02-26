@@ -67,13 +67,20 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         time.setText(documentSnapshot.getString("Time"));
                         notes.setText(documentSnapshot.getString("Note"));
                         //volName.setText(documentSnapshot.getString("Volunteer"));
+                        Bundle intent1 = getIntent().getExtras();
+                        String ReqIDDD = (String) intent1.getSerializable("RequestID");
+                        DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
 
-                        Acceptbtn.setOnClickListener(new View.OnClickListener() {
+                        if (documentSnapshot.getString("State").equals("Pending"))
+                        {
+                            Acceptbtn.setVisibility(View.VISIBLE);
+                            Acceptbtn.setOnClickListener(new View.OnClickListener() {
                             Bundle intent1 = getIntent().getExtras();
                             String ReqIDDD = (String) intent1.getSerializable("RequestID");
                             DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
+
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 documentReference.update("State", "Accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -84,14 +91,17 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 documentReference.update("VolunteerID", userID).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        //Toast.makeText( VolunteerRequestInfo.this,"changed vol id",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(VolunteerRequestInfo.this, "changed vol id", Toast.LENGTH_SHORT).show();
+                                        Intent i2 = new Intent(VolunteerRequestInfo.this, VolunteerRequests.class);
+                                        startActivity(i2);
                                     }
                                 });
 
                             }// end of accept button
 
-                        });
 
+                        });
+                    }
                     }
                 });
 

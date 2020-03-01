@@ -32,7 +32,8 @@ public class LogIn extends AppCompatActivity {
     Button loginbtn;
     FirebaseAuth fAuth;
     FirebaseFirestore db;
-    String userId,name;
+    String userId;
+    String[] name = new String[2];
     TextView tes;
 
     @Override
@@ -58,12 +59,10 @@ public class LogIn extends AppCompatActivity {
                     userEmail.setError("Please Enter Your Email, It Is Required");
                     return;
                 }
-
                 else if(TextUtils.isEmpty(password)){
                     userPassword.setError("Please Enter Password, It Is Required");
                     return;
                 }
-
                 else if(password.length() < 8){
                     userPassword.setError("The Characters Must Be At Least 8 Characters");
                     return;
@@ -113,7 +112,7 @@ public class LogIn extends AppCompatActivity {
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                String t =documentSnapshot.getString("Type");
+                String t =documentSnapshot.getString("Type")+"";
 
                 goOn(t);
 
@@ -128,26 +127,26 @@ public class LogIn extends AppCompatActivity {
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    name =documentSnapshot.getString("UserName");
+                    name[0] =documentSnapshot.getString("UserName");
                 }
             });
             Intent intent = new Intent(LogIn.this, DonatorRequests.class);
             intent.putExtra("user", userId);
-            intent.putExtra("Name", name);
+          // intent.putExtra("Name", name); بس خليت ذا كومنت ما سويت شيء - عبير
             startActivity(intent);
-            // startActivity(new Intent(LogIn.this, DonatorRequests.class));
+           // startActivity(new Intent(LogIn.this, DonatorRequests.class));
         }
         if(t.equals("Volunteer")) {
             DocumentReference documentReference =db.collection("Volunteers").document(userId);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    name =documentSnapshot.getString("UserName");
+                    name[0] =documentSnapshot.getString("UserName");
                 }
             });
-            Intent intent = new Intent(LogIn.this, VolunteerProfile.class);
+            Intent intent = new Intent(LogIn.this, VolunteerRequests.class);
             intent.putExtra("user", userId);
-            intent.putExtra("Name", name);
+           // intent.putExtra("Name", name);
             startActivity(intent);
             //startActivity(new Intent(LogIn.this, VolunteerProfile.class));
         }

@@ -65,9 +65,9 @@ public class EditDonatorProfile extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
 
-    Intent intent1 = getIntent();
-    String userId1 = intent1.getStringExtra("user");
-    String name = intent1.getStringExtra("Name");
+   // Intent intent1 = getIntent();
+   // String userId1 = intent1.getStringExtra("user");
+    //String name = intent1.getStringExtra("Name");
 
     private Uri ImageUri;
 
@@ -96,7 +96,7 @@ public class EditDonatorProfile extends AppCompatActivity {
             mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
 //--------------------------------------------------------------------------------------------------------------------
-        DocumentReference documentReference =db.collection("Donators").document(userId1);
+        DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -225,11 +225,11 @@ public class EditDonatorProfile extends AppCompatActivity {
     public void Updatename(String name){
 
         //MINE -Hussa
-        DocumentReference documentReference =db.collection("Donators").document(userId1);
+        DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.update("UserName",NEW_NAME.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -254,7 +254,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("PhoneNumber",NEW_PHONE.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+               // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
     }

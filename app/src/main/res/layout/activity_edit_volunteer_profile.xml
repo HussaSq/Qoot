@@ -8,16 +8,33 @@
     android:orientation="vertical"
     tools:context=".EditVolunteerProfile">
 
+    <Toolbar
+        android:id="@+id/req_bar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#AED581">
 
-    <ImageView
-        android:id="@+id/back_profile_v"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:src="@drawable/ic_arrow_back_black_24dp"
-        android:onClick="OpenProfile"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/downarrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="OpenProfile"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="MY PROFILE"
+            android:textColor="#3f4658"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </Toolbar>
+
 
 
 

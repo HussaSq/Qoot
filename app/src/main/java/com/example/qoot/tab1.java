@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -20,13 +21,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import static android.content.Intent.getIntent;
 
@@ -44,7 +50,7 @@ public class tab1 extends Fragment {
     FloatingActionButton submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    String type,numOfGuest,userId,time,date,location,name;
+    String type,numOfGuest,userId,time,date,location,name,reqID;
     private static final String TAG = "tab1";
 
 
@@ -66,6 +72,8 @@ public class tab1 extends Fragment {
         day=calendar.get(Calendar.DAY_OF_MONTH);
         dateTimeDisplay.setText(year+"/"+month+"/"+day);
 
+
+
         textView = (TextView) view.findViewById(R.id.pickUpTime);
         textView.setOnClickListener(new View.OnClickListener() {
 
@@ -76,6 +84,10 @@ public class tab1 extends Fragment {
             }
 
         });
+
+
+
+
         mType = view.findViewById(R.id.FoodType);
         mNumOfGuest = view.findViewById(R.id.numberOfGuest);
         // mTime = view.findViewById(R.id.pickUpTime);
@@ -99,7 +111,12 @@ public class tab1 extends Fragment {
                 if (TextUtils.isEmpty(type)) {
                     mType.setError("Please Enter Your Event Type, It is Required");
                     return;
-                }   if (TextUtils.isEmpty(numOfGuest)) {
+                }
+                type = mType.getText().toString();
+                if (type.length()>20) {
+                    mType.setError("The Characters Must Be At Most 20");
+                    return;
+                }if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter Amount Of Guests , It is Required");
                     return;
                 }   if (TextUtils.isEmpty(time)) {
@@ -121,14 +138,20 @@ public class tab1 extends Fragment {
                 // here i will send the request to database ,
                 //Intent intent = getIntent();
                 Intent intent=getActivity().getIntent();
-
-
                 userId = intent.getStringExtra("user");
+               // Toast.makeText( getActivity(),"user in tab"+userId,Toast.LENGTH_SHORT).show();
 
-                name = intent.getStringExtra("Name");
-                // userId=mAuth.getCurrentUser().getUid();
-                db= FirebaseFirestore.getInstance();
+                 //userId=mAuth.getCurrentUser().getUid();
+                db = FirebaseFirestore.getInstance();
+
                 //String reqId = UUID.randomUUID().toString();
+                DocumentReference documentReference = db.collection("Donators").document(userId);
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        name =(String)documentSnapshot.getString("UserName");
+                    }
+                });
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
                 Map<String,Object> request = new HashMap<>();
@@ -143,29 +166,41 @@ public class tab1 extends Fragment {
                 request.put("DonatorName",name);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
+                request.put("RequestID","--");
 
                 db.collection("Requests")
                         .add(request)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                documentReference.update("RequestID",documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                //    reqID= documentReference.getId();
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                      //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                               // Toast
+                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getActivity(), DonatorRequests.class);
+                                startActivity(i);
+                                ((Activity) getActivity()).overridePendingTransition(0, 0);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
+                                Toast.makeText(getActivity(), "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
+                               // Log.w(TAG, "Error adding document", e);
                             }
                         });
 
-               /* documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
-
+               /*documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         Log.d(TAG," Your Request Submitted Successfully");
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -175,12 +210,6 @@ public class tab1 extends Fragment {
                 });*/
             }
         });
-
-
-
-
-
-
 
         return view;
 

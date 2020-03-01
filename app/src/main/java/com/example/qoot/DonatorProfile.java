@@ -2,18 +2,24 @@ package com.example.qoot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -25,14 +31,20 @@ import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
 
-     TextView Username;
-     ImageView Photo;
+     TextView Username,warnM;
+     ImageView Photo,warn;
      String userId,name;
+     LinearLayout linearLayout;
+
+     ConstraintLayout root ;
 
     // eventually we will add comments and ratings as well
 
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
+    FirebaseUser user ;
+    public static final String TAG = "DonatorProfile";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +79,30 @@ public class DonatorProfile extends AppCompatActivity {
 
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);
-
+        linearLayout = findViewById(R.id.valid);
+        root = findViewById(R.id.rootProfile);
+        //warnM = findViewById(R.id.warnMess);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         String userId=mAuth.getCurrentUser().getUid();
+         user = mAuth.getCurrentUser();
+        if(!user.isEmailVerified()){
+            root.removeView(linearLayout);
+            //linearLayout.setVisibility(View.VISIBLE);
+            //warnM.setVisibility(View.VISIBLE);
+
+            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent ", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG,"OnFailure: Email Not Sent");
+                }
+            });
+        }
 
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -87,10 +119,10 @@ public class DonatorProfile extends AppCompatActivity {
          userId = intent1.getStringExtra("user");
          name = intent1.getStringExtra("Name");
 
-        Intent intent = new Intent(DonatorProfile.this,EditDonatorProfile.class);
+        //Intent intent = new Intent(DonatorProfile.this,EditDonatorProfile.class);
        // intent.putExtra("user", userId);
        // intent.putExtra("Name", name);
-        startActivity(intent);
+        startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
         //startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
     }
 

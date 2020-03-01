@@ -74,8 +74,10 @@ public class AllRequests extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getPosition() == 0) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter1.notifyDataSetChanged();
                 } else if (tab.getPosition() == 1) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter1.notifyDataSetChanged();
                 }
             }
@@ -95,7 +97,12 @@ public class AllRequests extends AppCompatActivity {
     }
 
     public void openUrgentForm(View view) {
-        startActivity(new Intent(AllRequests.this, tab3.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(AllRequests.this,tab3.class);
+        intent.putExtra("user",userId);
+        startActivity(intent);
+        //startActivity(new Intent(AllRequests.this, tab3.class));
     }
 
     public void openScheduleForm(View view) {
@@ -103,6 +110,11 @@ public class AllRequests extends AppCompatActivity {
     }
 
     public void OpenVolunteerRequests(View view) {
-        startActivity(new Intent(AllRequests.this,VolunteerRequests.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(AllRequests.this,VolunteerRequests.class);
+        intent.putExtra("user",userId);
+        startActivity(intent);
+       // startActivity(new Intent(AllRequests.this,VolunteerRequests.class));
     }
 }

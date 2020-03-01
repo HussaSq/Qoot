@@ -17,7 +17,7 @@ public class DonatorNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_donator_notifications);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
-        bottomNavigationView.setSelectedItemId(R.id.notifi_don);
+        bottomNavigationView.setSelectedItemId(R.id.Req_don);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

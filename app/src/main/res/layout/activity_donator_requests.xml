@@ -7,6 +7,7 @@
     android:background="#f7f7f0"
     android:backgroundTint="#F5F5FA"
     android:orientation="vertical"
+    android:id="@+id/parent"
     tools:context=".DonatorRequests">
 
     <Toolbar
@@ -46,6 +47,7 @@
         app:menu="@menu/menu_navigation_don"
         android:layout_alignParentBottom="true"/> -->
 
+    <!--
 
     <LinearLayout
         android:id="@+id/req1"
@@ -58,7 +60,7 @@
         android:clickable="true"
         android:onClick="OpenDonaterRequestInfo"
         android:orientation="vertical">
-        <!-- android:onClick="" -->
+        android:onClick=""
 
 
         <TextView
@@ -95,8 +97,7 @@
 
         </LinearLayout>
 
-
-    </LinearLayout>
+    </LinearLayout> -->
 
     <!--<LinearLayout
         android:id="@+id/req2"
@@ -143,17 +144,27 @@
 
     </LinearLayout>-->
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="300dp"
-        android:onClick="OpenRequestForm"
-        android:src="@drawable/ic_add_circle" />
     <!-- android:onClick="" -->
 
+    <ListView
 
+        android:id="@+id/list_Request"
+        android:layout_width="match_parent"
+        android:layout_height="579dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_below="@+id/req_bar"
+         />
 
+    <ImageView
+        android:id="@+id/addrequest"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/bottom_navigation_don"
+        android:layout_marginLeft="290dp"
+        android:layout_marginTop="570dp"
+        android:layout_marginBottom="0dp"
+        android:onClick="OpenRequestForm"
+        android:src="@drawable/orangeplus" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

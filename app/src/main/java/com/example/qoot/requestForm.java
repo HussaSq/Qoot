@@ -29,14 +29,17 @@ import com.google.android.material.tabs.TabLayout;
       viewPager.setAdapter(pagerAdapter);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (tab.getPosition() == 0) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
                 } else if (tab.getPosition() == 1) {
+                    viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
                 }
             }
@@ -56,7 +59,11 @@ import com.google.android.material.tabs.TabLayout;
     }
 
     public void openUrgentForm(View view) {
-        startActivity(new Intent(requestForm.this, tab1.class));
+        Intent intent1 = getIntent();
+        String userId = intent1.getStringExtra("user");
+        Intent intent = new Intent(requestForm.this,tab1.class);
+        intent.putExtra("user", userId);
+        startActivity(intent);
     }
 
     public void openScheduleForm(View view) {
@@ -64,6 +71,11 @@ import com.google.android.material.tabs.TabLayout;
     }
 
      public void OpenDonatorRequest(View view) {
-         startActivity(new Intent(requestForm.this,DonatorRequests.class));
+         Intent intent1 = getIntent();
+         String userId = intent1.getStringExtra("user");
+         Intent intent = new Intent(requestForm.this,DonatorRequests.class);
+         intent.putExtra("user", userId);
+        // startActivity(new Intent(requestForm.this,DonatorRequests.class));
+         startActivity(intent);
      }
  }

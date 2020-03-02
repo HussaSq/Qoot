@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ public class tab3 extends Fragment {
     String USerID;
     String RequestID;
     Request MAGIC;
-    ListView listView;
+    GridView gridView;
     ArrayList <Request> request;
 
     private Context mContext;
@@ -67,7 +68,7 @@ public class tab3 extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_tab3, container, false);
 
-        listView=view.findViewById(R.id.list_Request);
+        gridView=view.findViewById(R.id.grid_Request);
         request=new ArrayList<Request>();
 
         mAuth = FirebaseAuth.getInstance();
@@ -89,9 +90,9 @@ public class tab3 extends Fragment {
                                 RequestID = document.getString("RequestID");
                                 MAGIC =new Request(Event,Time, USerID,RequestID);
                                 request.add(MAGIC);
-                                MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_single_request,request);
-                                listView.setAdapter(myRequestAdapter);
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_browse_single_request,request);
+                                gridView.setAdapter(myRequestAdapter);
+                                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
@@ -194,11 +195,11 @@ class MyBrowseRequestAdapter extends BaseAdapter {
         this.request=request;
         this.context=context;
     }
-    public MyBrowseRequestAdapter(Context context, int activity_single_request, ArrayList<Request> request)
+    public MyBrowseRequestAdapter(Context context, int activity_browse_single_request, ArrayList<Request> request)
     {
         this.request=request;
         this.context=context;
-        this.layoutResourseId=activity_single_request;
+        this.layoutResourseId=activity_browse_single_request;
         int size=getCount();
         // Toast.makeText(context,"size :", Toast.LENGTH_SHORT).show();
     }
@@ -216,7 +217,7 @@ class MyBrowseRequestAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_volunteer_single_request, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_browse_single_request, null);
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
         eventType.setText(request.get(position).EventType);

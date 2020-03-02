@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ public class tab1 extends Fragment {
     Calendar calendar;
     int day,month,year;
     EditText mType,mNumOfGuest,mTime,mNotes,mLocation,mDate;
-    FloatingActionButton submit;
+    ImageView submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String type,numOfGuest,userId,time,date,location,name,reqID;

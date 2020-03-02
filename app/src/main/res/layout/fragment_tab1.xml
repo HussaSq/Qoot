@@ -155,8 +155,17 @@
             android:layout_marginTop="8dp"/>
     </LinearLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageView
             android:id="@+id/submitReq"
+            android:layout_width="60dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="250dp"
+            android:src="@drawable/ic_send_black_24dp"
+            app:maxImageSize="30dp" />
+
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
@@ -174,7 +183,8 @@
             app:fabSize="normal"
             app:maxImageSize="30dp"
             tools:ignore="RelativeOverlap"
-            tools:visibility="visible" />
+            tools:visibility="visible" />-->
+
     </LinearLayout>
 
 

@@ -131,7 +131,7 @@ public class LogIn extends AppCompatActivity {
                 }
             });
             Intent intent = new Intent(LogIn.this, DonatorRequests.class);
-            intent.putExtra("user", userId);
+           // intent.putExtra("user", userId);
           // intent.putExtra("Name", name); بس خليت ذا كومنت ما سويت شيء - عبير
             startActivity(intent);
            // startActivity(new Intent(LogIn.this, DonatorRequests.class));
@@ -145,7 +145,7 @@ public class LogIn extends AppCompatActivity {
                 }
             });
             Intent intent = new Intent(LogIn.this, VolunteerRequests.class);
-            intent.putExtra("user", userId);
+        //    intent.putExtra("user", userId);
            // intent.putExtra("Name", name);
             startActivity(intent);
             //startActivity(new Intent(LogIn.this, VolunteerProfile.class));

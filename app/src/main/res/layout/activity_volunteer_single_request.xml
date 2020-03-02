@@ -16,8 +16,6 @@
         android:id="@+id/req1"
         android:layout_width="342dp"
         android:layout_height="100dp"
-        android:clickable="true"
-        android:onClick="OpenVolunteerRequestInfor"
         android:orientation="vertical"
         android:background="@drawable/box">
 

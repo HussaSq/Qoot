@@ -30,30 +30,21 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
-
      TextView Username,warnM;
      ImageView Photo,warn;
-     String userId,name;
      LinearLayout linearLayout;
-
      ConstraintLayout root ;
-
     // eventually we will add comments and ratings as well
-
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     FirebaseUser user ;
     public static final String TAG = "DonatorProfile";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_profile);
-
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.prfile_don);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -64,14 +55,12 @@ public class DonatorProfile extends AppCompatActivity {
                         return false;
 
                     case R.id.prfile_don:
-
                         return true;
 
                     case R.id.Req_don:
                         startActivity(new Intent(getApplicationContext(),DonatorRequests.class));
                         overridePendingTransition(0,0);
                         return false;
-
                 }
                 return false;
             }
@@ -90,11 +79,10 @@ public class DonatorProfile extends AppCompatActivity {
             root.removeView(linearLayout);
             //linearLayout.setVisibility(View.VISIBLE);
             //warnM.setVisibility(View.VISIBLE);
-
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -103,7 +91,6 @@ public class DonatorProfile extends AppCompatActivity {
                 }
             });
         }
-
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -112,27 +99,14 @@ public class DonatorProfile extends AppCompatActivity {
 
             }
         });
-
     }
     public void OpenEditProfilePage(View view){
-        Intent intent1 = getIntent();
-         userId = intent1.getStringExtra("user");
-         name = intent1.getStringExtra("Name");
-
-        //Intent intent = new Intent(DonatorProfile.this,EditDonatorProfile.class);
-       // intent.putExtra("user", userId);
-       // intent.putExtra("Name", name);
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
-        //startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
     }
-
     public void OpenLogOut(View view) {
         Toast.makeText(DonatorProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(DonatorProfile.this,LogIn.class);
-      //  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-      //  FirebaseAuth.getInstance().signOut();
-
     }
 
 }

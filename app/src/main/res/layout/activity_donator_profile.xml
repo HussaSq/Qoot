@@ -89,6 +89,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="49dp"
+            android:clickable="true"
             android:onClick="OpenEditProfilePage"
             app:cardBackgroundColor="#AED581"
             app:cardCornerRadius="16dp"

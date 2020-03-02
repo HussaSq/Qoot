@@ -76,17 +76,13 @@ public class EditDonatorProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_donator_profile);
-
             NEW_IMAGE = findViewById(R.id.UserImage);
             NEW_NAME = findViewById(R.id.Name);
             NEW_PHONE = findViewById(R.id.Phone_v);
-
             NEW_EMAIL =findViewById(R.id.emailDonator);
             NEW_PASSWORD =findViewById(R.id.Password);
-
             saveButton = findViewById(R.id.button);
             editIcon = findViewById(R.id.edit_photo);
-
             // firebase initialize
             mAuth = FirebaseAuth.getInstance();
             fstore =FirebaseFirestore.getInstance();
@@ -94,7 +90,6 @@ public class EditDonatorProfile extends AppCompatActivity {
             Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             userId=mAuth.getCurrentUser().getUid();
             mStorageRef = FirebaseStorage.getInstance().getReference("Images");
-
 //--------------------------------------------------------------------------------------------------------------------
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {

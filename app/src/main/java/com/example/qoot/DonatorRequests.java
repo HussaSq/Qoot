@@ -111,7 +111,6 @@ public class DonatorRequests extends AppCompatActivity {
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                                         Request temp = (Request) parent.getItemAtPosition(position);
                                         Intent in = getIntent();
                                         in.putExtra("RequestID",temp.getID());

@@ -85,13 +85,10 @@ public class DonatorRequests extends AppCompatActivity {
                 return false;
             }
         });
-
-
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
-
         Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

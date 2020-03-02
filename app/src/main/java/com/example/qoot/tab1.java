@@ -138,8 +138,8 @@ public class tab1 extends Fragment {
 //*********************************************** DO NOT FORGET TIME YOU NEED TO CHECK THAT.************************
                 // here i will send the request to database ,
                 //Intent intent = getIntent();
-                Intent intent=getActivity().getIntent();
-                userId = intent.getStringExtra("user");
+                //Intent intent=getActivity().getIntent();
+               // userId = intent.getStringExtra("user");
                // Toast.makeText( getActivity(),"user in tab"+userId,Toast.LENGTH_SHORT).show();
 
                  //userId=mAuth.getCurrentUser().getUid();

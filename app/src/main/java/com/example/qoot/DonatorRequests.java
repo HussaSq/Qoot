@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -235,7 +239,23 @@ class MyRequestAdapter extends BaseAdapter{
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
         eventType.setText(request.get(position).EventType);
-        status.setText(request.get(position).Status);
+        String ss=request.get(position).Status;
+        SpannableString spannableString=new SpannableString(ss);
+        if(ss.equals("Pending")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.YELLOW);
+            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
+        else if(ss.equals("Accepted")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.GREEN);
+            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
+        else if(ss.equals("Cancelled")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.RED);
+            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
         return view;
     }
 }

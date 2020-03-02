@@ -44,7 +44,7 @@ public class VolunteerProfile extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.notifi_don:
+                    case R.id.notifi_vol:
                         startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
                         overridePendingTransition(0,0);
                         return false;

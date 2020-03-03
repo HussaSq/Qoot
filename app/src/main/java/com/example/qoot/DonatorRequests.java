@@ -64,10 +64,12 @@ public class DonatorRequests extends AppCompatActivity {
         setContentView(R.layout.activity_donator_requests);
         listView=findViewById(R.id.list_Request);
         request=new ArrayList<Request>();
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        UserID = mAuth.getCurrentUser().getUid();
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -84,24 +86,17 @@ public class DonatorRequests extends AppCompatActivity {
 
                     case R.id.Req_don:
                         return true;
-
                 }
                 return false;
             }
         });
-        // init Firebase
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        UserID = mAuth.getCurrentUser().getUid();
         Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            // Rl.removeView(req1);
                             for (QueryDocumentSnapshot document : task.getResult()) {
-
                                 String State = document.getString("State");
                                 String Event = document.getString("TypeOfEvent");
                                 reqID = document.getString("RequestID");
@@ -118,7 +113,6 @@ public class DonatorRequests extends AppCompatActivity {
                                         Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
                                         intent.putExtra("RequestID",in.getStringExtra("RequestID"));
                                         startActivity(intent);
-
                                     }
                                 });
                             }
@@ -138,14 +132,12 @@ public class DonatorRequests extends AppCompatActivity {
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
 
-
-
     // ------   SAME GOES HERE -------
-    public void OpenDonaterRequestInfo(View view) {
-        Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
-        intent.putExtra("RequestID",reqID);
-        startActivity(intent);
-    }
+    //public void OpenDonaterRequestInfo(View view) {
+      //  Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
+       // intent.putExtra("RequestID",reqID);
+        //startActivity(intent);
+    //}
 }
 
 class Request {

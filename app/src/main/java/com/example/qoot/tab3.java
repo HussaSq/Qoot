@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -80,10 +81,11 @@ public class tab3 extends Fragment {
                                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Toast.makeText(getActivity(),"this is stupid111111",Toast.LENGTH_LONG).show();
                                         Request temp = (Request) parent.getItemAtPosition(position);
                                         Intent in = getActivity().getIntent();
                                         in.putExtra("RequestID",temp.getID());
-                                        Intent intent = new Intent(getActivity(),VolunteerRequestInfo.class);
+                                        Intent intent = new Intent(getActivity(),DonatorRequestInfo.class);
                                         intent.putExtra("RequestID",in.getStringExtra("RequestID"));
                                         startActivity(intent);
                                     }

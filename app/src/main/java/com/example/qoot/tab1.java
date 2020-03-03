@@ -167,6 +167,8 @@ public class tab1 extends Fragment {
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
+                request.put("RequestType","Urgent");
+
 
                 db.collection("Requests")
                         .add(request)

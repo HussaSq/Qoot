@@ -5,7 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -51,33 +55,15 @@ public class DonatorRequests extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String UserID,reqID;
-
-
-    TextView test1, test2 ;
-
-    RelativeLayout Rl;
-    LinearLayout req1;
-    int Collectionsize=0;
-    int max; // max number of request;
-    Request[] req;
     Request MAGIC;
-    TextView secret;
-    LinearLayout parent;
     ListView listView;
      ArrayList<Request> request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_requests);
-        Rl = findViewById(R.id.parent);
-        req1 = findViewById(R.id.req1);
         listView=findViewById(R.id.list_Request);
         request=new ArrayList<Request>();
-
-
-
-    test1 = findViewById(R.id.EventType1);
-    test2 = findViewById(R.id.status1);
 
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_don);
         bottomNavigationView.setSelectedItemId(R.id.Req_don);
@@ -103,13 +89,10 @@ public class DonatorRequests extends AppCompatActivity {
                 return false;
             }
         });
-
-
         // init Firebase
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
-
         Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID);
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -122,10 +105,6 @@ public class DonatorRequests extends AppCompatActivity {
                                 String State = document.getString("State");
                                 String Event = document.getString("TypeOfEvent");
                                 reqID = document.getString("RequestID");
-                                //test1.setText(Event);
-                                //test2.setText(State);
-                              //  Toast.makeText(DonatorRequests.this, "It 1"+reqID, Toast.LENGTH_SHORT).show();
-                                // NewRequestXML(Event,State,Rl,reqID);
                                 MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
                                 request.add(MAGIC);
                                 MyRequestAdapter myRequestAdapter=new MyRequestAdapter(DonatorRequests.this,R.layout.activity_single_request,request);
@@ -133,7 +112,12 @@ public class DonatorRequests extends AppCompatActivity {
                                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        LinearLayout linearLayout= (LinearLayout) view.findViewById(R.id.req1) ;
+                                        Request temp = (Request) parent.getItemAtPosition(position);
+                                        Intent in = getIntent();
+                                        in.putExtra("RequestID",temp.getID());
+                                        Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
+                                        intent.putExtra("RequestID",in.getStringExtra("RequestID"));
+                                        startActivity(intent);
 
                                     }
                                 });
@@ -141,89 +125,25 @@ public class DonatorRequests extends AppCompatActivity {
 
 
                         } else {
-                            // Log.d(TAG, "Error getting documents: ", task.getException());
-                            // no.setVisibility(View.VISIBLE);
                         }
-
-
                     }
 
                 });
 
-
-
-
     }
-/*public void NewRequestXML(String Event, String Time, RelativeLayout whole, String id){
-
-        // this is the bigger request layout ((Root))
-         parent = new LinearLayout(this);
-        parent.setLayoutParams(new
-                LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        parent.setOrientation(LinearLayout.VERTICAL);
-        parent.setClickable(true);
-
-
-    secret.setText(id);
-    Toast.makeText(DonatorRequests.this, "It id: "+id, Toast.LENGTH_SHORT).show();
-    secret.setVisibility(View.INVISIBLE);
-        parent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              //  OpenDonaterRequestInfo();
-                OpenDonaterRequestInfo(parent);
-
-            }
-        });
-        //android:layout_marginTop="6dp"
-    //  android:layout_marginBottom="10dp"
-        //add the children of this parent or root
-    TextView EventType  =  new TextView(this);
-    // التيكست بتتغير حسب الديتابيس
-    EventType.setText(Event);
-    EventType.setLayoutParams(new LinearLayout.LayoutParams(199,40 ));
-    EventType.setPadding(30,20,0,0);
-    EventType.setTextSize(22);
-
-    // ---------------------------------------------------------------------
-    TextView Status = new TextView(this);
-    Status.setLayoutParams(new LinearLayout.LayoutParams(199,40));
-    Status.setPadding(30,5,0,0);
-    Status.setTextSize(22);
-    // حتى هنا
-    Status.setText(Time);
-    //--------------------------------------------------------------------
-    ImageView urgentIcon = new ImageView(this);
-    urgentIcon.setLayoutParams(new LinearLayout.LayoutParams(50,50));
-    urgentIcon.setPadding(70,8,0,0);
-    urgentIcon.setImageResource(R.drawable.urgent);
-
-    parent.addView(EventType);
-    parent.addView(Status);
-    parent.addView(urgentIcon);
-    whole.addView(parent);
-    }*/
-
 
     public void OpenRequestForm(View view) {
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
-        String name = intent1.getStringExtra("Name");
         Intent intent = new Intent(DonatorRequests.this,requestForm.class);
-        intent.putExtra("user", userId);
-        intent.putExtra("Name", name);
         startActivity(intent);
         // startActivity(new Intent(DonatorRequests.this,requestForm.class));
     }
 
+
+
+    // ------   SAME GOES HERE -------
     public void OpenDonaterRequestInfo(View view) {
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
         Intent intent = new Intent(DonatorRequests.this,DonatorRequestInfo.class);
         intent.putExtra("RequestID",reqID);
-        intent.putExtra("user", userId);
         startActivity(intent);
     }
 }
@@ -305,7 +225,7 @@ class MyRequestAdapter extends BaseAdapter{
 
     @Override
     public Object getItem(int position) {
-        return request.get(position).EventType;
+        return request.get(position);
     }
 
     @Override
@@ -319,7 +239,23 @@ class MyRequestAdapter extends BaseAdapter{
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
         eventType.setText(request.get(position).EventType);
-        status.setText(request.get(position).Status);
+        String ss=request.get(position).Status;
+        SpannableString spannableString=new SpannableString(ss);
+        if(ss.equals("Pending")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.YELLOW);
+            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
+        else if(ss.equals("Accepted")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.GREEN);
+            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
+        else if(ss.equals("Cancelled")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.RED);
+            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }
         return view;
     }
 }

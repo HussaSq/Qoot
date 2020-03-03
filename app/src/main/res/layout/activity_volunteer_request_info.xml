@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#f7f7f0"
     android:backgroundTint="#F5F5FA"
+    android:layout_gravity="center"
     tools:context=".VolunteerRequestInfo">
 
     <Toolbar
@@ -19,7 +20,7 @@
             android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="20dp"
-            android:layout_marginTop="15dp"
+
             android:onClick="OpenVolunteerRequests"
             android:src="@drawable/downarrow"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,66 +37,103 @@
             android:textStyle="bold" />
     </Toolbar>
 
+
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/box"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
+
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
             android:src="@drawable/food"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="80dp" />
 
         <TextView
             android:id="@+id/FoodType"
-            android:layout_width="169dp"
-            android:layout_height="50dp"
+            android:layout_width="139dp"
+            android:layout_height="52dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:ems="10"
+            android:gravity="start|top"
             android:hint="Type Of Event"
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine"
             android:textSize="20dp"
             tools:layout_editor_absoluteX="46dp"
             tools:layout_editor_absoluteY="72dp" />
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="50dp"
-            android:src="@drawable/ic_check_circle_orange_24dp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
+        <TextView
+            android:id="@+id/requesrStatus"
+            android:layout_width="169dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:gravity="start|top"
+            android:hint="Requesr Status"
+            android:inputType="textMultiLine"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="72dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/box">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/map"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="80dp" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="144dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Location"
+            android:inputType="textMultiLine"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="12dp"
             android:src="@drawable/guest"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="80dp" />
 
         <TextView
             android:id="@+id/numberOfGuest"
-            android:layout_width="85dp"
+            android:layout_width="113dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
@@ -106,49 +144,33 @@
             tools:layout_editor_absoluteX="46dp"
             tools:layout_editor_absoluteY="72dp" />
 
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="35dp"
-            android:src="@drawable/map"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
 
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="85dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="Location"
-            android:inputType="text"
-            android:textSize="20dp"
-            tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="72dp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/box">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_today_black_24dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
+            tools:layout_editor_absoluteY="80dp"
+            android:layout_marginTop="12dp"/>
 
         <TextView
             android:id="@+id/Date"
-            android:layout_width="85dp"
+            android:layout_width="142dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
@@ -160,16 +182,17 @@
             tools:layout_editor_absoluteY="72dp" />
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="35dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
             android:src="@drawable/pickuptime"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
+            tools:layout_editor_absoluteY="80dp"
+            android:layout_marginTop="12dp"/>
 
         <TextView
             android:id="@+id/pickUpTime"
-            android:layout_width="85dp"
+            android:layout_width="115dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
@@ -178,32 +201,36 @@
             android:inputType="time"
             android:textSize="20dp"
             tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="72dp" />
+            tools:layout_editor_absoluteY="72dp"
+            android:gravity="start|top"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="68dp">
+        tools:layout_editor_absoluteY="68dp"
+        android:background="@drawable/box">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/note"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
+            tools:layout_editor_absoluteY="80dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/note"
-            android:layout_width="155dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="52dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:ems="10"
@@ -216,46 +243,50 @@
     <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="68dp">
+        tools:layout_editor_absoluteY="68dp"
+        android:background="@drawable/box">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:src="@drawable/ic_local_dining_black_24dp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="80dp" />
+            tools:layout_editor_absoluteY="80dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/serviced"
-            android:layout_width="120dp"
+            android:layout_width="106dp"
             android:layout_height="50dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:text="Serviced by:"
-            android:textSize="22dp"
+            android:textSize="20dp"
             tools:layout_editor_absoluteX="46dp"
             tools:layout_editor_absoluteY="72dp" />
 
         <TextView
             android:id="@+id/volname"
-            android:layout_width="155dp"
+            android:layout_width="179dp"
             android:layout_height="50dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="Donator name"
-            android:inputType="textPersonName"
             android:textSize="20dp"
             tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="72dp" />
+            tools:layout_editor_absoluteY="72dp"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"/>
 
     </LinearLayout>
 
@@ -265,12 +296,13 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="60dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_forum_black_24dp"
+        android:src="@drawable/chat"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.883"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.268"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -290,7 +322,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
-        app:layout_constraintVertical_bias="0.769" />
+        app:layout_constraintVertical_bias="0.356" />
     <!-- android:onClick="" -->
 
 

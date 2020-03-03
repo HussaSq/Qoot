@@ -27,8 +27,6 @@ public class VolunteerProfile extends AppCompatActivity {
 
     private TextView Username;
     private ImageView Photo;
-
-    // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
 
@@ -36,15 +34,13 @@ public class VolunteerProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_profile);
-
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_vol);
         bottomNavigationView.setSelectedItemId(R.id.prfile_vol);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
-                    case R.id.notifi_don:
+                    case R.id.notifi_vol:
                         startActivity(new Intent(getApplicationContext(),volunteer_notification.class));
                         overridePendingTransition(0,0);
                         return false;
@@ -67,25 +63,16 @@ public class VolunteerProfile extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
-
-
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
         String userId=mAuth.getCurrentUser().getUid();
-
         DocumentReference documentReference =db.collection("Volunteers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
-
-
             }
         });
     }
@@ -95,7 +82,7 @@ public class VolunteerProfile extends AppCompatActivity {
     }
 
     public void OpenLogOut(View view){
-        FirebaseAuth.getInstance().signOut();
+       // FirebaseAuth.getInstance().signOut();
         Toast.makeText(VolunteerProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(VolunteerProfile.this,LogIn.class));
     }

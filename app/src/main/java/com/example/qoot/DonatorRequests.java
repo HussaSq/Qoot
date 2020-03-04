@@ -234,17 +234,17 @@ class MyRequestAdapter extends BaseAdapter{
         String ss=request.get(position).Status;
         SpannableString spannableString=new SpannableString(ss);
         if(ss.equals("Pending")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.YELLOW);
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
             spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             status.setText(spannableString);
         }
         else if(ss.equals("Accepted")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.GREEN);
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
             spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             status.setText(spannableString);
         }
         else if(ss.equals("Cancelled")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.RED);
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
             spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             status.setText(spannableString);
         }

@@ -97,10 +97,10 @@ public class AllRequests extends AppCompatActivity {
     }
 
     public void openUrgentForm(View view) {
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
+       // Intent intent1 = getIntent();
+        //String userId = intent1.getStringExtra("user");
         Intent intent = new Intent(AllRequests.this,tab3.class);
-        intent.putExtra("user",userId);
+        //intent.putExtra("user",userId);
         startActivity(intent);
         //startActivity(new Intent(AllRequests.this, tab3.class));
     }
@@ -110,10 +110,10 @@ public class AllRequests extends AppCompatActivity {
     }
 
     public void OpenVolunteerRequests(View view) {
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
+        //Intent intent1 = getIntent();
+        //String userId = intent1.getStringExtra("user");
         Intent intent = new Intent(AllRequests.this,VolunteerRequests.class);
-        intent.putExtra("user",userId);
+        //intent.putExtra("user",userId);
         startActivity(intent);
        // startActivity(new Intent(AllRequests.this,VolunteerRequests.class));
     }

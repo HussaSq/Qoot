@@ -104,11 +104,8 @@ public class tab1 extends Fragment {
                 date = dateTimeDisplay.getText().toString();
                 time=textView.getText().toString();
                 location=mLocation.getText().toString();
-
                 db= FirebaseFirestore.getInstance();
-
                 //check fields
-
                 if (TextUtils.isEmpty(type)) {
                     mType.setError("Please Enter Your Event Type, It is Required");
                     return;
@@ -134,7 +131,6 @@ public class tab1 extends Fragment {
                     mNumOfGuest.setError("Enter  numbers with no letters");
                     return;
                 }
-
 //*********************************************** DO NOT FORGET TIME YOU NEED TO CHECK THAT.************************
                 // here i will send the request to database ,
                 //Intent intent = getIntent();
@@ -143,7 +139,9 @@ public class tab1 extends Fragment {
                // Toast.makeText( getActivity(),"user in tab"+userId,Toast.LENGTH_SHORT).show();
 
                  //userId=mAuth.getCurrentUser().getUid();
+                mAuth = FirebaseAuth.getInstance();
                 db = FirebaseFirestore.getInstance();
+                userId = mAuth.getCurrentUser().getUid();
 
                 //String reqId = UUID.randomUUID().toString();
                 DocumentReference documentReference = db.collection("Donators").document(userId);
@@ -213,18 +211,10 @@ public class tab1 extends Fragment {
                 });*/
             }
         });
-
         return view;
-
     }
-    public void submitReq(View view) {
-
-    }
-
-
     public final boolean containsLetters(String s) {
         boolean containsLetters = false;
-
         if (s != null && !s.isEmpty()) {
             for (char c : s.toCharArray()) {
                 if (containsLetters = Character.isLetter(c)) {
@@ -232,7 +222,6 @@ public class tab1 extends Fragment {
                 }
             }
         }
-
         return containsLetters;
     }
 

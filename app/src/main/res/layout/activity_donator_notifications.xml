@@ -6,7 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".DonatorNotifications">
 
-
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#AED581"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="NOTIFICATIONS"
+            android:textColor="#3f4658"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </Toolbar>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -24,13 +38,8 @@
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notification" />
+        android:text="No Notifications yet"
+        android:textSize="20dp"/>
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:layout_marginHorizontal="100dp"
-        android:layout_marginVertical="120dp"
-        app:srcCompat="@drawable/ic_add_alert_black_24dp" />
+
 </RelativeLayout>

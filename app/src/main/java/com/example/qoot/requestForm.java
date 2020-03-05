@@ -9,18 +9,23 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
- public class requestForm extends AppCompatActivity {
+public class requestForm extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private TabItem tab1, tab2;
     public pageAdapter pagerAdapter;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_form);
-
+      //  mAuth = FirebaseAuth.getInstance();
+       // db = FirebaseFirestore.getInstance();
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tab1 = (TabItem) findViewById(R.id.Tab1);
         tab2 = (TabItem) findViewById(R.id.Tab2);
@@ -29,12 +34,10 @@ import com.google.android.material.tabs.TabLayout;
       viewPager.setAdapter(pagerAdapter);
         tabLayout.getTabAt(0).setIcon(R.drawable.clock2);
         tabLayout.getTabAt(1).setIcon(R.drawable.schedule2);
-
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 if (tab.getPosition() == 0) {
                     viewPager.setCurrentItem(tab.getPosition());
                     pagerAdapter.notifyDataSetChanged();
@@ -43,15 +46,11 @@ import com.google.android.material.tabs.TabLayout;
                     pagerAdapter.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -59,10 +58,7 @@ import com.google.android.material.tabs.TabLayout;
     }
 
     public void openUrgentForm(View view) {
-        Intent intent1 = getIntent();
-        String userId = intent1.getStringExtra("user");
         Intent intent = new Intent(requestForm.this,tab1.class);
-        intent.putExtra("user", userId);
         startActivity(intent);
     }
 
@@ -71,10 +67,10 @@ import com.google.android.material.tabs.TabLayout;
     }
 
      public void OpenDonatorRequest(View view) {
-         Intent intent1 = getIntent();
-         String userId = intent1.getStringExtra("user");
+       //  Intent intent1 = getIntent();
+        // String userId = intent1.getStringExtra("user");
          Intent intent = new Intent(requestForm.this,DonatorRequests.class);
-         intent.putExtra("user", userId);
+         //intent.putExtra("user", userId);
         // startActivity(new Intent(requestForm.this,DonatorRequests.class));
          startActivity(intent);
      }

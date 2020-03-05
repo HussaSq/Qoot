@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -63,7 +64,8 @@ public class tab2 extends Fragment {
 
     /////////
     EditText mType,mNumOfGuest,mTime,mNotes,mLocation;
-    FloatingActionButton submit;
+    //FloatingActionButton submit;
+    ImageView submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String type,numOfGuest,userId,time,date,location,name,reqID;
@@ -129,7 +131,7 @@ public class tab2 extends Fragment {
         mNumOfGuest = view.findViewById(R.id.numberOfGuest);
         //mTime = view.findViewById(R.id.pickUpTime);
         mNotes = view.findViewById(R.id.note);
-        submit = view.findViewById(R.id.submitReq);
+        submit = (ImageView) view.findViewById(R.id.submitReq);
         mLocation= view.findViewById(R.id.location);
         dateOfPickUp = (TextView) view.findViewById(R.id.pickUpDate1);
 
@@ -204,8 +206,8 @@ public class tab2 extends Fragment {
                // Intent intent=getActivity().getIntent();
                // userId = intent.getStringExtra("user");
                 // Toast.makeText( getActivity(),"user in tab"+userId,Toast.LENGTH_SHORT).show();
-
-                //userId=mAuth.getCurrentUser().getUid();
+                mAuth = FirebaseAuth.getInstance();
+                userId=mAuth.getCurrentUser().getUid();
                 db = FirebaseFirestore.getInstance();
 
                 //String reqId = UUID.randomUUID().toString();

@@ -34,10 +34,6 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class tab3 extends Fragment {
     FirebaseAuth mAuth ;
     FirebaseFirestore db;

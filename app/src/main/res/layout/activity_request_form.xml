@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#AED581"
+        android:clickable="false"
         app:tabSelectedTextColor="#FFFFFF">
 
         <com.google.android.material.tabs.TabItem

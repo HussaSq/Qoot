@@ -1,22 +1,17 @@
 package com.example.qoot;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,11 +22,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
 public class EditDonatorProfile extends AppCompatActivity {
@@ -43,34 +38,22 @@ public class EditDonatorProfile extends AppCompatActivity {
     public EditText NEW_EMAIL;
 
     public ImageView NEW_IMAGE;
-    private ImageView editIcon;
-
 
     FirebaseFirestore db;
-    private FirebaseFirestore fstore;
     private FirebaseAuth mAuth;
     private StorageReference mStorageRef;
     String userId;
+    private StorageTask UploadTask;
 
-    // idk wth is this for
-    private static final String TAG = "EditDonatorProfile";
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri mImageUri;
 
     //  save button
-    Button saveButton;
+    Button saveButton, Upload, Choose;
 
     // what user type in fields
     String s1, s2, s3 ,s4, Uid;
-
-    //if save is pressed
-
-    private static final int PICK_IMAGE_REQUEST = 1;
-
-   // Intent intent1 = getIntent();
-   // String userId1 = intent1.getStringExtra("user");
-    //String name = intent1.getStringExtra("Name");
-
-    private Uri ImageUri;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +65,11 @@ public class EditDonatorProfile extends AppCompatActivity {
             NEW_EMAIL =findViewById(R.id.emailDonator);
             NEW_PASSWORD =findViewById(R.id.Password);
             saveButton = findViewById(R.id.button);
-            editIcon = findViewById(R.id.edit_photo);
+            Upload = findViewById(R.id.Upload);
+            Choose = findViewById(R.id.choose);
+
             // firebase initialize
             mAuth = FirebaseAuth.getInstance();
-            fstore =FirebaseFirestore.getInstance();
             db=FirebaseFirestore.getInstance();
             Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             userId=mAuth.getCurrentUser().getUid();
@@ -113,6 +97,34 @@ public class EditDonatorProfile extends AppCompatActivity {
 
                  // retrieve the image
 //---------------------------------------------------------------------------------------------------------------------
+        //------------------------ Code for Pic------------------------------------------------------
+
+                Choose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openFileChooser();
+                    }
+                });
+
+
+                Upload.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         if (UploadTask != null && UploadTask.isInProgress()){
+
+                            Toast.makeText(EditDonatorProfile.this,"Hold on Image is Uploading",Toast.LENGTH_SHORT).show();
+                         }else
+                             uploadFile();
+
+                    }
+                });
+
+
+
+
+
+
+        //-------------------------- OverAll update --------------------------------------------------
             saveButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -211,6 +223,52 @@ public class EditDonatorProfile extends AppCompatActivity {
     }
 
     // -------------------------------------------------METHODS------------------------------------------------
+    private void uploadFile() {
+        if (mImageUri != null){
+            Upload.setClickable(true);
+
+            StorageReference file = mStorageRef.child(userId
+                    +"."+ getFileExtension(mImageUri));
+            UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(EditDonatorProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
+                    Upload up = new Upload(userId,
+                            taskSnapshot.getUploadSessionUri().toString());
+                    db.collection("profilePicture").document(userId).set(up);
+                }
+            });
+        }// ----- end if -----
+        else
+        {
+            Toast.makeText(this,"Choose a file first",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    public void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+          // Picasso.with(this).load(mImageUri).into(NEW_IMAGE);
+            NEW_IMAGE.setImageURI(mImageUri);
+        }
+    }
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
     public void editPhoto(View v){
 
         //open file chooser
@@ -380,4 +438,34 @@ user.updateProfile(profileUpdates)
             Toast.makeText(this,"No Image Selected", Toast.LENGTH_SHORT).show();
        */
 
+}
+
+class Upload {
+    private String userID;
+    private String Link;
+
+    public Upload() {
+        //empty constructor needed
+    }
+
+    public Upload(String UserID, String Link) {
+        userID = UserID;
+        this.Link = Link;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
 }

@@ -107,7 +107,6 @@ public class VolunteerRequests extends AppCompatActivity {
 //                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //                                    @Override
 //                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
 //                                        Request temp = (Request) parent.getItemAtPosition(position);
 //                                        Intent in = getIntent();
 //                                        in.putExtra("RequestID",temp.getID());
@@ -162,6 +161,7 @@ public class VolunteerRequests extends AppCompatActivity {
 ////                    }
 ////                });
 
+
         db.collection("Requests")
                 .whereEqualTo("VolnteerID", UserID)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -172,51 +172,47 @@ public class VolunteerRequests extends AppCompatActivity {
                             Log.w("", "listen:error", e);
                             return;
                         }
-                        for (QueryDocumentSnapshot doc : snapshots) {
-                            Toast.makeText(VolunteerRequests.this,"دخلنا اللوب",Toast.LENGTH_LONG).show();
-                            if (doc.getId() != null) {
-                                Toast.makeText(VolunteerRequests.this,"جوا الايف ",Toast.LENGTH_LONG).show();
-                                String State = doc.getString("State");
-                                String Event = doc.getString("TypeOfEvent");
-                                reqID = doc.getString("RequestID");
-                                MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
-                                request.add(MAGIC);
-                                MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
-                                listView.setAdapter(myRequestAdapter);
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Request temp = (Request) parent.getItemAtPosition(position);
-                                        Intent in = getIntent();
-                                        in.putExtra("RequestID", temp.getID());
-                                        Intent intent = new Intent(VolunteerRequests.this, VolunteerRequestInfo.class);
-                                        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
-                                        startActivity(intent);
-                                    }
-                                });
-                            }
+                        for (QueryDocumentSnapshot document : snapshots) {
+                            String State = document.getString("State");
+                            String Event = document.getString("TypeOfEvent");
+                            reqID = document.getString("RequestID");
+                            MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                            request.add(MAGIC);
+                            MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
+                            listView.setAdapter(myRequestAdapter);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Request temp = (Request) parent.getItemAtPosition(position);
+                                    Intent in = getIntent();
+                                    in.putExtra("RequestID", temp.getID());
+                                    Intent intent = new Intent(VolunteerRequests.this, VolunteerRequestInfo.class);
+                                    intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+                                    startActivity(intent);
+                                }
+                            });
                         }
                         for (DocumentChange dc : snapshots.getDocumentChanges()) {
                             switch (dc.getType()) {
                                 case ADDED:
                                     count++;
-                                    Toast.makeText(VolunteerRequests.this,"",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(VolunteerRequests.this," Added to list",Toast.LENGTH_LONG).show();
                                     String State = dc.getDocument().getString("State");
                                     String Event = dc.getDocument().getString("TypeOfEvent");
                                     reqID = dc.getDocument().getString("RequestID");
                                     MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
                                     request.add(MAGIC);
-                                    //Log.d("", "New city: " + dc.getDocument().getData());
                                     break;
                                 case MODIFIED:
-                                    Log.d("", "Modified city: " + dc.getDocument().getData());
+                                   // Log.d("", "Modified city: " + dc.getDocument().getData());
                                     break;
                                 case REMOVED:
-                                  ///  Toast.makeText(VolunteerRequests.this,"CURRENTLY DELETED",Toast.LENGTH_LONG).show();
-                                    dc.getDocument().getId();
-                                    request.remove(null);
-                                    //listView.removeView();
-                                    Log.d("", "Removed city: " + dc.getDocument().getData());
+                                    //dc.getDocument().getId();
+                                    //request.remove(null);
+                                    //listView.removeAllViews();
+                                  //  printTheRequest();
+                                  //  listPersonsFilter.removeAll(listPersonsSelected);
+                                   // Log.d("", "Removed city: " + dc.getDocument().getData());
                                     break;
                             }
                         }//end for loop
@@ -242,17 +238,17 @@ public class VolunteerRequests extends AppCompatActivity {
 
     }
 
-    public void printTheRequest(final DocumentChange dc) {
+    public void printTheRequest() {
         Query q1 = db.collection("Requests").whereEqualTo("VolnteerID", UserID);
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            //for (QueryDocumentSnapshot document : task.getResult()) {
-                                String State = dc.getDocument().getString("State");
-                                String Event = dc.getDocument().getString("TypeOfEvent");
-                                reqID = dc.getDocument().getString("RequestID");
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String State = document.getString("State");
+                                String Event = document.getString("TypeOfEvent");
+                                reqID = document.getString("RequestID");
                                 MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
                                 request.add(MAGIC);
                                 MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
@@ -268,7 +264,7 @@ public class VolunteerRequests extends AppCompatActivity {
                                         startActivity(intent);
                                     }
                                 });
-                           // }
+                           }
                         } else {
                         }
                     }
@@ -288,12 +284,12 @@ public class VolunteerRequests extends AppCompatActivity {
         }
 
         public MyVolRequestAdapter(Context context, int activity_single_request, ArrayList<Request> request) {
-
             this.request = request;
             this.context = context;
             this.layoutResourseId = activity_single_request;
-
         }
+
+        public ArrayList<Request> getAll(){ return request;}
 
         @Override
         public int getCount() {

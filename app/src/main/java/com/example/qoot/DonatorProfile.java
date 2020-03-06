@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +28,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
@@ -37,6 +42,7 @@ public class DonatorProfile extends AppCompatActivity {
     // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
+    StorageReference mfStore;
     FirebaseUser user ;
     public static final String TAG = "DonatorProfile";
     @Override
@@ -72,6 +78,7 @@ public class DonatorProfile extends AppCompatActivity {
         root = findViewById(R.id.rootProfile);
         //warnM = findViewById(R.id.warnMess);
         mAuth = FirebaseAuth.getInstance();
+        mfStore = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
         String userId=mAuth.getCurrentUser().getUid();
          user = mAuth.getCurrentUser();
@@ -99,6 +106,24 @@ public class DonatorProfile extends AppCompatActivity {
 
             }
         });
+
+        DocumentReference documentReference1 =db.collection("profilePicture").document(userId);
+        documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                String uri = documentSnapshot.getString("link");
+               // Picasso.get().load(uri).into(Photo);
+                    // Photo.setImageURI(uri);
+                Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+                //اعتقد المفروض جوا الload نحط اوبجت من نوع Uri
+                // الحين هو سترينق
+                Picasso.with(DonatorProfile.this).load(uri).into(Photo);
+               //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
+
+
+            }
+        });
+
     }
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));

@@ -3,6 +3,7 @@ package com.example.qoot;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
@@ -61,6 +65,7 @@ public class tab2 extends Fragment {
     Calendar calendar;
     int day,month,year;
     public static final int REQUEST_CODE = 11; // ???
+    Spinner events;
 
     /////////
     EditText mType,mNumOfGuest,mTime,mNotes,mLocation;
@@ -91,6 +96,29 @@ public class tab2 extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_tab2, container, false);
         dateOfPickUp = (TextView) view.findViewById(R.id.pickUpDate1);
+
+        events =(Spinner) view.findViewById(R.id.FoodType);
+        final String[] eventTypes = new String[]{"Select Event Type","Wedding", "BBQ", "Small Party","Funeral","Other"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, eventTypes);
+        events.setAdapter(adapter);
+
+
+        events.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position).equals("Select Event Type")) {
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         final FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -127,7 +155,7 @@ public class tab2 extends Fragment {
 
         });
 
-        mType = view.findViewById(R.id.FoodType);
+       // mType = view.findViewById(R.id.FoodType);
         mNumOfGuest = view.findViewById(R.id.numberOfGuest);
         //mTime = view.findViewById(R.id.pickUpTime);
         mNotes = view.findViewById(R.id.note);
@@ -138,7 +166,7 @@ public class tab2 extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = mType.getText().toString();
+                type =events.getSelectedItem().toString();
                 numOfGuest = mNumOfGuest.getText().toString();
                 date = dateOfPickUp.getText().toString();
                 time = textView.getText().toString();
@@ -151,7 +179,13 @@ public class tab2 extends Fragment {
                 if (TextUtils.isEmpty(type)) {
                     mType.setError("Please Enter Your Event Type, It is Required"); /////////////// WILL BE CHANGED TO DROP DOWN !
                     return;
-                }
+                }if(type.equals("Select Event Type")){
+                TextView errorTextView=(TextView)events.getSelectedView();
+                errorTextView.setError("");
+                errorTextView.setTextColor(Color.RED);
+                errorTextView.setText("Select Event Type");
+                return;
+            }
                 type = mType.getText().toString();
                 if (type.length()>20) {
                     mType.setError("The Characters Must Be At Most 20");            /////////////// WILL BE CHANGED TO DROP DOWN !

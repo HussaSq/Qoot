@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".BrowesSingleRequestScheduled"></activity>
         <activity android:name=".volunteer_notification" />
         <activity android:name=".DonatorNotifications" />
         <activity android:name=".single_offer" />
@@ -20,13 +21,12 @@
         <activity android:name=".DonatorProfile" />
         <activity android:name=".EditDonatorProfile" />
         <activity android:name=".EditVolunteerProfile" />
-        <activity android:name=".VolunteerProfile">
-    </activity>
-
+        <activity android:name=".VolunteerProfile"></activity>
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".LogIn" >
+        <activity android:name=".LogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

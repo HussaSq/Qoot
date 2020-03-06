@@ -57,7 +57,7 @@ public class DonatorRequests extends AppCompatActivity {
     String UserID,reqID;
     Request MAGIC;
     ListView listView;
-     ArrayList<Request> request;
+    ArrayList<Request> request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -32,14 +32,19 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/food" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/FoodType"
-                android:layout_width="280dp"
-                android:layout_height="60dp"
+                android:layout_width="260dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:backgroundTint="@color/colorAccent"
+                android:contextClickable="true"
+                android:drawSelectorOnTop="true"
                 android:ems="10"
-                android:hint="Type Of Event"
-                android:inputType="textPersonName" />
+                android:spinnerMode="dropdown"
+                android:textColor="@color/common_google_signin_btn_text_light_default" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -56,7 +61,7 @@
 
             <EditText
                 android:id="@+id/numberOfGuest"
-                android:layout_width="280dp"
+                android:layout_width="260dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
@@ -81,11 +86,12 @@
                 android:layout_width="111dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Today Date"
                 android:inputType="date"
-                android:textSize="20dp" />
+                android:textSize="18sp"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -99,11 +105,12 @@
                 android:layout_width="130dp"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:ems="10"
                 android:hint="Pick Up Time"
                 android:inputType="time"
-                android:textSize="20dp" />
+                android:textSize="18sp"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"/>
         </LinearLayout>
 
         <LinearLayout
@@ -120,7 +127,7 @@
 
             <EditText
                 android:id="@+id/location"
-                android:layout_width="280dp"
+                android:layout_width="260dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
@@ -144,7 +151,7 @@
 
             <EditText
                 android:id="@+id/note"
-                android:layout_width="280dp"
+                android:layout_width="260dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="8dp"

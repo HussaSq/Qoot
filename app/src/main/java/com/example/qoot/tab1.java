@@ -1,6 +1,7 @@
 package com.example.qoot;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,8 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.content.Intent;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -53,6 +59,7 @@ public class tab1 extends Fragment {
     FirebaseAuth mAuth;
     String type,numOfGuest,userId,time,date,location,name,reqID;
     private static final String TAG = "tab1";
+    Spinner events;
 
 
 
@@ -67,6 +74,31 @@ public class tab1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
         dateTimeDisplay = (TextView)view.findViewById(R.id.pickUpDate);
+
+        events =(Spinner) view.findViewById(R.id.FoodType);
+        final String[] eventTypes = new String[]{"Select Event Type","Wedding", "BBQ", "Small Party","Funeral","Other"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, eventTypes);
+        events.setAdapter(adapter);
+
+
+        events.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+             if(parent.getItemAtPosition(position).equals("Select Event Type")) {
+
+             }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
         calendar = Calendar.getInstance();
         year=calendar.get(Calendar.YEAR);
         month=calendar.get(Calendar.MONTH)+1;
@@ -89,7 +121,7 @@ public class tab1 extends Fragment {
 
 
 
-        mType = view.findViewById(R.id.FoodType);
+        //mType = view.findViewById(R.id.FoodType);
         mNumOfGuest = view.findViewById(R.id.numberOfGuest);
         // mTime = view.findViewById(R.id.pickUpTime);
         mNotes = view.findViewById(R.id.note);
@@ -99,7 +131,7 @@ public class tab1 extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = mType.getText().toString();
+                type = events.getSelectedItem().toString();
                 numOfGuest = mNumOfGuest.getText().toString();
                 date = dateTimeDisplay.getText().toString();
                 time=textView.getText().toString();
@@ -109,12 +141,21 @@ public class tab1 extends Fragment {
                 if (TextUtils.isEmpty(type)) {
                     mType.setError("Please Enter Your Event Type, It is Required");
                     return;
+                }if(type.equals("Select Event Type")){
+                    //type=((TextView)events.getSelectedView());
+                    //((TextView)events.getSelectedView()).setError("Please Select Your Event Type, It is Required");
+                    TextView errorTextView=(TextView)events.getSelectedView();
+                    errorTextView.setError("");
+                    errorTextView.setTextColor(Color.RED);
+                    errorTextView.setText("Select Event Type");
+                    return;
                 }
-                type = mType.getText().toString();
+                type = events.getSelectedItem().toString();
                 if (type.length()>20) {
                     mType.setError("The Characters Must Be At Most 20");
                     return;
-                }if (TextUtils.isEmpty(numOfGuest)) {
+                }
+               if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter Amount Of Guests , It is Required");
                     return;
                 }   if (TextUtils.isEmpty(time)) {

@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
@@ -75,6 +76,24 @@ public class VolunteerProfile extends AppCompatActivity {
                 Username.setText(documentSnapshot.getString("UserName"));
             }
         });
+
+        DocumentReference documentReference1 =db.collection("profilePicture").document(userId);
+        documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                String uri = documentSnapshot.getString("link");
+                // Picasso.get().load(uri).into(Photo);
+                // Photo.setImageURI(uri);
+                Toast.makeText(VolunteerProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+                //اعتقد المفروض جوا الload نحط اوبجت من نوع Uri
+                // الحين هو سترينق
+                Picasso.with(VolunteerProfile.this).load(uri).into(Photo);
+                //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
+
+
+            }
+        });
+
     }
 
     public void OpenEditProfilePage(View view){

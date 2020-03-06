@@ -1,23 +1,17 @@
 package com.example.qoot;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,24 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.regex.Pattern;
-
 import javax.annotation.Nullable;
 
-import io.grpc.Context;
-
 public class EditDonatorProfile extends AppCompatActivity {
-
-
-    private static final int PICK_IMAGE_REQUEST=1;
-    private  ImageView Photo;
-    private Uri imageuri;
-    private StorageReference mStorageRef;//!!!!!!!!!!!!!!!!!!!
-
-
 
     public EditText NEW_NAME;
     public EditText NEW_PHONE;
@@ -54,71 +38,42 @@ public class EditDonatorProfile extends AppCompatActivity {
     public EditText NEW_EMAIL;
 
     public ImageView NEW_IMAGE;
-    private ImageView editIcon;
-
 
     FirebaseFirestore db;
-    private FirebaseFirestore fstore;//!!!!!!!!!!!!!!!!!!!!!!!!
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
     String userId;
+    private StorageTask UploadTask;
 
-    // idk wth is this for
-    private static final String TAG = "EditDonatorProfile";
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri mImageUri;
 
     //  save button
-    Button saveButton;
+    Button saveButton, Upload, Choose;
 
     // what user type in fields
     String s1, s2, s3 ,s4, Uid;
-
-    //if save is pressed
-
-
-    // Intent intent1 = getIntent();
-    // String userId1 = intent1.getStringExtra("user");
-    //String name = intent1.getStringExtra("Name");
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_donator_profile);
+            NEW_IMAGE = findViewById(R.id.UserImage);
+            NEW_NAME = findViewById(R.id.Name);
+            NEW_PHONE = findViewById(R.id.Phone_v);
+            NEW_EMAIL =findViewById(R.id.emailDonator);
+            NEW_PASSWORD =findViewById(R.id.Password);
+            saveButton = findViewById(R.id.button);
+            Upload = findViewById(R.id.Upload);
+            Choose = findViewById(R.id.choose);
 
-        NEW_IMAGE = findViewById(R.id.UserImage);
-        NEW_NAME = findViewById(R.id.Name);
-        NEW_PHONE = findViewById(R.id.Phone_v);
-
-        NEW_EMAIL =findViewById(R.id.emailDonator);
-        NEW_PASSWORD =findViewById(R.id.Password);
-
-        saveButton = findViewById(R.id.button);
-        editIcon = findViewById(R.id.edit_photo);
-
-
-
-
-        //*************************************
-        editIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFileChooser();
-            }
-        });
-
-
-        //*******************
-
-        // firebase initialize
-        mAuth = FirebaseAuth.getInstance();
-        fstore =FirebaseFirestore.getInstance();//***************
-        db=FirebaseFirestore.getInstance();
-        Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        userId=mAuth.getCurrentUser().getUid();
-        mStorageRef = FirebaseStorage.getInstance().getReference("Images");//****************
-
-
-
+            // firebase initialize
+            mAuth = FirebaseAuth.getInstance();
+            db=FirebaseFirestore.getInstance();
+            Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            userId=mAuth.getCurrentUser().getUid();
+            mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 //--------------------------------------------------------------------------------------------------------------------
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -140,133 +95,186 @@ public class EditDonatorProfile extends AppCompatActivity {
             }
         });
 
-        // retrieve the image
+                 // retrieve the image
 //---------------------------------------------------------------------------------------------------------------------
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        //------------------------ Code for Pic------------------------------------------------------
 
-            @Override
-            public void onClick(View v) {
+                Choose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openFileChooser();
+                    }
+                });
 
-                s1 = NEW_NAME.getText().toString();
-                s2 = NEW_PHONE.getText().toString();
-                s3 =NEW_PASSWORD.getText().toString();
-                s4 = NEW_EMAIL.getText().toString();
 
-                //------ check name -------------
-                if (!s1.isEmpty()) {
+                Upload.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         if (UploadTask != null && UploadTask.isInProgress()){
+
+                            Toast.makeText(EditDonatorProfile.this,"Hold on Image is Uploading",Toast.LENGTH_SHORT).show();
+                         }else
+                             uploadFile();
+
+                    }
+                });
+
+
+
+
+
+
+        //-------------------------- OverAll update --------------------------------------------------
+            saveButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
                     s1 = NEW_NAME.getText().toString();
-                    if (s1.length() == 1) {
-                        NEW_NAME.setError("Please enter a valid name length");
-                        return;
-                    }
-                    s1 = NEW_NAME.getText().toString();
-                }
-
-                if (!s4.isEmpty()){
-                    if(!isValid(s4)){
-                        NEW_EMAIL.setError("Enter a valid Email");
-                        return;}
-                    s4 =NEW_EMAIL.getText().toString();
-                }
-                // ---------------- check number -------------
-                if(!s2.isEmpty()) {
                     s2 = NEW_PHONE.getText().toString();
-                    if (s2.length() != 10) {
-                        NEW_PHONE.setError("Enter a valid phone length (10 Digits)");
-                        return;
-                    }
-                    s2 = NEW_PHONE.getText().toString();
-                    if (!s2.startsWith("05")) {
-                        NEW_PHONE.setError("Enter a valid phone number (Start with 05)");
-                        return;
-                    }
-                    s2 = NEW_PHONE.getText().toString();
-                    if (containsLetters(s2)) {
-                        NEW_PHONE.setError("Enter a phone number with no letters");
-                        return;
-                    }
-                    s2 = NEW_PHONE.getText().toString();
-                }//end if empty
-
-                if (!s3.isEmpty()){
-                    if (s3.length() < 8) {
-                        NEW_PASSWORD.setError("Must Be At Least 8 Characters");
-                        return;
-                    }
                     s3 =NEW_PASSWORD.getText().toString();
-                }
-                s1 = NEW_NAME.getText().toString();
-                s2 = NEW_PHONE.getText().toString();
-                // معليش على البدائيه بس اذا عندكم حل احسن قولو
-                //حلك رائع بلا دراما:)
-                int counter=0;
-                if (Uid != null) {
-                    if (!(s1.isEmpty()) ){
-                        if (s1 != null)
-                            Updatename(s1);
-                    }
-                    else
-                        counter++;
-                    if (!(s2.isEmpty())) {
-                        if (s2 != null)
-                            UpdatePhone(s2);
-                    }
-                    else
-                        counter++;
-                    if (!s3.isEmpty() && s3 != null){
-                        UpdatePassword(s3);
-                    }
-                    else
-                        counter++;
-                    if (!s4.isEmpty() && s4 != null){
-                        UpdateEmail(s4);
-                    }else
-                        counter++;
+                    s4 = NEW_EMAIL.getText().toString();
 
-                    if (counter == 4)
-                    {
-                        Toast.makeText(EditDonatorProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
+                    //------ check name -------------
+                   if (!s1.isEmpty()) {
+                       s1 = NEW_NAME.getText().toString();
+                       if (s1.length() == 1) {
+                           NEW_NAME.setError("Please enter a valid name length");
+                           return;
+                       }
+                       s1 = NEW_NAME.getText().toString();
+                   }
+
+                   if (!s4.isEmpty()){
+                       if(!isValid(s4)){
+                       NEW_EMAIL.setError("Enter a valid Email");
+                       return;}
+                       s4 =NEW_EMAIL.getText().toString();
+                   }
+                    // ---------------- check number -------------
+                    if(!s2.isEmpty()) {
+                        s2 = NEW_PHONE.getText().toString();
+                        if (s2.length() != 10) {
+                            NEW_PHONE.setError("Enter a valid phone length (10 Digits)");
+                            return;
+                        }
+                        s2 = NEW_PHONE.getText().toString();
+                        if (!s2.startsWith("05")) {
+                            NEW_PHONE.setError("Enter a valid phone number (Start with 05)");
+                            return;
+                        }
+                        s2 = NEW_PHONE.getText().toString();
+                        if (containsLetters(s2)) {
+                            NEW_PHONE.setError("Enter a phone number with no letters");
+                            return;
+                        }
+                        s2 = NEW_PHONE.getText().toString();
+                    }//end if empty
+
+                    if (!s3.isEmpty()){
+                        if (s3.length() < 8) {
+                            NEW_PASSWORD.setError("Must Be At Least 8 Characters");
+                            return;
+                        }
+                        s3 =NEW_PASSWORD.getText().toString();
+                    }
+                    s1 = NEW_NAME.getText().toString();
+                    s2 = NEW_PHONE.getText().toString();
+                    // معليش على البدائيه بس اذا عندكم حل احسن قولو
+                    //حلك رائع بلا دراما:)
+                    int counter=0;
+                    if (Uid != null) {
+                        if (!(s1.isEmpty()) ){
+                            if (s1 != null)
+                                Updatename(s1);
+                        }
+                        else
+                            counter++;
+                        if (!(s2.isEmpty())) {
+                            if (s2 != null)
+                                UpdatePhone(s2);
+                        }
+                        else
+                            counter++;
+                        if (!s3.isEmpty() && s3 != null){
+                            UpdatePassword(s3);
+                        }
+                        else
+                            counter++;
+                        if (!s4.isEmpty() && s4 != null){
+                            UpdateEmail(s4);
+                        }else
+                            counter++;
+
+                        if (counter == 4)
+                        {
+                            Toast.makeText(EditDonatorProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
+                        }
+                        Toast.makeText(EditDonatorProfile.this, "Changes Saved successfully", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
                     }
-                    Toast.makeText(EditDonatorProfile.this, "Changes Saved successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
                 }
-            }
-        });
-    }
-
+            });
+        }
 
     public void OpenProfileDonator(View view) {
         startActivity(new Intent(EditDonatorProfile.this,DonatorProfile.class));
     }
 
     // -------------------------------------------------METHODS------------------------------------------------
-    private void openFileChooser(){
-        Intent intent =new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-        //open file chooser
-        //  OpenFileChooser();
+    private void uploadFile() {
+        if (mImageUri != null){
+            Upload.setClickable(true);
 
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==PICK_IMAGE_REQUEST && resultCode==RESULT_OK
-                && data != null && data.getData()!= null){
-
-            imageuri=data.getData();
-
-            NEW_IMAGE.setImageURI(imageuri);
-
+            StorageReference file = mStorageRef.child(userId
+                    +"."+ getFileExtension(mImageUri));
+            UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(EditDonatorProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
+                    Upload up = new Upload(userId,
+                            taskSnapshot.getUploadSessionUri().toString());
+                    db.collection("profilePicture").document(userId).set(up);
+                }
+            });
+        }// ----- end if -----
+        else
+        {
+            Toast.makeText(this,"Choose a file first",Toast.LENGTH_SHORT).show();
         }
 
     }
+    public void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+          // Picasso.with(this).load(mImageUri).into(NEW_IMAGE);
+            NEW_IMAGE.setImageURI(mImageUri);
+        }
+    }
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+
+    public void editPhoto(View v){
+
+        //open file chooser
+      //  OpenFileChooser();
+        // .... here we will have the code for editing the photo that I ( ABEER ) don't know yet :(
+    }
     public void Updatename(String name){
 
         //MINE -Hussa
@@ -274,7 +282,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("UserName",NEW_NAME.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -299,7 +307,7 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("PhoneNumber",NEW_PHONE.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+               // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -390,7 +398,7 @@ user.updateProfile(profileUpdates)
 
          */
 
-    // --------------------- هذي خرابيطي -----------------------------------
+        // --------------------- هذي خرابيطي -----------------------------------
     /*  private void OpenFileChooser(){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -432,3 +440,32 @@ user.updateProfile(profileUpdates)
 
 }
 
+class Upload {
+    private String userID;
+    private String Link;
+
+    public Upload() {
+        //empty constructor needed
+    }
+
+    public Upload(String UserID, String Link) {
+        userID = UserID;
+        this.Link = Link;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String link) {
+        Link = link;
+    }
+}

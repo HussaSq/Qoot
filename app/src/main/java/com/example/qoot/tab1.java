@@ -81,22 +81,6 @@ public class tab1 extends Fragment {
         events.setAdapter(adapter);
 
 
-        events.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-             if(parent.getItemAtPosition(position).equals("Select Event Type")) {
-
-             }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
 
 
         calendar = Calendar.getInstance();
@@ -139,7 +123,8 @@ public class tab1 extends Fragment {
                 db= FirebaseFirestore.getInstance();
                 //check fields
                 if (TextUtils.isEmpty(type)) {
-                    mType.setError("Please Enter Your Event Type, It is Required");
+                    //mType.setError("Please Enter Your Event Type, It is Required");
+                    ((TextView)events.getSelectedView()).setError("Please Select Your Event Type, It is Required");
                     return;
                 }if(type.equals("Select Event Type")){
                     //type=((TextView)events.getSelectedView());

@@ -103,21 +103,7 @@ public class tab2 extends Fragment {
         events.setAdapter(adapter);
 
 
-        events.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position).equals("Select Event Type")) {
 
-                }
-
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         final FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         calendar = Calendar.getInstance();

@@ -45,7 +45,6 @@
             android:drawSelectorOnTop="true"
             android:ems="10"
             android:spinnerMode="dropdown"
-
             android:textColor="@color/common_google_signin_btn_text_light_default" />
 
     </LinearLayout>

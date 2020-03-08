@@ -1,10 +1,16 @@
 package com.example.qoot;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,12 +33,20 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -95,6 +109,9 @@ public class tab2 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_tab2, container, false);
+        //GPS stuff
+
+
         dateOfPickUp = (TextView) view.findViewById(R.id.pickUpDate1);
 
         events =(Spinner) view.findViewById(R.id.FoodType);
@@ -103,7 +120,21 @@ public class tab2 extends Fragment {
         events.setAdapter(adapter);
 
 
+        events.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position).equals("Select Event Type")) {
 
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         final FragmentManager fm = ((AppCompatActivity) getActivity()).getSupportFragmentManager();
         calendar = Calendar.getInstance();
@@ -172,11 +203,7 @@ public class tab2 extends Fragment {
                 errorTextView.setText("Select Event Type");
                 return;
             }
-                type = mType.getText().toString();
-                if (type.length()>20) {
-                    mType.setError("The Characters Must Be At Most 20");            /////////////// WILL BE CHANGED TO DROP DOWN !
-                    return;
-                }if (TextUtils.isEmpty(numOfGuest)) {
+                if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter number Of Guests , It is Required");
                     return;
                 }   //if (TextUtils.isEmpty(time)) {
@@ -333,4 +360,5 @@ public class tab2 extends Fragment {
             }
 
 }
+
 

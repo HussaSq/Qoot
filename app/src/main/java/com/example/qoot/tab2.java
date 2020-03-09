@@ -177,7 +177,7 @@ public class tab2 extends Fragment {
         //mTime = view.findViewById(R.id.pickUpTime);
         mNotes = view.findViewById(R.id.note);
         submit = (ImageView) view.findViewById(R.id.submitReq);
-        mLocation= view.findViewById(R.id.location);
+       // mLocation= view.findViewById(R.id.location);
         dateOfPickUp = (TextView) view.findViewById(R.id.pickUpDate1);
 
         submit.setOnClickListener(new View.OnClickListener() {

@@ -126,31 +126,6 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/map" />
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="260dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="12dp"
-                android:hint="Location"
-                android:clickable="true"
-                android:textSize="20dp"
-                android:inputType="textPostalAddress" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
                 android:src="@drawable/note" />
 
             <EditText
@@ -163,6 +138,16 @@
                 android:gravity="start|top"
                 android:hint="Any Note?"
                 android:inputType="textPersonName" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp">
+
+
         </LinearLayout>
 
         <ImageView

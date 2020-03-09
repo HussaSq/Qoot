@@ -53,11 +53,11 @@ public class tab1 extends Fragment {
     TextView dateTimeDisplay;
     Calendar calendar;
     int day,month,year;
-    EditText mType,mNumOfGuest,mTime,mNotes,mLocation,mDate;
-    ImageView submit, Icon;
+    EditText mNumOfGuest,mTime,mNotes;
+    ImageView submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    String type,numOfGuest,userId,time,date,location,name,reqID;
+    String type,numOfGuest,userId,time,date,name;
     private static final String TAG = "tab1";
     Spinner events;
 

@@ -110,7 +110,7 @@ public class tab1 extends Fragment {
         // mTime = view.findViewById(R.id.pickUpTime);
         mNotes = view.findViewById(R.id.note);
         submit = view.findViewById(R.id.submitReq);
-        mLocation= view.findViewById(R.id.location);
+      //  mLocation= view.findViewById(R.id.location);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +119,7 @@ public class tab1 extends Fragment {
                 numOfGuest = mNumOfGuest.getText().toString();
                 date = dateTimeDisplay.getText().toString();
                 time=textView.getText().toString();
-                location=mLocation.getText().toString();
+               // location=mLocation.getText().toString();
                 db= FirebaseFirestore.getInstance();
                 //check fields
                 if (TextUtils.isEmpty(type)) {
@@ -147,10 +147,10 @@ public class tab1 extends Fragment {
                     mTime.setError("Please Enter Pick Up Time, It is Required");
                     return;
                 }
-                if (TextUtils.isEmpty(location)) {
-                    mLocation.setError("Please Enter Your Event Location, It is Required");
-                    return;
-                }
+               // if (TextUtils.isEmpty(location)) {
+                //    mLocation.setError("Please Enter Your Event Location, It is Required");
+                 //   return;
+              //  }
                 //check if there is no characters in this fields
                 numOfGuest = mNumOfGuest.getText().toString();
                 if (containsLetters(numOfGuest)) {
@@ -184,7 +184,7 @@ public class tab1 extends Fragment {
                 request.put("NumberOfGuests",numOfGuest);
                 request.put("Time",time);
                 request.put("Date",date);
-                request.put("Location",location);
+                request.put("Location","");
                 request.put("Note",""+mNotes.getText().toString());
                 request.put("State","Pending");
                 request.put("DonatorID",userId);
@@ -210,8 +210,9 @@ public class tab1 extends Fragment {
                                 });
                                // Toast
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(getActivity(), DonatorRequests.class);
+                               // Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getActivity(), location.class);
+                                i.putExtra("ReqId",documentReference.getId());
                                 startActivity(i);
                                 ((Activity) getActivity()).overridePendingTransition(0, 0);
                             }

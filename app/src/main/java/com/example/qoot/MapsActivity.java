@@ -30,19 +30,27 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     LocationManager locationManager;
     LocationListener locationListener;
     private GoogleMap mMap;
+    FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    String userId;
 
     int PERMISSION_ID = 44;
     FusedLocationProviderClient mFusedLocationClient;
 
     //private
     Button Choose;
+    String location,req;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +60,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Choose = findViewById(R.id.pickLocation);
+        mAuth = FirebaseAuth.getInstance();
+
+        db=FirebaseFirestore.getInstance();
+        userId=mAuth.getCurrentUser().getUid();
+        Bundle extras = getIntent().getExtras();
+        double x =extras.getDouble("lat");
+        double y =(extras.getDouble("lon"));
+        req= extras.getString("ReqId");
+
+        location=x+","+y;
 
         Choose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //mMap.getMyLocation();
+                DocumentReference documentReference =db.collection("Requests").document(req);
+                documentReference.update("Location",location).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MapsActivity.this, "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                Intent i = new Intent(MapsActivity.this, DonatorRequests.class);
+                startActivity(i);
+
             }
         });
 
@@ -67,7 +97,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        mMap.setMyLocationEnabled(true);
+      //  mMap.setMyLocationEnabled(true);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            double x =extras.getDouble("lat");
+            double y =(extras.getDouble("lon"));
+
+            LatLng ur = new LatLng(x, y);
+            mMap.addMarker(new MarkerOptions().position(ur).title("Marker in Sydney"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(ur));
+            Choose = findViewById(R.id.pickLocation);
+            mAuth = FirebaseAuth.getInstance();
+
+            db=FirebaseFirestore.getInstance();
+            userId=mAuth.getCurrentUser().getUid();
+
+            req= extras.getString("ReqId");
+
+            location=x+","+y;
+
+            Choose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //mMap.getMyLocation();
+                    DocumentReference documentReference =db.collection("Requests").document(req);
+                    documentReference.update("Location",location).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            //  Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Intent i = new Intent(MapsActivity.this, DonatorRequests.class);
+                    startActivity(i);
+
+                }
+            });
+
+
+
+
+        }
 
         // Add a marker in Sydney and move the camera
         //LatLng sydney = new LatLng(-34, 151);

@@ -53,7 +53,7 @@ public class tab3 extends Fragment {
         request=new ArrayList<Request>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        Query q1 = db.collection("Requests").whereEqualTo("State","Pending");
+        Query q1 = db.collection("Requests").whereEqualTo("State","Pending").whereEqualTo("RequestType","Urgent");
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -64,22 +64,24 @@ public class tab3 extends Fragment {
                                 String Time = document.getString("Time");
                                 RequestID = document.getString("RequestID");
                                 String REQTYPE= document.getString("RequestType");
-                                MAGIC =new Request(Event,Time, USerID,RequestID,REQTYPE );
-                                request.add(MAGIC);
-                                MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_browse_single_request,request);
-                                gridView.setAdapter(myRequestAdapter);
-                                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                                        Request temp = (Request) parent.getItemAtPosition(position);
-                                        Intent in = getActivity().getIntent();
-                                        in.putExtra("RequestID",temp.getID());
-                                        Intent intent = new Intent(getActivity(),VolunteerRequestInfo.class);
-                                        intent.putExtra("RequestID",in.getStringExtra("RequestID"));
-                                        startActivity(intent);
-                                    }
-                                });
+                                    MAGIC = new Request(Event, Time, USerID, RequestID, REQTYPE);
+                                    request.add(MAGIC);
+                                    MyBrowseRequestAdapter myRequestAdapter = new MyBrowseRequestAdapter(getActivity(), R.layout.activity_browse_single_request, request);
+                                    gridView.setAdapter(myRequestAdapter);
+                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                                            Request temp = (Request) parent.getItemAtPosition(position);
+                                            Intent in = getActivity().getIntent();
+                                            in.putExtra("RequestID", temp.getID());
+                                            Intent intent = new Intent(getActivity(), VolunteerRequestInfo.class);
+                                            intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+                                            startActivity(intent);
+                                        }
+                                    });
+
                             }
                         } else {
 

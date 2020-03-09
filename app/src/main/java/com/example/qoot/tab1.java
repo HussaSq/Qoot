@@ -87,7 +87,7 @@ public class tab1 extends Fragment {
         year=calendar.get(Calendar.YEAR);
         month=calendar.get(Calendar.MONTH)+1;
         day=calendar.get(Calendar.DAY_OF_MONTH);
-        dateTimeDisplay.setText(year+"/"+month+"/"+day);
+        dateTimeDisplay.setText(month+"/"+day+"/"+year);
 
 
 
@@ -135,11 +135,11 @@ public class tab1 extends Fragment {
                     errorTextView.setText("Select Event Type");
                     return;
                 }
-                type = events.getSelectedItem().toString();
+                /*type = events.getSelectedItem().toString();
                 if (type.length()>20) {
                     mType.setError("The Characters Must Be At Most 20");
                     return;
-                }
+                }*/
                if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter Amount Of Guests , It is Required");
                     return;

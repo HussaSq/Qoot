@@ -36,14 +36,14 @@ public class tab4 extends Fragment {
         View view= inflater.inflate(R.layout.fragment_tab4, container, false);
         gridView=view.findViewById(R.id.grid_Request2);
         request=new ArrayList<Request>();
-       // Request request4=new Request("Wedding","Pending","1111","2222", );
-       // Request request2=new Request("bbq","Accepted","3333","4444", );
-       // Request request3=new Request("Other","Accepted","5555","6666", );
-       // request.add(request4);
-        //request.add(request2);
-        //request.add(request3);
-     //   MyBrowseRequestAdapter2 myRequestAdapter2=new MyBrowseRequestAdapter2(getActivity(),R.layout.activity_browse_single_request_scheduled,request);
-      ///  gridView.setAdapter(myRequestAdapter2);
+        Request request4=new Request("Wedding","Pending","1111","2222","Scheduled" );
+        Request request2=new Request("bbq","Accepted","3333","4444" ,"Scheduled");
+       Request request3=new Request("Other","Accepted","5555","6666","Scheduled");
+        request.add(request4);
+        request.add(request2);
+        request.add(request3);
+      MyBrowseRequestAdapter2 myRequestAdapter2=new MyBrowseRequestAdapter2(getActivity(),R.layout.activity_browse_single_request_scheduled,request);
+        gridView.setAdapter(myRequestAdapter2);
         return view;
     }
 

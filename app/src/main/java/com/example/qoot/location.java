@@ -55,10 +55,8 @@ public class location extends AppCompatActivity {
                                 Location location = task.getResult();
                                 Bundle extras = getIntent().getExtras();
 
-                                req= extras.getString("ReqId");
+                                req= extras.getString("RequestID");
                                 Intent intetnt = new Intent(location.this,MapsActivity.class);
-
-
 
 
                                 if (location == null) {

@@ -6,47 +6,32 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
 import android.widget.AdapterView;
-import java.util.zip.Inflater;
-
-import static android.widget.BaseAdapter.*;
 
 
 public class DonatorRequests extends AppCompatActivity {
@@ -100,7 +85,8 @@ public class DonatorRequests extends AppCompatActivity {
                                 String State = document.getString("State");
                                 String Event = document.getString("TypeOfEvent");
                                 reqID = document.getString("RequestID");
-                                MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                                String REQTYPE= document.getString("RequestType");
+                                MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE);
                                 request.add(MAGIC);
                                 MyRequestAdapter myRequestAdapter=new MyRequestAdapter(DonatorRequests.this,R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
@@ -147,15 +133,26 @@ class Request {
     public String UserID;
     public String ID;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String type;
+
     public Request(){
 
     }
 
-    public Request(String type, String stat, String id, String reqID){
+    public Request(String type, String stat, String id, String reqID, String typeOfReq){
         EventType = type;
         Status = stat;
         UserID = id;
         ID = reqID;
+        this.type =typeOfReq;
     }
 
     public String getID() {
@@ -230,7 +227,9 @@ class MyRequestAdapter extends BaseAdapter{
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
         TextView eventType=(TextView) view.findViewById(R.id.EventType1);
         TextView status=(TextView) view.findViewById(R.id.status1);
+        ImageView icon = view.findViewById(R.id.reqType1);
         eventType.setText(request.get(position).EventType);
+        String type = request.get(position).getType();
         String ss=request.get(position).Status;
         SpannableString spannableString=new SpannableString(ss);
         if(ss.equals("Pending")){
@@ -248,6 +247,12 @@ class MyRequestAdapter extends BaseAdapter{
             spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             status.setText(spannableString);
         }
+
+        //switch (type){
+          //  case"Urgent":
+
+        //}
+
         return view;
     }
 }

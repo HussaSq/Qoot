@@ -35,7 +35,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class VolunteerRequests extends AppCompatActivity {
 
@@ -176,7 +175,8 @@ public class VolunteerRequests extends AppCompatActivity {
                             String State = document.getString("State");
                             String Event = document.getString("TypeOfEvent");
                             reqID = document.getString("RequestID");
-                            MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                            String REQTYPE= document.getString("RequestType");
+                            MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE);
                             request.add(MAGIC);
                             MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
                             listView.setAdapter(myRequestAdapter);
@@ -200,7 +200,8 @@ public class VolunteerRequests extends AppCompatActivity {
                                     String State = dc.getDocument().getString("State");
                                     String Event = dc.getDocument().getString("TypeOfEvent");
                                     reqID = dc.getDocument().getString("RequestID");
-                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
+                                    String REQTYPE=dc.getDocument().getString("RequestType");
+                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID,REQTYPE );
                                     request.add(MAGIC);
                                     break;
                                 case MODIFIED:
@@ -225,52 +226,6 @@ public class VolunteerRequests extends AppCompatActivity {
         startActivity(new Intent(VolunteerRequests.this, AllRequests.class));
     }
 
-    public void addRequest(DocumentChange dc) {
-        // count++;
-        //Toast.makeText(this,"HERE addddd >>"+count,Toast.LENGTH_LONG).show();
-        String State = dc.getDocument().getString("State");
-        String Event = dc.getDocument().getString("TypeOfEvent");
-        reqID = dc.getDocument().getString("RequestID");
-        MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
-        request.add(MAGIC);
-        MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
-        listView.setAdapter(myRequestAdapter);
-
-    }
-
-    public void printTheRequest() {
-        Query q1 = db.collection("Requests").whereEqualTo("VolnteerID", UserID);
-        q1.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String State = document.getString("State");
-                                String Event = document.getString("TypeOfEvent");
-                                reqID = document.getString("RequestID");
-                                MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID);
-                                request.add(MAGIC);
-                                MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
-                                listView.setAdapter(myRequestAdapter);
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        Request temp = (Request) parent.getItemAtPosition(position);
-                                        Intent in = getIntent();
-                                        in.putExtra("RequestID", temp.getID());
-                                        Intent intent = new Intent(VolunteerRequests.this, VolunteerRequestInfo.class);
-                                        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
-                                        startActivity(intent);
-                                    }
-                                });
-                           }
-                        } else {
-                        }
-                    }
-
-                });
-    }
 
     class MyVolRequestAdapter extends BaseAdapter {
 

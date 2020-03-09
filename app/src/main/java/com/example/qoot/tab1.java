@@ -54,7 +54,7 @@ public class tab1 extends Fragment {
     Calendar calendar;
     int day,month,year;
     EditText mType,mNumOfGuest,mTime,mNotes,mLocation,mDate;
-    ImageView submit;
+    ImageView submit, Icon;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String type,numOfGuest,userId,time,date,location,name,reqID;
@@ -212,7 +212,7 @@ public class tab1 extends Fragment {
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                // Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(getActivity(), location.class);
-                                i.putExtra("ReqId",documentReference.getId());
+                                i.putExtra("RequestID",documentReference.getId());
                                 startActivity(i);
                                 ((Activity) getActivity()).overridePendingTransition(0, 0);
                             }

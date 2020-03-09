@@ -3,11 +3,9 @@ package com.example.qoot;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,9 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +24,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -70,7 +63,8 @@ public class tab3 extends Fragment {
                                 String Event = document.getString("TypeOfEvent");
                                 String Time = document.getString("Time");
                                 RequestID = document.getString("RequestID");
-                                MAGIC =new Request(Event,Time, USerID,RequestID);
+                                String REQTYPE= document.getString("RequestType");
+                                MAGIC =new Request(Event,Time, USerID,RequestID,REQTYPE );
                                 request.add(MAGIC);
                                 MyBrowseRequestAdapter myRequestAdapter=new MyBrowseRequestAdapter(getActivity(),R.layout.activity_browse_single_request,request);
                                 gridView.setAdapter(myRequestAdapter);

@@ -128,13 +128,14 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/map" />
 
-            <EditText
+            <TextView
                 android:id="@+id/location"
                 android:layout_width="260dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="12dp"
-                android:ems="10"
                 android:hint="Location"
+                android:clickable="true"
+                android:textSize="20dp"
                 android:inputType="textPostalAddress" />
 
 

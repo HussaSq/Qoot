@@ -73,7 +73,7 @@ import java.util.Calendar;
  * A simple {@link Fragment} subclass.
  */
 public class tab2 extends Fragment {
-    TextView textView;
+    TextView textView,location, mLocation;
     TextView dateOfPickUp;
     String selectedDate;
     Calendar calendar;
@@ -82,12 +82,12 @@ public class tab2 extends Fragment {
     Spinner events;
 
     /////////
-    EditText mType,mNumOfGuest,mTime,mNotes,mLocation;
+    EditText mType,mNumOfGuest,mTime,mNotes;
     //FloatingActionButton submit;
     ImageView submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    String type,numOfGuest,userId,time,date,location,name,reqID;
+    String type,numOfGuest,userId,time,date,name,reqID;
     private static final String TAG = "tab2";
     final SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy");
     Date CurrentDateObj = new Date();
@@ -187,7 +187,7 @@ public class tab2 extends Fragment {
                 numOfGuest = mNumOfGuest.getText().toString();
                 date = dateOfPickUp.getText().toString();
                 time = textView.getText().toString();
-                location = mLocation.getText().toString();
+              //  location = mLocation.getText().toString();
 
                 db = FirebaseFirestore.getInstance();
 
@@ -210,10 +210,10 @@ public class tab2 extends Fragment {
                    // mTime.setError("Please Enter Pick Up Time, It is Required");
                     //return;
                 //}
-                if (TextUtils.isEmpty(location)) {
-                    mLocation.setError("Please Enter Your Event Location, It is Required");
-                    return;
-                }
+               // if (TextUtils.isEmpty(location)) {
+                 //   mLocation.setError("Please Enter Your Event Location, It is Required");
+                   // return;
+                //}
                 if (TextUtils.isEmpty(time)) {
                     textView.setError("Please choose pick up time, It is Required");
                     return;
@@ -299,7 +299,8 @@ public class tab2 extends Fragment {
                                 // Toast
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                 Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
-                                Intent i = new Intent(getActivity(), DonatorRequests.class);
+                                Intent i = new Intent(getActivity(), location.class);
+                                i.putExtra("RequestID",documentReference.getId());
                                 startActivity(i);
                                 ((Activity) getActivity()).overridePendingTransition(0, 0);
                             }

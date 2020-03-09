@@ -112,9 +112,9 @@ public class DonatorProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 String uri = documentSnapshot.getString("link");
-                Uri link = Uri.parse(uri);
-                Toast.makeText(DonatorProfile.this," Link "+link.getClass()+"\n Oh it is"+link.toString(),Toast.LENGTH_LONG).show();
-                Picasso.with(DonatorProfile.this).load(link).into(Photo);
+              //  Uri link = Uri.parse(uri);
+               // Toast.makeText(DonatorProfile.this," Link "+link.getClass()+"\n Oh it is"+link.toString(),Toast.LENGTH_LONG).show();
+                //  Picasso.with(DonatorProfile.this).load(link).into(Photo);
                //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
             }
         });

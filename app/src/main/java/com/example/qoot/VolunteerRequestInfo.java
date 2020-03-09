@@ -3,9 +3,14 @@ package com.example.qoot;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +30,10 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    TextView type,guests, location, date, time,notes, DonName;
+    TextView type,guests, location, date, time,notes, DonName,state;
     Button Acceptbtn;
     String userID;
+    LinearLayout noteLay;
 
 
     @Override
@@ -36,6 +42,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         setContentView(R.layout.activity_volunteer_request_info);
 
         type = findViewById(R.id.FoodType);
+        state = findViewById(R.id.requesrStatus);
         guests = findViewById(R.id.numberOfGuest);
         location = findViewById(R.id.location);
         date = findViewById(R.id.Date);
@@ -43,6 +50,8 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         notes = findViewById(R.id.note);
         DonName = findViewById(R.id.volname);
         Acceptbtn = findViewById(R.id.offers);
+        noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
+
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -56,11 +65,36 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         type.setText(documentSnapshot.getString("TypeOfEvent"));
+                        String ss = (documentSnapshot.getString("State"));
+                        SpannableString spannableString=new SpannableString(ss);
+                        if(ss.equals("Pending")){
+                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+                            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            state.setText(spannableString);
+                        }
+                        else if(ss.equals("Accepted")){
+                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
+                            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            state.setText(spannableString);
+                        }
+                        else if(ss.equals("Cancelled")){
+                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
+                            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            state.setText(spannableString);
+                        }
+
                         guests.setText(documentSnapshot.getString("NumberOfGuests"));
                         location.setText(documentSnapshot.getString("Location"));
                         date.setText(documentSnapshot.getString("Date"));
                         time.setText(documentSnapshot.getString("Time"));
-                        notes.setText(documentSnapshot.getString("Note"));
+
+                        String empty = "";
+                        if((documentSnapshot.getString("Note"))== empty){
+                            noteLay.setVisibility(View.GONE);}
+                        else{
+                            notes.setText(documentSnapshot.getString("Note"));}
+                        DonName.setText(documentSnapshot.getString("DonatorName"));
+
                         //volName.setText(documentSnapshot.getString("Volunteer"));
                         //Bundle intent1 = getIntent().getExtras();
                         //String ReqIDDD = (String) intent1.getSerializable("RequestID");

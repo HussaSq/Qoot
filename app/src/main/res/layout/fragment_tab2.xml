@@ -89,7 +89,7 @@
                 android:ems="10"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint="Today Date"
+                android:hint="MM/dd/yyyy"
                 android:inputType="date"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="18dp" />

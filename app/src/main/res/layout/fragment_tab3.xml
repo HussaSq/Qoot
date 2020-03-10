@@ -15,22 +15,18 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-    <GridView
+    <ListView
         android:id="@+id/grid_Request"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="671dp"
+        android:layout_marginTop="50dp"
+        android:layout_above="@+id/bottom_navigation_vol"
+        android:layout_below="@+id/tablayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:columnWidth="90dp"
-        android:gravity="center"
-        android:horizontalSpacing="1dp"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="1dp"
-        android:layout_above="@+id/bottom_navigation_vol"
-        android:layout_below="@+id/tablayout"
-        />
+        android:clickable="true"
+        android:gravity="center" />
 
 
 </FrameLayout>

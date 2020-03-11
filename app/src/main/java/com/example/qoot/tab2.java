@@ -293,12 +293,9 @@ public class tab2 extends Fragment {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
-                                        //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                // Toast
-                                //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
+
                                 Intent i = new Intent(getActivity(), location.class);
                                 i.putExtra("RequestID",documentReference.getId());
                                 startActivity(i);

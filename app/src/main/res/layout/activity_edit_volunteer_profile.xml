@@ -40,11 +40,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:text="Edit Profile"
         android:textColor="#3f4658"
         android:textSize="30dp" />
-
 
 
     <ImageView
@@ -52,9 +51,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         android:background="#929292"
         android:padding="4dp"
@@ -62,42 +60,56 @@
         android:src="@drawable/default_pic"
         />
 
+
     <LinearLayout
-        android:layout_width="387dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:paddingRight="12dp">
+
         <Button
             android:id="@+id/choose"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="75dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="90dp"
             android:background="@drawable/custom_button"
             android:text="choose"
             android:textColor="#ffff"
-            android:textSize="17dp" />
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/Upload"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="30dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/custom_button"
             android:text="Upload"
             android:textColor="#ffff"
-            android:textSize="17dp"/>
+            android:textSize="15dp"/>
+
+
 
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView-"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_below="@id/Upload"
+        android:layout_gravity="center"
+        android:layout_marginLeft="3dp"
+        android:text="......................................................."
+        android:textColor="#BEC3D1"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
     <LinearLayout
-        android:layout_width="387dp"
-        android:layout_height="377dp"
-        android:layout_marginLeft="14dp"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginLeft="23dp"
         android:layout_marginRight="14dp"
         android:orientation="vertical"
         android:paddingRight="12dp">
@@ -111,8 +123,8 @@
 
             <EditText
                 android:id="@+id/Name"
-                android:layout_width="334dp"
-                android:layout_height="60dp"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
                 android:hint="Name"
@@ -133,8 +145,8 @@
 
             <EditText
                 android:id="@+id/Phone_v"
-                android:layout_width="334dp"
-                android:layout_height="60dp"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
                 android:hint="05*********"
@@ -149,8 +161,8 @@
 
             <EditText
                 android:id="@+id/EmailV"
-                android:layout_width="334dp"
-                android:layout_height="60dp"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
                 android:hint="example@example.com"
@@ -165,8 +177,8 @@
 
             <EditText
                 android:id="@+id/Pass"
-                android:layout_width="334dp"
-                android:layout_height="60dp"
+                android:layout_width="280dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="12dp"
                 android:ems="10"
                 android:hint="Password"
@@ -205,8 +217,8 @@
 
         <Spinner
             android:id="@+id/carDD"
-            android:layout_width="330dp"
-            android:layout_height="50dp"
+            android:layout_width="280dp"
+            android:layout_height="45dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="6dp"
@@ -221,14 +233,13 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="32dp"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
             android:background="@drawable/custom_button"
             android:text="Save"
             android:textColor="#ffff"
-            android:textSize="24sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 

@@ -196,7 +196,7 @@ public class VolunteerRequests extends AppCompatActivity {
                             switch (dc.getType()) {
                                 case ADDED:
                                     count++;
-                                    Toast.makeText(VolunteerRequests.this," Added to list",Toast.LENGTH_LONG).show();
+                                    //Toast.makeText(VolunteerRequests.this," Added to list",Toast.LENGTH_LONG).show();
                                     String State = dc.getDocument().getString("State");
                                     String Event = dc.getDocument().getString("TypeOfEvent");
                                     reqID = dc.getDocument().getString("RequestID");

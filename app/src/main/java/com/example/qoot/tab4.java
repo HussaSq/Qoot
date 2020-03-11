@@ -70,7 +70,7 @@ public class tab4 extends Fragment {
 
                                 MAGIC = new Request(Event, Time, USerID, RequestID, REQTYPE);
                                 request.add(MAGIC);
-                                MyBrowseRequestAdapter myRequestAdapter = new MyBrowseRequestAdapter(getActivity(), R.layout.activity_browse_single_request, request);
+                                MyBrowseRequestAdapter2 myRequestAdapter = new MyBrowseRequestAdapter2(getActivity(), R.layout.activity_browse_single_request, request);
                                 gridView.setAdapter(myRequestAdapter);
                                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -92,7 +92,6 @@ public class tab4 extends Fragment {
                     }
                 });
         return view;
-
 
     }
 

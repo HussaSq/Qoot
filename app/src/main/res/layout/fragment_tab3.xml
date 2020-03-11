@@ -15,7 +15,6 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
     <GridView
         android:id="@+id/grid_Request"
         android:layout_width="wrap_content"
@@ -32,10 +31,5 @@
         android:layout_above="@+id/bottom_navigation_vol"
         android:layout_below="@+id/tablayout"
         />
-
-
-
-
-
 
 </FrameLayout>

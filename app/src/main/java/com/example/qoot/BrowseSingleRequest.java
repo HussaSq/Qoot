@@ -12,3 +12,4 @@ public class BrowseSingleRequest extends AppCompatActivity {
         setContentView(R.layout.activity_browse_single_request);
     }
 }
+

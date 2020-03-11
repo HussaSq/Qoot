@@ -12,3 +12,4 @@ class BrowseSingleRequestScheduled extends AppCompatActivity {
         setContentView(R.layout.activity_browse_single_request_scheduled);
     }
 }
+

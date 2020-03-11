@@ -92,7 +92,6 @@ public class tab3 extends Fragment {
     }
 
 
-
 }
 class MyBrowseRequestAdapter extends BaseAdapter {
     private Context context;

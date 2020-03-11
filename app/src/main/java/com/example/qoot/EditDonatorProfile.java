@@ -233,8 +233,8 @@ public class EditDonatorProfile extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(EditDonatorProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
-                    Upload up = new Upload(userId,
-                            taskSnapshot.getUploadSessionUri().toString());
+                  String Link = mImageUri.toString(); //taskSnapshot.getUploadSessionUri().toString();
+                    Upload up = new Upload(userId,Link);
                     db.collection("profilePicture").document(userId).set(up);
                 }
             });

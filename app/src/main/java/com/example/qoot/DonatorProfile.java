@@ -32,6 +32,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
@@ -80,7 +82,7 @@ public class DonatorProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mfStore = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
-        String userId=mAuth.getCurrentUser().getUid();
+        final String userId=mAuth.getCurrentUser().getUid();
          user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
             root.removeView(linearLayout);
@@ -112,9 +114,14 @@ public class DonatorProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 String uri = documentSnapshot.getString("link");
-              //  Uri link = Uri.parse(uri);
-               // Toast.makeText(DonatorProfile.this," Link "+link.getClass()+"\n Oh it is"+link.toString(),Toast.LENGTH_LONG).show();
-                //  Picasso.with(DonatorProfile.this).load(link).into(Photo);
+             //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+                if(uri == null)
+                    return;
+                   Uri link = Uri.parse(uri);
+             //  uri =  uri.substring(uri.indexOf('.'));
+              /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
+                    Picasso.with(DonatorProfile.this).load(link).into(Photo);
+              //  Photo.setImageURI(link);
                //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
             }
         });

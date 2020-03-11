@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,17 +83,18 @@ public class VolunteerProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 String uri = documentSnapshot.getString("link");
-                // Picasso.get().load(uri).into(Photo);
-                // Photo.setImageURI(uri);
-                Toast.makeText(VolunteerProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
-                //اعتقد المفروض جوا الload نحط اوبجت من نوع Uri
-                // الحين هو سترينق
-                Picasso.with(VolunteerProfile.this).load(uri).into(Photo);
+                //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+                if(uri == null)
+                    return;
+                Uri link = Uri.parse(uri);
+                //  uri =  uri.substring(uri.indexOf('.'));
+                /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
+                Picasso.with(VolunteerProfile.this).load(link).into(Photo);
+                //  Photo.setImageURI(link);
                 //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
-
-
             }
         });
+
 
     }
 

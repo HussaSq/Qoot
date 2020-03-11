@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
@@ -76,6 +77,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         NEW_NAME = findViewById(R.id.Name);
         NEW_PHONE = findViewById(R.id.Phone_v);
         NEW_EMAIL = findViewById(R.id.EmailV);
+        NEW_IMAGE =findViewById(R.id.UserImage);
         NEW_PASSWORD = findViewById(R.id.Pass);
         saveButton = findViewById(R.id.button);
         Upload = findViewById(R.id.Upload);
@@ -87,6 +89,7 @@ public class EditVolunteerProfile extends AppCompatActivity {
         db=FirebaseFirestore.getInstance();
         Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         userId=mAuth.getCurrentUser().getUid();
+        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 
 
         // ---------------------- setting Hints -----------------------
@@ -332,8 +335,8 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(EditVolunteerProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
-                    Upload up = new Upload(userId,
-                            taskSnapshot.getUploadSessionUri().toString());
+                    String Link = mImageUri.toString(); //taskSnapshot.getUploadSessionUri().toString();
+                    Upload up = new Upload(userId,Link);
                     db.collection("profilePicture").document(userId).set(up);
                 }
             });

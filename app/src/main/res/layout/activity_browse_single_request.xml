@@ -44,11 +44,11 @@
                 android:padding="5dp"
                 android:src="@drawable/greanclock"
                 android:text="Status"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
             <ImageView
                 android:id="@+id/reqType1"
-                android:layout_width="wrap_content"
+                android:layout_width="23dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="5dp"

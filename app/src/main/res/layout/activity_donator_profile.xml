@@ -13,6 +13,7 @@
         android:layout_height="45dp"
         android:background="#AED581"
         tools:ignore="MissingConstraints">
+
         <ImageView
             android:id="@+id/LogoutButtonD"
             android:layout_width="41dp"
@@ -136,8 +137,8 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="48dp"
-                android:layout_height="25dp"
+                android:layout_width="22dp"
+                android:layout_height="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/textView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.451"
@@ -148,7 +149,7 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="215dp"
                 android:layout_height="13dp"
                 android:layout_marginEnd="3dp"
                 android:layout_marginRight="3dp"

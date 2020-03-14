@@ -31,6 +31,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
     FirebaseFirestore db;
     TextView type,guests, location, date, time,notes, volName, state;
     LinearLayout noteLay;
+    Button cancel;
     //  DonatorRequests r =new DonatorRequests();
 
     @Override
@@ -45,7 +46,9 @@ public class DonatorRequestInfo extends AppCompatActivity {
         time = findViewById(R.id.pickUpTime);
         notes = findViewById(R.id.note);
         volName = findViewById(R.id.volname);
+        cancel=(Button) findViewById(R.id.cancel) ;
         noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
+
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -107,6 +110,14 @@ public class DonatorRequestInfo extends AppCompatActivity {
                 }
             });
         }
+
+        // to display pop up
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              startActivity(new Intent(DonatorRequestInfo.this,cancelPopUp.class));
+            }
+        });
     }
 
     public void AddPendingIcon(){

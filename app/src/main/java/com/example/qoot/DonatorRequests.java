@@ -186,6 +186,14 @@ class Request {
     public void setUserID(String userID) {
         UserID = userID;
     }
+
+    public String getTypeOfReq() {
+        return type;
+    }
+
+    public void setTypeOfReq(String type) {
+        this.type = type;
+    }
 }
 
 class MyRequestAdapter extends BaseAdapter{
@@ -193,6 +201,7 @@ class MyRequestAdapter extends BaseAdapter{
     private Context context;
     ArrayList<Request> request;
     int layoutResourseId;
+
 
     MyRequestAdapter(Context context,ArrayList<Request> request){
         this.request=request;
@@ -204,6 +213,7 @@ class MyRequestAdapter extends BaseAdapter{
         this.request=request;
         this.context=context;
         this.layoutResourseId=activity_single_request;
+
 
     }
 
@@ -222,6 +232,7 @@ class MyRequestAdapter extends BaseAdapter{
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_request, null);
@@ -231,6 +242,10 @@ class MyRequestAdapter extends BaseAdapter{
         eventType.setText(request.get(position).EventType);
         String type = request.get(position).getType();
         String ss=request.get(position).Status;
+
+        if (request.get(position).getTypeOfReq().equals("Urgent")){
+            icon.setImageResource(R.drawable.greanclock);
+        }
         SpannableString spannableString=new SpannableString(ss);
         if(ss.equals("Pending")){
             ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));

@@ -34,6 +34,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     Button Acceptbtn;
     String userID;
     LinearLayout noteLay;
+    String VolunteerName;
 
 
     @Override
@@ -57,6 +58,10 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         Bundle intent1 = getIntent().getExtras();
          userID =mAuth.getCurrentUser().getUid();
+
+
+
+
         if (intent1 != null){
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
@@ -117,6 +122,22 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                     }
 
                                 });
+
+                                DocumentReference VolRef=db.collection("Volunteers").document(userID);
+                                VolRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        VolunteerName=documentSnapshot.getString("UserName") ;
+                                        documentReference.update("VolnteerName", VolunteerName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+
+                                        });
+                                    }
+                                });
+
                                 documentReference.update("VolnteerID", userID).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -125,6 +146,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                         startActivity(i2);
                                     }
                                 });
+
+
+
 
                             }// end of accept button
                         });

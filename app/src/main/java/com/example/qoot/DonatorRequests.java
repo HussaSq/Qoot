@@ -29,6 +29,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 
 import android.widget.AdapterView;
@@ -132,6 +133,13 @@ class Request {
     public String Status;
     public String UserID;
     public String ID;
+    public String type;
+    public String numOfGuest;
+    public String time;
+    public String date;
+    public String DonatorName;
+    public String VolunteerName;
+
 
     public String getType() {
         return type;
@@ -141,7 +149,7 @@ class Request {
         this.type = type;
     }
 
-    public String type;
+
 
     public Request(){
 

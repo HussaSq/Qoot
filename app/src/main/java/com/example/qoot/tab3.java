@@ -14,12 +14,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -36,6 +40,8 @@ public class tab3 extends Fragment {
     GridView gridView;
     ArrayList <Request> request;
     private Context mContext;
+    String userID;
+    String VolunteerName;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -53,6 +59,7 @@ public class tab3 extends Fragment {
         request=new ArrayList<Request>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        userID =mAuth.getCurrentUser().getUid();
         Query q1 = db.collection("Requests").whereEqualTo("State","Pending").whereEqualTo("RequestType","Urgent");
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -72,6 +79,7 @@ public class tab3 extends Fragment {
                                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
 
                                         Request temp = (Request) parent.getItemAtPosition(position);
                                         Intent in = getActivity().getIntent();

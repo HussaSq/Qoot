@@ -60,6 +60,7 @@ public class tab1 extends Fragment {
     String type,numOfGuest,userId,time,date,name;
     private static final String TAG = "tab1";
     Spinner events;
+    String DonatorName;
 
 
 
@@ -169,16 +170,33 @@ public class tab1 extends Fragment {
                 db = FirebaseFirestore.getInstance();
                 userId = mAuth.getCurrentUser().getUid();
 
+
+
                 //String reqId = UUID.randomUUID().toString();
-                DocumentReference documentReference = db.collection("Donators").document(userId);
+               /* DocumentReference documentReference = db.collection("Donators").document(userId);
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         name =(String)documentSnapshot.getString("UserName");
                     }
-                });
+                });*/
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
+
+                DocumentReference VolRef=db.collection("Donators").document(userId);
+                VolRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        DonatorName=documentSnapshot.getString("UserName") ;
+                        //Toast.makeText( getContext(),"the donator name"+DonatorName,Toast.LENGTH_SHORT).show();
+                       /* documentReference.update("VolnteerName", DonatorName).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                            }
+
+                        });*/
+
                 Map<String,Object> request = new HashMap<>();
                 request.put("TypeOfEvent",type);
                 request.put("NumberOfGuests",numOfGuest);
@@ -188,11 +206,13 @@ public class tab1 extends Fragment {
                 request.put("Note",""+mNotes.getText().toString());
                 request.put("State","Pending");
                 request.put("DonatorID",userId);
-                request.put("DonatorName",name);
+                request.put("DonatorName",DonatorName);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
+
+
 
 
                 db.collection("Requests")
@@ -206,8 +226,11 @@ public class tab1 extends Fragment {
                                     public void onSuccess(Void aVoid) {
 
                                       //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
+
+
                                // Toast
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                // Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
@@ -224,6 +247,9 @@ public class tab1 extends Fragment {
                                // Log.w(TAG, "Error adding document", e);
                             }
                         });
+
+                    }
+                });
 
                /*documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

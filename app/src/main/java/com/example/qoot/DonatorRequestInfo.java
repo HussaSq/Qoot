@@ -32,6 +32,8 @@ public class DonatorRequestInfo extends AppCompatActivity {
     TextView type,guests, location, date, time,notes, volName, state;
     LinearLayout noteLay;
     Button cancel;
+    Bundle intent1;
+    String ss;
     //  DonatorRequests r =new DonatorRequests();
 
     @Override
@@ -53,7 +55,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        Bundle intent1 = getIntent().getExtras();
+        intent1 = getIntent().getExtras();
 
         if (intent1 != null) {
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
@@ -65,7 +67,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     type.setText(documentSnapshot.getString("TypeOfEvent"));
 
-                    String ss = (documentSnapshot.getString("State"));
+                     ss = (documentSnapshot.getString("State"));
                     SpannableString spannableString=new SpannableString(ss);
                     if(ss.equals("Pending")){
                         ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
@@ -95,6 +97,21 @@ public class DonatorRequestInfo extends AppCompatActivity {
                     notes.setText(documentSnapshot.getString("Note"));}
                     volName.setText(documentSnapshot.getString("VolnteerName"));
 
+                    if(ss.equals("Pending") || ss.equals("Accepted"))
+                        cancel.setVisibility(View.VISIBLE);
+
+                    // to display pop up
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(DonatorRequestInfo.this,cancelPopUp.class);
+                            if(intent1 != null)
+                                i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+
+                            startActivity(i);
+                        }
+                    });
+
                     // عشان نضيف الايكون على حسب الطلب
                     switch (documentSnapshot.getString("State")) {
                         case "Pending":
@@ -111,13 +128,9 @@ public class DonatorRequestInfo extends AppCompatActivity {
             });
         }
 
-        // to display pop up
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              startActivity(new Intent(DonatorRequestInfo.this,cancelPopUp.class));
-            }
-        });
+
+
+
     }
 
     public void AddPendingIcon(){

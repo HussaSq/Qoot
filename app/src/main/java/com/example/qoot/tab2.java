@@ -80,6 +80,7 @@ public class tab2 extends Fragment {
     int day,month,year;
     public static final int REQUEST_CODE = 11; // ???
     Spinner events;
+    String DonatorName;
 
     /////////
     EditText mType,mNumOfGuest,mTime,mNotes;
@@ -257,14 +258,20 @@ public class tab2 extends Fragment {
                 userId=mAuth.getCurrentUser().getUid();
                 db = FirebaseFirestore.getInstance();
 
+                DocumentReference VolRef=db.collection("Donators").document(userId);
+                VolRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        DonatorName=documentSnapshot.getString("UserName") ;
+
                 //String reqId = UUID.randomUUID().toString();
-                DocumentReference documentReference = db.collection("Donators").document(userId);
+               /* DocumentReference documentReference = db.collection("Donators").document(userId);
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         name =(String)documentSnapshot.getString("UserName");
                     }
-                });
+                });*/
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
                 Map<String,Object> request = new HashMap<>();
@@ -309,6 +316,8 @@ public class tab2 extends Fragment {
                                 // Log.w(TAG, "Error adding document", e);
                             }
                         });
+                    }
+                });
 
                /*documentReference.set(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

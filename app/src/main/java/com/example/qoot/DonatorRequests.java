@@ -87,7 +87,9 @@ public class DonatorRequests extends AppCompatActivity {
                                 String Event = document.getString("TypeOfEvent");
                                 reqID = document.getString("RequestID");
                                 String REQTYPE= document.getString("RequestType");
-                                MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE);
+                                String DonatorName=document.getString("DonatorName");
+                                String VolunteerName=document.getString("VolnteerName");
+                                MAGIC= new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE,DonatorName,VolunteerName);
                                 request.add(MAGIC);
                                 MyRequestAdapter myRequestAdapter=new MyRequestAdapter(DonatorRequests.this,R.layout.activity_single_request,request);
                                 listView.setAdapter(myRequestAdapter);
@@ -155,12 +157,14 @@ class Request {
 
     }
 
-    public Request(String type, String stat, String id, String reqID, String typeOfReq){
+    public Request(String type, String stat, String id, String reqID, String typeOfReq,String DonatorName,String VolunteerName){
         EventType = type;
         Status = stat;
         UserID = id;
         ID = reqID;
         this.type =typeOfReq;
+        this.DonatorName=DonatorName;
+        this.VolunteerName=VolunteerName;
     }
 
     public String getID() {
@@ -177,6 +181,22 @@ class Request {
 
     public void setEventType(String eventType) {
         EventType = eventType;
+    }
+
+    public String getVolunteerName() {
+        return VolunteerName;
+    }
+
+    public void setVolunteerName(String volunteerName) {
+        VolunteerName = VolunteerName;
+    }
+
+    public String getDonatorName() {
+        return DonatorName;
+    }
+
+    public void setDonatorName(String DonatorName) {
+        this.DonatorName = DonatorName;
     }
 
     public String getStatus() {

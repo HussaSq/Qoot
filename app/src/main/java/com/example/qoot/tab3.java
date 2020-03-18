@@ -71,8 +71,10 @@ public class tab3 extends Fragment {
                                 String Time = document.getString("Time");
                                 RequestID = document.getString("RequestID");
                                 String REQTYPE= document.getString("RequestType");
+                                String DonatorName=document.getString("DonatorName");
+                                String VolunteerName=document.getString("VolnteerName");
 
-                                MAGIC = new Request(Event, Time, USerID, RequestID, REQTYPE);
+                                MAGIC = new Request(Event, Time, USerID, RequestID, REQTYPE,DonatorName,VolunteerName);
                                 request.add(MAGIC);
                                 MyBrowseRequestAdapter myRequestAdapter = new MyBrowseRequestAdapter(getActivity(), R.layout.activity_browse_single_request, request);
                                 gridView.setAdapter(myRequestAdapter);

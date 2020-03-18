@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -176,7 +177,9 @@ public class VolunteerRequests extends AppCompatActivity {
                             String Event = document.getString("TypeOfEvent");
                             reqID = document.getString("RequestID");
                             String REQTYPE= document.getString("RequestType");
-                            MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE);
+                            String DonatorName=document.getString("DonatorName");
+                            String VolunteerName=document.getString("VolnteerName");
+                            MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE,DonatorName,VolunteerName);
                             request.add(MAGIC);
                             MyVolRequestAdapter myRequestAdapter = new MyVolRequestAdapter(VolunteerRequests.this, R.layout.activity_single_request, request);
                             listView.setAdapter(myRequestAdapter);
@@ -201,7 +204,9 @@ public class VolunteerRequests extends AppCompatActivity {
                                     String Event = dc.getDocument().getString("TypeOfEvent");
                                     reqID = dc.getDocument().getString("RequestID");
                                     String REQTYPE=dc.getDocument().getString("RequestType");
-                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID,REQTYPE );
+                                    String DonatorName=dc.getDocument().getString("DonatorName");
+                                    String VolunteerName=dc.getDocument().getString("VolnteerName");
+                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID,REQTYPE,DonatorName,VolunteerName );
                                     request.add(MAGIC);
                                     break;
                                 case MODIFIED:
@@ -267,6 +272,10 @@ public class VolunteerRequests extends AppCompatActivity {
             TextView eventType = (TextView) view.findViewById(R.id.EventType1);
             TextView status = (TextView) view.findViewById(R.id.status1);
             eventType.setText(request.get(position).EventType);
+            ImageView icon = view.findViewById(R.id.reqType1);
+            if (request.get(position).getTypeOfReq().equals("Urgent")){
+                icon.setImageResource(R.drawable.greanclock);
+            }
             String ss = request.get(position).Status;
             SpannableString spannableString = new SpannableString(ss);
             if (ss.equals("Pending")) {

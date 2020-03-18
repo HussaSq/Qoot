@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseFirestore db;
     private FirebaseAuth mAuth;
     String userId;
-
+    ImageView back;
     int PERMISSION_ID = 44;
     FusedLocationProviderClient mFusedLocationClient;
 
@@ -61,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         Choose = findViewById(R.id.pickLocation);
         mAuth = FirebaseAuth.getInstance();
+        back = findViewById(R.id.imageView);
 
         db=FirebaseFirestore.getInstance();
         userId=mAuth.getCurrentUser().getUid();
@@ -90,6 +93,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                         هنا مفروض نسوي INTENT عشان نرجع المعلومات كلها زي ما كانت
+                */
+                Intent i = new Intent(MapsActivity.this,tab1.class);
+                startActivity(i);
+            }
+        });
 
 
     }
@@ -97,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-      //  mMap.setMyLocationEnabled(true);
+        //  mMap.setMyLocationEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
@@ -105,8 +118,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double y =(extras.getDouble("lon"));
 
             LatLng ur = new LatLng(x, y);
-            mMap.addMarker(new MarkerOptions().position(ur).title("Marker in Sydney"));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(ur));
+            mMap.addMarker(new MarkerOptions().position(ur).title(ur.toString()));
+
+            CameraPosition myPosition = new CameraPosition.Builder()
+                    .target(ur).zoom(17).bearing(90).tilt(30).build();
+            mMap.animateCamera(
+                    CameraUpdateFactory.newCameraPosition(myPosition));
+          //  mMap.moveCamera(CameraUpdateFactory.newLatLng(ur));
             Choose = findViewById(R.id.pickLocation);
             mAuth = FirebaseAuth.getInstance();
 
@@ -125,19 +143,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     documentReference.update("Location",location).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            //  Toast.makeText( EditVolunteerProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                            Toast.makeText( MapsActivity.this,"Request submitted successfully",Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(MapsActivity.this, DonatorRequests.class);
+                            startActivity(i);
                         }
                     });
-
-                    Intent i = new Intent(MapsActivity.this, DonatorRequests.class);
-                    startActivity(i);
-
                 }
             });
-
-
-
-
         }
 
         // Add a marker in Sydney and move the camera
@@ -145,14 +157,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
-
-    public void OpenRequest(){
-         Intent intent1 = getIntent();
-         String requestID = intent1.getStringExtra("RequestID");
-         Intent intent = new Intent(MapsActivity.this,tab2.class);
-         intent.putExtra("RequestID",requestID );
-         startActivity(intent);
-    }
-
 
 }

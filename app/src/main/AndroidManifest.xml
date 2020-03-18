@@ -5,8 +5,10 @@
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
+
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -28,9 +30,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VolunteerViewInfo"></activity>
         <activity android:name=".SingleNotification" />
-        <activity android:name=".location" />
+        <activity android:name=".location"></activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,7 +44,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <activity
+            android:name=".MapsActivity2" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -71,9 +74,9 @@
         <activity android:name=".SignUpAs" />
         <activity android:name=".VolunteerRequests" />
         <activity android:name=".AllRequests" />
-        <activity
-            android:name=".cancelPopUp"
-            android:theme="@style/AppTheme.customWindowPop" />
+        <activity android:name=".cancelPopUp" android:theme="@style/AppTheme.customWindowPop" >
+
+        </activity>
     </application>
 
 </manifest>

@@ -147,7 +147,6 @@
             android:layout_height="60dp"
             android:layout_marginTop="5dp">
 
-
         </LinearLayout>
 
         <ImageView
@@ -157,7 +156,7 @@
             android:layout_marginLeft="250dp"
             android:layout_marginTop="40dp"
             android:src="@drawable/ic_send_black_24dp"
-            app:maxImageSize="30dp" />
+            app:maxImageSize="30dp"/>
 
 
         <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -180,6 +179,7 @@
             app:maxImageSize="30dp"
             tools:ignore="RelativeOverlap"
             tools:visibility="visible" />-->
+
     </LinearLayout>
 
 

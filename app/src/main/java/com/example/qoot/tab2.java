@@ -127,8 +127,6 @@ public class tab2 extends Fragment {
                 if(parent.getItemAtPosition(position).equals("Select Event Type")) {
 
                 }
-
-
             }
 
             @Override
@@ -302,8 +300,7 @@ public class tab2 extends Fragment {
 
                                     }
                                 });
-
-                                Intent i = new Intent(getActivity(), location.class);
+                                Intent i = new Intent(getActivity(), MapsActivity2.class);
                                 i.putExtra("RequestID",documentReference.getId());
                                 startActivity(i);
                                 ((Activity) getActivity()).overridePendingTransition(0, 0);
@@ -336,9 +333,7 @@ public class tab2 extends Fragment {
         return view;
 
     }
-    public void submitReq(View view) {
 
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

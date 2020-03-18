@@ -212,9 +212,6 @@ public class tab1 extends Fragment {
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
 
-
-
-
                 db.collection("Requests")
                         .add(request)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -229,12 +226,11 @@ public class tab1 extends Fragment {
 
                                     }
                                 });
-
-
                                // Toast
                                 //Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                // Toast.makeText(getActivity(), "Your Request Submitted Successfully " , Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(getActivity(), location.class);
+                               // Toast.makeText(getActivity(),"ID "+documentReference.getId(),Toast.LENGTH_SHORT ).show();
                                 i.putExtra("RequestID",documentReference.getId());
                                 startActivity(i);
                                 ((Activity) getActivity()).overridePendingTransition(0, 0);

@@ -228,7 +228,7 @@ public class EditDonatorProfile extends AppCompatActivity {
             Upload.setClickable(true);
 
             StorageReference file = mStorageRef.child(userId
-                    +"."+ getFileExtension(mImageUri));
+                    +".png");
             UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

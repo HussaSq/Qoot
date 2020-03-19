@@ -294,6 +294,7 @@
 
 
     <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="50dp"
         android:layout_height="60dp"
         android:src="@drawable/chat"
@@ -324,6 +325,21 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
         app:layout_constraintVertical_bias="0.356" />
     <!-- android:onClick="" -->
+
+    <CheckBox
+        android:id="@+id/checkDel"
+        android:layout_width="122dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="40dp"
+        android:text="Delivered?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintVertical_bias="0.0" />
+    <!-- android:onClick="addListnerToCheckBox" -->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.example.qoot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,10 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     String userID;
     LinearLayout noteLay;
     String VolunteerName;
+    CheckBox checkDelivered;
+    ProgressBar progressBar;
+    ProgressDialog progressDialog;
+    Bundle intent1;
 
 
     @Override
@@ -52,12 +60,12 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         DonName = findViewById(R.id.volname);
         Acceptbtn = findViewById(R.id.offers);
         noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
-
+        checkDelivered = (CheckBox)findViewById(R.id.checkDel);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        Bundle intent1 = getIntent().getExtras();
-         userID =mAuth.getCurrentUser().getUid();
+        intent1 = getIntent().getExtras();
+        userID =mAuth.getCurrentUser().getUid();
 
 
 
@@ -100,6 +108,22 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             notes.setText(documentSnapshot.getString("Note"));}
                         DonName.setText(documentSnapshot.getString("DonatorName"));
 
+                        // Delivered checkbox..
+                        checkDelivered.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                                if(isChecked) {
+                                    Intent pop = new Intent(VolunteerRequestInfo.this, PopReview.class);
+                                    if(intent1!= null)
+                                        pop.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+
+                                    startActivity(pop);
+                                }else{
+                                    // nothing
+                                }
+                            }
+                        });
+
                         //volName.setText(documentSnapshot.getString("Volunteer"));
                         //Bundle intent1 = getIntent().getExtras();
                         //String ReqIDDD = (String) intent1.getSerializable("RequestID");
@@ -107,6 +131,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
                         if (documentSnapshot.getString("State").equals("Pending"))
                         {
+                            checkDelivered.setVisibility(View.GONE);
                             Acceptbtn.setVisibility(View.VISIBLE);
                             Acceptbtn.setOnClickListener(new View.OnClickListener() {
                             Bundle intent1 = getIntent().getExtras();

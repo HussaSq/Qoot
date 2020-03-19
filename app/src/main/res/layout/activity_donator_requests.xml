@@ -159,9 +159,8 @@
         android:id="@+id/addrequest"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_above="@+id/bottom_navigation_don"
         android:layout_marginLeft="290dp"
-        android:layout_marginTop="570dp"
+        android:layout_marginTop="630dp"
         android:layout_marginBottom="0dp"
         android:onClick="OpenRequestForm"
         android:src="@drawable/orangeplus" />

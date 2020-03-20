@@ -32,6 +32,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SingleNotification" />
         <activity android:name=".location"></activity>
+        <activity android:name=".PopReview"></activity>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

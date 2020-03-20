@@ -196,7 +196,6 @@ public class tab1 extends Fragment {
                             }
 
                         });*/
-
                 Map<String,Object> request = new HashMap<>();
                 request.put("TypeOfEvent",type);
                 request.put("NumberOfGuests",numOfGuest);
@@ -211,7 +210,7 @@ public class tab1 extends Fragment {
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
-
+                //request.put("Photo",);
                 db.collection("Requests")
                         .add(request)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

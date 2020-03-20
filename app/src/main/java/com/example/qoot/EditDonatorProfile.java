@@ -44,6 +44,7 @@ public class EditDonatorProfile extends AppCompatActivity {
     private StorageReference mStorageRef;
     String userId;
     private StorageTask UploadTask;
+    StorageReference file;
 
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -226,8 +227,7 @@ public class EditDonatorProfile extends AppCompatActivity {
     private void uploadFile() {
         if (mImageUri != null){
             Upload.setClickable(true);
-
-            StorageReference file = mStorageRef.child(userId
+           file = mStorageRef.child(userId
                     +".png");
             UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

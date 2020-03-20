@@ -95,6 +95,11 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             state.setText(spannableString);
                         }
+                        else if(ss.equals("Delivered")){
+                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            state.setText(spannableString);
+                        }
 
                         guests.setText(documentSnapshot.getString("NumberOfGuests"));
                         location.setText(documentSnapshot.getString("Location"));
@@ -113,6 +118,15 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             @Override
                             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                                 if(isChecked) {
+                                    checkDelivered.setEnabled(false);
+                                    String ReqIDDD = (String) intent1.getSerializable("RequestID");
+                                    DocumentReference documentReference2 = db.collection("Requests").document(ReqIDDD);
+                                    documentReference2.update("State","Delivered").addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText( VolunteerRequestInfo.this,"updated successfully",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     Intent pop = new Intent(VolunteerRequestInfo.this, PopReview.class);
                                     if(intent1!= null)
                                         pop.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
@@ -128,6 +142,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         //Bundle intent1 = getIntent().getExtras();
                         //String ReqIDDD = (String) intent1.getSerializable("RequestID");
                        // DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
+                        if (documentSnapshot.getString("State").equals("Delivered"))
+                        {
+                            checkDelivered.setVisibility(View.GONE);}
 
                         if (documentSnapshot.getString("State").equals("Pending"))
                         {

@@ -51,15 +51,14 @@ public class DonatorNotifications extends AppCompatActivity {
     FirebaseFirestore db;
     String UserID,reqID;
     Request MAGIC;
-    ListView listView;
+    ListView listViewNoti;
     ArrayList<Request> request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_notifications);
-        setContentView(R.layout.activity_donator_requests);
-        listView=findViewById(R.id.list_Request);
+        listViewNoti=findViewById(R.id.list_Requestnoti);
         request=new ArrayList<Request>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -116,8 +115,8 @@ public class DonatorNotifications extends AppCompatActivity {
                                     request.add(MAGIC);
 
                                 MyNotificationsAdapter myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,reqID);
-                                listView.setAdapter(myRequestAdapter);
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                listViewNoti.setAdapter(myRequestAdapter);
+                                listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                         final Request temp = (Request) parent.getItemAtPosition(position);

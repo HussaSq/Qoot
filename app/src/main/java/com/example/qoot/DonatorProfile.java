@@ -28,6 +28,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -114,17 +115,30 @@ public class DonatorProfile extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 String uri = documentSnapshot.getString("link");
-             //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+             // StorageReference storageReference = StorageReference.getReference("Images/"+userId+".png");
+             //   StorageReference mImageRef = FirebaseStorage.getInstance().getReference("Images/"+userId+".png");
+            //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
+//              if (mImageRef == null){
+//                  return;
+//              }
                 if(uri == null)
-                    return;
-                   Uri link = Uri.parse(uri);
-             //  uri =  uri.substring(uri.indexOf('.'));
-              /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
-                    Picasso.with(DonatorProfile.this).load(link).into(Photo);
-              //  Photo.setImageURI(link);
-               //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
+                  return;
+                       Uri link = Uri.parse(String.valueOf(uri));
+                       Picasso.with(DonatorProfile.this).load(link).into(Photo);
+//                Toast.makeText(DonatorProfile.this," Link "+link,Toast.LENGTH_LONG).show();
+//
+//                //  uri =  uri.substring(uri.indexOf('.'));
+//              /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
+//                    Picasso.with(DonatorProfile.this).load(link).into(Photo);
+//              //  Photo.setImageURI(link);
+
             }
         });
+
+        // Create a storage reference from our app
+
+
+
 
 //        mfStore.child("Images/"+userId+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 //            @Override

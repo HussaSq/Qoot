@@ -16,6 +16,17 @@
         android:layout_height="70dp"
         android:orientation="horizontal"
         >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/colo1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:elevation="5dp"
+            android:src="@drawable/profileimge"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFFFF"
+            />
 
         <!-- <TextView
              android:id="@+id/volunteerName"

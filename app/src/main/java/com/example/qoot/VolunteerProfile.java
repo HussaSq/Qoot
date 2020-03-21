@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -20,7 +22,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import javax.annotation.Nullable;
 
@@ -78,24 +85,27 @@ public class VolunteerProfile extends AppCompatActivity {
             }
         });
 
-        DocumentReference documentReference1 =db.collection("profilePicture").document(userId);
-        documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        String user = mAuth.getCurrentUser().getUid();
+        download(user+".png");
+    }
+    private void download(String imageName) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference mainRef = firebaseStorage.getReference("Images");
+        final File file = new File(getFilesDir(), imageName);
+        mainRef.child(imageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                String uri = documentSnapshot.getString("link");
-                //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
-                if(uri == null)
-                    return;
-                Uri link = Uri.parse(uri);
-                //  uri =  uri.substring(uri.indexOf('.'));
-                /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
-                Picasso.with(VolunteerProfile.this).load(link).into(Photo);
-                //  Photo.setImageURI(link);
-                //Picasso.get().(DonatorProfile.this).load(uri).into(Photo);
+            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    Uri u =Uri.parse(file.toString());
+                    Photo.setImageURI(u);
+                    Photo.requestLayout();
+                    Photo.getLayoutParams().height = 400;
+                    Photo.getLayoutParams().width = 400;
+                } else {
+
+                }
             }
         });
-
-
     }
 
     public void OpenEditProfilePage(View view){

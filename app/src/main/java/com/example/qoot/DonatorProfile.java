@@ -3,8 +3,6 @@ package com.example.qoot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,14 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.internal.service.Common;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -31,17 +28,16 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
 import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
-     TextView Username,warnM;
-     ImageView Photo,warn;
-     LinearLayout linearLayout;
-     ConstraintLayout root ;
+    TextView Username;
+    ImageView Photo;
+    LinearLayout linearLayout;
+    ConstraintLayout root ;
     // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
@@ -79,16 +75,13 @@ public class DonatorProfile extends AppCompatActivity {
         Photo = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
         root = findViewById(R.id.rootProfile);
-        //warnM = findViewById(R.id.warnMess);
         mAuth = FirebaseAuth.getInstance();
         mfStore = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
         final String userId=mAuth.getCurrentUser().getUid();
-         user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         if(!user.isEmailVerified()){
             root.removeView(linearLayout);
-            //linearLayout.setVisibility(View.VISIBLE);
-            //warnM.setVisibility(View.VISIBLE);
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
@@ -109,52 +102,27 @@ public class DonatorProfile extends AppCompatActivity {
 
             }
         });
-
-        DocumentReference documentReference1 =db.collection("profilePicture").document(userId);
-        documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+        String user = mAuth.getCurrentUser().getUid();
+        download(user+".png");
+            }
+    private void download(String imageName) {
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference mainRef = firebaseStorage.getReference("Images");
+        final File file = new File(getFilesDir(), imageName);
+        mainRef.child(imageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
             @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                String uri = documentSnapshot.getString("link");
-             // StorageReference storageReference = StorageReference.getReference("Images/"+userId+".png");
-             //   StorageReference mImageRef = FirebaseStorage.getInstance().getReference("Images/"+userId+".png");
-            //   Toast.makeText(DonatorProfile.this," Link "+uri,Toast.LENGTH_LONG).show();
-//              if (mImageRef == null){
-//                  return;
-//              }
-                if(uri == null)
-                  return;
-                       Uri link = Uri.parse(String.valueOf(uri));
-                       Picasso.with(DonatorProfile.this).load(link).into(Photo);
-//                Toast.makeText(DonatorProfile.this," Link "+link,Toast.LENGTH_LONG).show();
-//
-//                //  uri =  uri.substring(uri.indexOf('.'));
-//              /// mfStore.getFile(new File("Images/" + userId + "." + uri + ""));
-//                    Picasso.with(DonatorProfile.this).load(link).into(Photo);
-//              //  Photo.setImageURI(link);
+            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                  Uri u =Uri.parse(file.toString());
+                    Photo.setImageURI(u);
+                    Photo.requestLayout();
+                    Photo.getLayoutParams().height = 400;
+                    Photo.getLayoutParams().width = 400;
+                } else {
 
+                }
             }
         });
-
-        // Create a storage reference from our app
-
-
-
-
-//        mfStore.child("Images/"+userId+".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                // Got the download URL for 'users/me/profile.png'
-//
-//                Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
-//                generatedFilePath = downloadUri.toString(); /// The string(file link) that you need
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                // Handle any errors
-//            }
-//        });
-
     }
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));

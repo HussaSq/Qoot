@@ -60,21 +60,21 @@ public class EditDonatorProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_donator_profile);
-            NEW_IMAGE = findViewById(R.id.UserImage);
-            NEW_NAME = findViewById(R.id.Name);
-            NEW_PHONE = findViewById(R.id.Phone_v);
-            NEW_EMAIL =findViewById(R.id.emailDonator);
-            NEW_PASSWORD =findViewById(R.id.Password);
-            saveButton = findViewById(R.id.button);
-            Upload = findViewById(R.id.Upload);
-            Choose = findViewById(R.id.choose);
+        NEW_IMAGE = findViewById(R.id.UserImage);
+        NEW_NAME = findViewById(R.id.Name);
+        NEW_PHONE = findViewById(R.id.Phone_v);
+        NEW_EMAIL =findViewById(R.id.emailDonator);
+        NEW_PASSWORD =findViewById(R.id.Password);
+        saveButton = findViewById(R.id.button);
+        Upload = findViewById(R.id.Upload);
+        Choose = findViewById(R.id.choose);
 
-            // firebase initialize
-            mAuth = FirebaseAuth.getInstance();
-            db=FirebaseFirestore.getInstance();
-            Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            userId=mAuth.getCurrentUser().getUid();
-            mStorageRef = FirebaseStorage.getInstance().getReference("Images");
+        // firebase initialize
+        mAuth = FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
+        Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userId=mAuth.getCurrentUser().getUid();
+        mStorageRef = FirebaseStorage.getInstance().getReference("Images");
 //--------------------------------------------------------------------------------------------------------------------
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -96,29 +96,29 @@ public class EditDonatorProfile extends AppCompatActivity {
             }
         });
 
-                 // retrieve the image
+        // retrieve the image
 //---------------------------------------------------------------------------------------------------------------------
         //------------------------ Code for Pic------------------------------------------------------
 
-                Choose.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        openFileChooser();
-                    }
-                });
+        Choose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
 
 
-                Upload.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         if (UploadTask != null && UploadTask.isInProgress()){
+        Upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UploadTask != null && UploadTask.isInProgress()){
 
-                            Toast.makeText(EditDonatorProfile.this,"Hold on Image is Uploading",Toast.LENGTH_SHORT).show();
-                         }else
-                             uploadFile();
+                    Toast.makeText(EditDonatorProfile.this,"Hold on Image is Uploading",Toast.LENGTH_SHORT).show();
+                }else
+                    uploadFile();
 
-                    }
-                });
+            }
+        });
 
 
 
@@ -126,98 +126,98 @@ public class EditDonatorProfile extends AppCompatActivity {
 
 
         //-------------------------- OverAll update --------------------------------------------------
-            saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
+                s1 = NEW_NAME.getText().toString();
+                s2 = NEW_PHONE.getText().toString();
+                s3 =NEW_PASSWORD.getText().toString();
+                s4 = NEW_EMAIL.getText().toString();
+
+                //------ check name -------------
+                if (!s1.isEmpty()) {
                     s1 = NEW_NAME.getText().toString();
-                    s2 = NEW_PHONE.getText().toString();
-                    s3 =NEW_PASSWORD.getText().toString();
-                    s4 = NEW_EMAIL.getText().toString();
-
-                    //------ check name -------------
-                   if (!s1.isEmpty()) {
-                       s1 = NEW_NAME.getText().toString();
-                       if (s1.length() == 1) {
-                           NEW_NAME.setError("Please enter a valid name length");
-                           return;
-                       }
-                       s1 = NEW_NAME.getText().toString();
-                   }
-
-                   if (!s4.isEmpty()){
-                       if(!isValid(s4)){
-                       NEW_EMAIL.setError("Enter a valid Email");
-                       return;}
-                       s4 =NEW_EMAIL.getText().toString();
-                   }
-                    // ---------------- check number -------------
-                    if(!s2.isEmpty()) {
-                        s2 = NEW_PHONE.getText().toString();
-                        if (s2.length() != 10) {
-                            NEW_PHONE.setError("Enter a valid phone length (10 Digits)");
-                            return;
-                        }
-                        s2 = NEW_PHONE.getText().toString();
-                        if (!s2.startsWith("05")) {
-                            NEW_PHONE.setError("Enter a valid phone number (Start with 05)");
-                            return;
-                        }
-                        s2 = NEW_PHONE.getText().toString();
-                        if (containsLetters(s2)) {
-                            NEW_PHONE.setError("Enter a phone number with no letters");
-                            return;
-                        }
-                        s2 = NEW_PHONE.getText().toString();
-                    }//end if empty
-
-                    if (!s3.isEmpty()){
-                        if (s3.length() < 8) {
-                            NEW_PASSWORD.setError("Must Be At Least 8 Characters");
-                            return;
-                        }
-                        s3 =NEW_PASSWORD.getText().toString();
+                    if (s1.length() == 1) {
+                        NEW_NAME.setError("Please enter a valid name length");
+                        return;
                     }
                     s1 = NEW_NAME.getText().toString();
-                    s2 = NEW_PHONE.getText().toString();
-                    // معليش على البدائيه بس اذا عندكم حل احسن قولو
-                    //حلك رائع بلا دراما:)
-                    int counter=0;
-                    if (Uid != null) {
-                        if (!(s1.isEmpty()) ){
-                            if (s1 != null)
-                                Updatename(s1);
-                        }
-                        else
-                            counter++;
-                        if (!(s2.isEmpty())) {
-                            if (s2 != null)
-                                UpdatePhone(s2);
-                        }
-                        else
-                            counter++;
-                        if (!s3.isEmpty() && s3 != null){
-                            UpdatePassword(s3);
-                        }
-                        else
-                            counter++;
-                        if (!s4.isEmpty() && s4 != null){
-                            UpdateEmail(s4);
-                        }else
-                            counter++;
+                }
 
-                        if (counter == 4)
-                        {
-                            Toast.makeText(EditDonatorProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
-                        }
-                        Toast.makeText(EditDonatorProfile.this, "Changes Saved successfully", Toast.LENGTH_SHORT).show();
+                if (!s4.isEmpty()){
+                    if(!isValid(s4)){
+                        NEW_EMAIL.setError("Enter a valid Email");
+                        return;}
+                    s4 =NEW_EMAIL.getText().toString();
+                }
+                // ---------------- check number -------------
+                if(!s2.isEmpty()) {
+                    s2 = NEW_PHONE.getText().toString();
+                    if (s2.length() != 10) {
+                        NEW_PHONE.setError("Enter a valid phone length (10 Digits)");
+                        return;
+                    }
+                    s2 = NEW_PHONE.getText().toString();
+                    if (!s2.startsWith("05")) {
+                        NEW_PHONE.setError("Enter a valid phone number (Start with 05)");
+                        return;
+                    }
+                    s2 = NEW_PHONE.getText().toString();
+                    if (containsLetters(s2)) {
+                        NEW_PHONE.setError("Enter a phone number with no letters");
+                        return;
+                    }
+                    s2 = NEW_PHONE.getText().toString();
+                }//end if empty
+
+                if (!s3.isEmpty()){
+                    if (s3.length() < 8) {
+                        NEW_PASSWORD.setError("Must Be At Least 8 Characters");
+                        return;
+                    }
+                    s3 =NEW_PASSWORD.getText().toString();
+                }
+                s1 = NEW_NAME.getText().toString();
+                s2 = NEW_PHONE.getText().toString();
+                // معليش على البدائيه بس اذا عندكم حل احسن قولو
+                //حلك رائع بلا دراما:)
+                int counter=0;
+                if (Uid != null) {
+                    if (!(s1.isEmpty()) ){
+                        if (s1 != null)
+                            Updatename(s1);
+                    }
+                    else
+                        counter++;
+                    if (!(s2.isEmpty())) {
+                        if (s2 != null)
+                            UpdatePhone(s2);
+                    }
+                    else
+                        counter++;
+                    if (!s3.isEmpty() && s3 != null){
+                        UpdatePassword(s3);
+                    }
+                    else
+                        counter++;
+                    if (!s4.isEmpty() && s4 != null){
+                        UpdateEmail(s4);
+                    }else
+                        counter++;
+
+                    if (counter == 4)
+                    {
+                        Toast.makeText(EditDonatorProfile.this, "No Changes on profile", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
                     }
+                    Toast.makeText(EditDonatorProfile.this, "Changes Saved successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(EditDonatorProfile.this, DonatorProfile.class));
                 }
-            });
-        }
+            }
+        });
+    }
 
     public void OpenProfileDonator(View view) {
         startActivity(new Intent(EditDonatorProfile.this,DonatorProfile.class));
@@ -227,15 +227,14 @@ public class EditDonatorProfile extends AppCompatActivity {
     private void uploadFile() {
         if (mImageUri != null){
             Upload.setClickable(true);
-           file = mStorageRef.child(userId
-                    +".png");
+            file = mStorageRef.child(userId+".png");
             UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(EditDonatorProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
-                  String Link = mImageUri.toString(); //taskSnapshot.getUploadSessionUri().toString();
-                    Upload up = new Upload(userId,Link);
-                    db.collection("profilePicture").document(userId).set(up);
+//                    String Link = mImageUri.toString(); //taskSnapshot.getUploadSessionUri().toString();
+//                    Upload up = new Upload(userId,Link);
+//                    db.collection("profilePicture").document(userId).set(up);
                 }
             });
         }// ----- end if -----
@@ -258,22 +257,11 @@ public class EditDonatorProfile extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-          // Picasso.with(this).load(mImageUri).into(NEW_IMAGE);
             NEW_IMAGE.setImageURI(mImageUri);
+            NEW_IMAGE.requestLayout();
+            NEW_IMAGE.getLayoutParams().height = 400;
+            NEW_IMAGE.getLayoutParams().width = 400;
         }
-    }
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-
-    public void editPhoto(View v){
-
-        //open file chooser
-      //  OpenFileChooser();
-        // .... here we will have the code for editing the photo that I ( ABEER ) don't know yet :(
     }
     public void Updatename(String name){
 
@@ -282,10 +270,9 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("UserName",NEW_NAME.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-              //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
-
     }
     public void UpdatePassword(String pass){
         // abeer
@@ -307,24 +294,9 @@ public class EditDonatorProfile extends AppCompatActivity {
         documentReference.update("PhoneNumber",NEW_PHONE.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-               // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
+                // Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    // extra methods for checking
-    public final boolean containsDigit(String s) {
-        boolean containsDigit = false;
-
-        if (s != null && !s.isEmpty()) {
-            for (char c : s.toCharArray()) {
-                if (containsDigit = Character.isDigit(c)) {
-                    break;
-                }
-            }
-        }
-
-        return containsDigit;
     }
     public final boolean containsLetters(String s) {
         boolean containsLetters = false;
@@ -345,99 +317,11 @@ public class EditDonatorProfile extends AppCompatActivity {
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
-
         Pattern pat = Pattern.compile(emailRegex);
         if (email == null)
             return false;
         return pat.matcher(email).matches();
     }
-
-
-
-        /*      اذا ما ضبط اللي فوق هذي بلان بي -عبير
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-        .setDisplayName("Jane Q. User")
-        .setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-        .build();
-
-user.updateProfile(profileUpdates)
-        .addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "User profile updated.");
-                }
-            }
-        });
-     */
-        /*
-                *******    CODE FOR UPLOADING A FILE TO THE STORAGE *******
-
-                          Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
-        StorageReference riversRef = storageRef.child("images/rivers.jpg");
-
-        riversRef.putFile(file)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                });
-
-
-
-         */
-
-        // --------------------- هذي خرابيطي -----------------------------------
-    /*  private void OpenFileChooser(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==PICK_IMAGE_REQUEST && resultCode == RESULT_OK &&
-        data !=null && data.getData() != null){
-            ImageUri = data.getData(); // has the uri of our pic
-            Picasso.with(this).load(ImageUri).into(NEW_IMAGE);
-            UploadImage();
-        }
-    }
-    private String getFileExtension(Uri uri){
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-    return mime.getExtensionFromMimeType(cr.getType(uri));
-    }
-    public void UploadImage(){
-        if (ImageUri != null){
-                                // 786876.JPG for example
-            StorageReference fireRef = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(ImageUri));
-
-            fireRef.putFile(ImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(EditDonatorProfile.this,"Image Uploaded", Toast.LENGTH_SHORT).show();
-                           // Image img = new Image(taskSnapshot.get.toString());
-                        }
-                    });
-        }else{
-            Toast.makeText(this,"No Image Selected", Toast.LENGTH_SHORT).show();
-       */
-
 }
 
 class Upload {

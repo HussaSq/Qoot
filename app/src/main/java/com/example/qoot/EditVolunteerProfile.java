@@ -166,24 +166,15 @@ public class EditVolunteerProfile extends AppCompatActivity {
                 openFileChooser();
             }
         });
-
-
         Upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (UploadTask != null && UploadTask.isInProgress()){
-
                     Toast.makeText(EditVolunteerProfile.this,"Hold on Image is Uploading",Toast.LENGTH_SHORT).show();
                 }else
                     uploadFile();
-
             }
         });
-
-
-
-
-
         saveButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -321,7 +312,6 @@ public class EditVolunteerProfile extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             mImageUri = data.getData();
-            // Picasso.with(this).load(mImageUri).into(NEW_IMAGE);
             NEW_IMAGE.setImageURI(mImageUri);
         }
     }
@@ -330,29 +320,20 @@ public class EditVolunteerProfile extends AppCompatActivity {
             Upload.setClickable(true);
 
             StorageReference file = mStorageRef.child(userId
-                    +"."+ getFileExtension(mImageUri));
+                    +".png");
             UploadTask = file.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(EditVolunteerProfile.this,"Image uploaded successfully",Toast.LENGTH_SHORT).show();
-                    String Link = mImageUri.toString(); //taskSnapshot.getUploadSessionUri().toString();
-                    Upload up = new Upload(userId,Link);
-                    db.collection("profilePicture").document(userId).set(up);
                 }
             });
-        }// ----- end if -----
+        }
         else
         {
             Toast.makeText(this,"Choose a file first",Toast.LENGTH_SHORT).show();
         }
 
     }
-    private String getFileExtension(Uri uri) {
-        ContentResolver cR = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
     public void OpenProfile(View view) {
         startActivity(new Intent(EditVolunteerProfile.this,VolunteerProfile.class));
     }
@@ -395,21 +376,6 @@ public class EditVolunteerProfile extends AppCompatActivity {
             user.updateEmail(em);
         }
     }
-
-    // extra methods for checking
-    public final boolean containsDigit(String s) {
-        boolean containsDigit = false;
-
-        if (s != null && !s.isEmpty()) {
-            for (char c : s.toCharArray()) {
-                if (containsDigit = Character.isDigit(c)) {
-                    break;
-                }
-            }
-        }
-
-        return containsDigit;
-    }
     public final boolean containsLetters(String s) {
         boolean containsLetters = false;
 
@@ -437,8 +403,6 @@ public class EditVolunteerProfile extends AppCompatActivity {
     }
 
     public void UpdateVehicle(String newVehicle){
-
-
         DocumentReference documentReference =db.collection("Volunteers").document(userId);
         documentReference.update("Vehicle",newVehicle).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

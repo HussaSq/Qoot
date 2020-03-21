@@ -10,167 +10,170 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
     <LinearLayout
 
-        android:layout_height="430dp"
         android:layout_width="330dp"
-        android:orientation="vertical"
-        android:background="@drawable/box"
-        android:layout_marginTop="30dp"
+        android:layout_height="451dp"
         android:layout_marginLeft="15dp"
-        >
+        android:layout_marginTop="30dp"
+        android:background="@drawable/box"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/food"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"/>
-
-        <Spinner
-            android:id="@+id/FoodType"
-            android:layout_width="260dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="14dp"
-            android:backgroundTint="@color/colorAccent"
-            android:contextClickable="true"
-            android:drawSelectorOnTop="true"
-            android:ems="10"
-            android:spinnerMode="dropdown"
-            android:textColor="@color/common_google_signin_btn_text_light_default" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
-        >
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/guest"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"/>
-        <EditText
-            android:id="@+id/numberOfGuest"
-            android:layout_width="260dp"
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:ems="10"
-            android:inputType="number"
-            android:layout_marginLeft="12dp"
-            android:hint="Number Of Guests"/>
-    </LinearLayout>
+            android:layout_marginTop="10dp">
 
-    <LinearLayout
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/food" />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_today_black_24dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"/>
+            <Spinner
+                android:id="@+id/FoodType"
+                android:layout_width="260dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp"
+                android:backgroundTint="@color/colorAccent"
+                android:contextClickable="true"
+                android:drawSelectorOnTop="true"
+                android:ems="10"
+                android:spinnerMode="dropdown"
+                android:textColor="@color/common_google_signin_btn_text_light_default" />
 
-        <TextView
-            android:id="@+id/pickUpDate"
-            android:layout_width="111dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="Today Date"
-            android:inputType="date"
-            android:textSize="18sp" />
+        </LinearLayout>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/pickuptime" />
-
-        <TextView
-            android:id="@+id/pickUpTime"
-            android:layout_width="118dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="Pick Up Time"
-            android:inputType="time"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:src="@drawable/note"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"/>
-        <EditText
-            android:id="@+id/note"
-            android:layout_width="260dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:layout_marginLeft="12dp"
-            android:hint="Any Note?"
-            android:gravity="start|top"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/guest" />
+
+            <EditText
+                android:id="@+id/numberOfGuest"
+                android:layout_width="260dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:ems="10"
+                android:hint="Number Of Guests"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_today_black_24dp" />
+
+            <TextView
+                android:id="@+id/pickUpDate"
+                android:layout_width="111dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="Today Date"
+                android:inputType="date"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/pickuptime" />
+
+            <TextView
+                android:id="@+id/pickUpTime"
+                android:layout_width="118dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:ems="10"
+                android:hint="Pick Up Time"
+                android:inputType="time"
+                android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/note" />
+
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="260dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Any Note?"
+                android:inputType="textPersonName" />
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="116dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:padding="0dp">
 
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="127dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="90dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/custom_button"
+                android:text="Capture"
+                android:textColor="#ffff"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="50dp"
+                android:id="@+id/RequestPicture">
 
-    <LinearLayout
-        android:layout_height="60dp"
-        android:layout_width="match_parent"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center">
-
-
-
-<!--        <Button-->
-<!--            android:id="@+id/button"-->
-<!--            android:layout_width="190dp"-->
-<!--            android:layout_height="35dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            android:layout_marginLeft="60dp"-->
-<!--            android:layout_marginBottom="12dp"-->
-<!--            android:background="@drawable/custom_button"-->
-<!--            android:text="Upload photo"-->
-<!--            android:textColor="#ffff"-->
-<!--            android:textSize="20sp" />-->
-    </LinearLayout>
+            </ImageView>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/submitReq"
             android:layout_width="60dp"
             android:layout_height="41dp"
-            android:layout_marginTop="40dp"
             android:layout_marginLeft="250dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_send_black_24dp"
             app:maxImageSize="30dp" />
 

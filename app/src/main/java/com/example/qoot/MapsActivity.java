@@ -99,7 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 /*
                          هنا مفروض نسوي INTENT عشان نرجع المعلومات كلها زي ما كانت
                 */
-                Intent i = new Intent(MapsActivity.this,tab1.class);
+                Intent i = new Intent(MapsActivity.this,requestForm.class);
                 startActivity(i);
             }
         });

@@ -26,6 +26,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Calendar;
+
 import javax.annotation.Nullable;
 
 public class VolunteerRequestInfo extends AppCompatActivity {
@@ -35,7 +37,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     TextView type,guests, location, date, time,notes, DonName,state;
-    Button Acceptbtn;
+    Button Acceptbtn,cancel;
     String userID;
     LinearLayout noteLay;
     String VolunteerName;
@@ -43,6 +45,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
     Bundle intent1;
+    String dateCheck,currentDate;
 
 
     @Override
@@ -61,6 +64,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         Acceptbtn = findViewById(R.id.offers);
         noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
         checkDelivered = (CheckBox)findViewById(R.id.checkDel);
+        cancel =(Button)findViewById(R.id.cancel) ;
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -112,7 +116,32 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         else{
                             notes.setText(documentSnapshot.getString("Note"));}
                         DonName.setText(documentSnapshot.getString("DonatorName"));
+                        //cancel
+                        // checkDate
+                        Calendar now = Calendar.getInstance();
+                        dateCheck = date.getText().toString();
+                        currentDate =(now.get(Calendar.MONTH) + 1)
+                                + "/"
+                                + now.get(Calendar.DATE)
+                                + "/"
+                                + now.get(Calendar.YEAR);
 
+                        if(ss.equals("Accepted"))
+                            if(!dateCheck.equals(currentDate))
+                            cancel.setVisibility(View.VISIBLE);
+
+                        // to display pop up
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(VolunteerRequestInfo.this,VolunteerCancel.class);
+                                if(intent1 != null)
+                                    i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+
+                                startActivity(i);
+                            }
+                        });
+                        //end of cancel
                         // Delivered checkbox..
                         checkDelivered.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override

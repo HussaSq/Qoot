@@ -143,7 +143,7 @@ public class tab1 extends Fragment {
                     mNumOfGuest.setError("Please Enter Amount Of Guests , It is Required");
                     return;
                 }   if (TextUtils.isEmpty(time)) {
-                    mTime.setError("Please Enter Pick Up Time, It is Required");
+                    textView.setError("Please Enter Pick Up Time, It is Required");
                     return;
                 }
                // if (TextUtils.isEmpty(location)) {

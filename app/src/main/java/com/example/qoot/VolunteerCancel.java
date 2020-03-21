@@ -1,5 +1,6 @@
 package com.example.qoot;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class cancelPopUp extends Activity {
+public class VolunteerCancel extends Activity {
     Button yes,no;
     Bundle intent1;
     String ReqIDDD;
@@ -53,7 +54,7 @@ public class cancelPopUp extends Activity {
                 if (intent1 != null) {
                     ReqIDDD = (String) intent1.getSerializable("RequestID");
                 }
-                Intent i = new Intent(cancelPopUp.this,DonatorRequestInfo.class);
+                Intent i = new Intent(VolunteerCancel.this,VolunteerRequestInfo.class);
                 i.putExtra("RequestID",ReqIDDD);
                 startActivity(i);
 
@@ -68,17 +69,31 @@ public class cancelPopUp extends Activity {
                     ReqIDDD = (String) intent1.getSerializable("RequestID");
                     // DO NOT FORGET TO ADD IF TO CHECK STATE IF IT PENDING OR ACCEPTED.
                     DocumentReference documentReference =db.collection("Requests").document(ReqIDDD);
-                    documentReference.update("State","Cancelled").addOnSuccessListener(new OnSuccessListener<Void>() {
+                    documentReference.update("State","Pending").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                           //   Toast.makeText( cancelPopUp.this,"canceeled succes",Toast.LENGTH_SHORT).show();
+                             //  Toast.makeText( VolunteerCancel.this,"canceeled succes",Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    documentReference.update("VolnteerID","--").addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                         //   Toast.makeText( VolunteerCancel.this,"canceeled succes",Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                    documentReference.update("VolnteerName","--").addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                           // Toast.makeText( VolunteerCancel.this,"canceeled succes",Toast.LENGTH_SHORT).show();
 
                         }
                     });
 
                 }
-                Intent i = new Intent(cancelPopUp.this,DonatorRequests.class);
-               // i.putExtra("RequestID",ReqIDDD);
+                Intent i = new Intent(VolunteerCancel.this,VolunteerRequests.class);
+                // i.putExtra("RequestID",ReqIDDD);
                 startActivity(i);
             }
         });

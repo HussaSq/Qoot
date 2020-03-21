@@ -205,18 +205,18 @@ public class tab2 extends Fragment {
                 if (TextUtils.isEmpty(numOfGuest)) {
                     mNumOfGuest.setError("Please Enter number Of Guests , It is Required");
                     return;
-                }   //if (TextUtils.isEmpty(time)) {
-                   // mTime.setError("Please Enter Pick Up Time, It is Required");
-                    //return;
-                //}
+                }   if (TextUtils.isEmpty(time)) {
+                    textView.setError("Please Enter Pick Up Time, It is Required");
+                    return;
+                }
                // if (TextUtils.isEmpty(location)) {
                  //   mLocation.setError("Please Enter Your Event Location, It is Required");
                    // return;
                 //}
-                if (TextUtils.isEmpty(time)) {
-                    textView.setError("Please choose pick up time, It is Required");
-                    return;
-                }
+               // if (TextUtils.isEmpty(time)) {
+                 //   textView.setError("Please choose pick up time, It is Required");
+                   // return;
+               // }
                 if (TextUtils.isEmpty(date)) {
                     dateOfPickUp.requestFocus();
                     dateOfPickUp.setError("Please choose pick up date, It is Required");

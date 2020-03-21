@@ -87,8 +87,7 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+
                 android:hint="MM/dd/yyyy"
                 android:inputType="date"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
@@ -108,8 +107,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:ems="10"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+
                 android:hint="Pick Up Time"
                 android:inputType="time"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"

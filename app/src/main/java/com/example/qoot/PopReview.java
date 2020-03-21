@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -38,7 +39,8 @@ public class PopReview extends Activity {
     EditText Comment;
     RatingBar Rate;
     Button send;
-    Button notNow;
+    //Button notNow;
+    ImageView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String userID, ReqIDDD, on_user;
@@ -55,23 +57,25 @@ public class PopReview extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int) (width * .9), (int) (height * .6));
+        getWindow().setLayout((int) (width * .8), (int) (height * .5));
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
         params.x = 0;
         params.y = -40;
         getWindow().setAttributes(params);
 
-        Name = findViewById(R.id.et_name);
+        //Name = findViewById(R.id.et_name);
         Comment = findViewById(R.id.review);
         Rate = findViewById(R.id.rate_star);
         send = findViewById(R.id.btn_send_review);
-        notNow = findViewById(R.id.btn_not_now);
+        //notNow = findViewById(R.id.btn_not_now);
+        close = findViewById(R.id.close_X);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
 
-        notNow.setOnClickListener(new View.OnClickListener() {
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -81,15 +85,15 @@ public class PopReview extends Activity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                name = Name.getText().toString();
+                //name = Name.getText().toString();
                 comment = Comment.getText().toString();
                 rate = ((double) Rate.getRating());
 
 
-                if (TextUtils.isEmpty(name)) {
+                /*if (TextUtils.isEmpty(name)) {
                     Name.setError("Please Enter Your Name");
                     return;
-                }
+                }*/
                 if (TextUtils.isEmpty(comment)) {
                     Comment.setError("Please Enter Your Comments");
                     return;
@@ -108,54 +112,52 @@ public class PopReview extends Activity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("DonatorID");
-                    }
-                });
 
-                /// First try to DB add
+
+                /// First try to add in DB
                 //Review MyReview = new Review(on_user,name,comment,rate);
                 //DocumentReference documentReference = db.collection("Reviews").document(userID);
-/*
-                Map<String,Object> review = new HashMap<>();
-                review.put("onUserID",on_user);
-                review.put("ByName",name);
-                review.put("Comment",comment);
-                review.put("Rating",rate);
 
-                /// second try to DB add
+                Map<String, Object> review = new HashMap<>();
+                review.put("CommenterID", userID);
+                review.put("onUserID", on_user);
+                review.put("Comment", comment);
+                review.put("Rating", rate);
+                review.put("RequestId",ReqIDDD);
+
+                /// second try to add in DB
                 db.collection("Reviews")
                         .add(review)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                documentReference.update("userID",documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    //    reqID= documentReference.getId();
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
+                                 Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
 
-                                        //  Toast.makeText( EditDonatorProfile.this,"user updated",Toast.LENGTH_SHORT).show();
-
-                                    }
-                                });
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
-                                // Log.w(TAG, "Error adding document", e);
                             }
                         });
-
+                    }
+                });
+                Intent i = new Intent(PopReview.this,VolunteerRequests.class);
+                startActivity(i);
             }
         });
-*/
-                /// third try to DB add
+
+
+/*
+                /// third try to add in DB
                 DocumentReference documentReference1 = db.collection("Reviews").document(userID);
                 Map<String, Object> review = new HashMap<>();
+                review.put("Commenter", name);
                 review.put("onUserID", on_user);
-                review.put("ByName", name);
                 review.put("Comment", comment);
                 review.put("Rating", rate);
+                review.put("RequestId",ReqIDDD);
                 documentReference1.set(review).addOnSuccessListener(new OnSuccessListener<Void>() {
 
                     @Override
@@ -169,7 +171,7 @@ public class PopReview extends Activity {
                 });
 
             }
-        });
+        });*/
     }
 }
 
@@ -178,13 +180,13 @@ public class PopReview extends Activity {
 
 class Review{
     String onUserID;
-    String byName;
+    String commenter;
     String comment;
     double rate;
 
-    public Review(String onUserID, String byName, String comment, double rate) {
+    public Review(String onUserID, String commenter, String comment, double rate) {
         this.onUserID = onUserID;
-        this.byName = byName;
+        this.commenter = commenter;
         this.comment = comment;
         this.rate = rate;
     }
@@ -202,12 +204,12 @@ class Review{
         this.onUserID = onUserID;
     }
 
-    public String getByName() {
-        return byName;
+    public String getCommenter() {
+        return commenter;
     }
 
-    public void setByName(String byName) {
-        this.byName = byName;
+    public void setCommenter(String commenter) {
+        this.commenter = commenter;
     }
 
     public String getComment() {

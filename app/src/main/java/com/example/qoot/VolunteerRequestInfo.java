@@ -153,7 +153,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                     documentReference2.update("State","Delivered").addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            Toast.makeText( VolunteerRequestInfo.this,"updated successfully",Toast.LENGTH_SHORT).show();
+                                           //Toast.makeText( VolunteerRequestInfo.this,"updated successfully",Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                     Intent pop = new Intent(VolunteerRequestInfo.this, PopReview.class);

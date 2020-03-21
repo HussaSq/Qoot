@@ -33,16 +33,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VolunteerCancel"
-            android:theme="@style/AppTheme.customWindowPop"></activity>
+        <activity android:name=".DonatorViewInfo"></activity>
+        <activity
+            android:name=".VolunteerCancel"
+            android:theme="@style/AppTheme.customWindowPop" />
         <activity android:name=".SingleNotification" />
-
         <activity android:name=".location" />
-        
-
-        <activity android:name=".PopReview" android:theme="@style/AppTheme.customWindowPop"></activity>
-
-
+        <activity
+            android:name=".PopReview"
+            android:theme="@style/AppTheme.customWindowPop" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -87,8 +86,7 @@
         <activity android:name=".VolunteerViewInfo" />
         <activity
             android:name=".cancelPopUp"
-            android:theme="@style/AppTheme.customWindowPop"></activity>
-
+            android:theme="@style/AppTheme.customWindowPop" />
     </application>
 
 </manifest>

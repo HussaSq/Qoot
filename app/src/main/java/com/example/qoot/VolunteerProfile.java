@@ -22,6 +22,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -33,7 +36,8 @@ import javax.annotation.Nullable;
 
 public class VolunteerProfile extends AppCompatActivity {
 
-
+    TextView numVol;
+    TextView averageRate;
     private TextView Username;
     private ImageView Photo;
     FirebaseAuth mAuth ;
@@ -72,16 +76,34 @@ public class VolunteerProfile extends AppCompatActivity {
                 return false;
             }
         });
+        numVol=findViewById(R.id.Volunteered);
         Username = findViewById(R.id.UserNameV);
         Photo = findViewById(R.id.UserImage);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
         String userId=mAuth.getCurrentUser().getUid();
+        Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",userId).whereEqualTo("State","Delivered");
+        q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            int Vol=0;
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Vol += 1; }
+                    numVol.setText(""+Vol);
+                } else {
+                }
+            }
+        });
+
+
         DocumentReference documentReference =db.collection("Volunteers").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
+                numVol.setText(documentSnapshot.getString("numVol"));
             }
         });
 

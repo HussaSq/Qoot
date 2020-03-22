@@ -111,7 +111,6 @@ public class DonatorRequests extends AppCompatActivity {
                         } else {
                         }
                     }
-
                 });
 
     }
@@ -233,6 +232,8 @@ class Request {
     public void setTypeOfReq(String type) {
         this.type = type;
     }
+
+
 }
 
 class MyRequestAdapter extends BaseAdapter{

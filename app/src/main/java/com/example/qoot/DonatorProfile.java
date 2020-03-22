@@ -3,20 +3,15 @@ package com.example.qoot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,22 +33,23 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import java.io.File;
 import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
 public class DonatorProfile extends AppCompatActivity {
-    TextView Username, Donations;
+
+    TextView Username;
     ImageView Photo;
+    TextView numDona ;
+    TextView TextRate;
     LinearLayout linearLayout;
     ConstraintLayout root ;
     // eventually we will add comments and ratings as well
-    Review MAGIC;
-    ListView listView;
-    ArrayList<Review> review;
-    int donation;
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     StorageReference mfStore;
@@ -85,7 +81,8 @@ public class DonatorProfile extends AppCompatActivity {
                 return false;
             }
         });
-
+        numDona=findViewById(R.id.Donations);
+        TextRate=findViewById(R.id.RateD);
         Username = findViewById(R.id.UserNameD);
         Photo = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
@@ -93,10 +90,30 @@ public class DonatorProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mfStore = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
-        Donations = findViewById(R.id.Donations);
         final String userId=mAuth.getCurrentUser().getUid();
         user = mAuth.getCurrentUser();
-        if(!user.isEmailVerified()){
+
+        Query q1 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
+        q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            int don=0;
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        don += 1; }
+                    numDona.setText(""+don);
+                } else {
+                }
+            }
+        });
+
+
+
+
+
+
+
+                        if(!user.isEmailVerified()){
             root.removeView(linearLayout);
             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
@@ -110,54 +127,13 @@ public class DonatorProfile extends AppCompatActivity {
                 }
             });
         }
-
-        //// comment section
-        final String MyUserId = mAuth.getCurrentUser().getUid();
-        listView = findViewById(R.id.list_Comments);
-        review = new ArrayList<Review>();
-        Query q1 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
-        q1.limit(3).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                String VolName = document.getString("CommenterName");
-                                String comment = document.getString("Comment");
-                                float rate = document.getLong("Rating");
-
-                                MAGIC = new Review(VolName, comment, rate);
-                                review.add(MAGIC);
-                                MyReviewAdapter myReviewAdapter = new MyReviewAdapter(DonatorProfile.this,R.layout.comments_list,review);
-                                listView.setAdapter(myReviewAdapter);
-                            }
-
-                        } else {
-                        }
-                    }
-
-                });
-            // count donations
-        Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
-        q2.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                    donation++;
-                            }
-                        }
-                    }
-                });
-            //Donations.setText(donation);
-
-        ///// END of comments section
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 Username.setText(documentSnapshot.getString("UserName"));
+                numDona.setText(documentSnapshot.getString("numDona"));
+                TextRate.setText(documentSnapshot.getString("TextRate"));
 
             }
         });
@@ -185,6 +161,15 @@ public class DonatorProfile extends AppCompatActivity {
             }
         });
     }
+
+
+
+
+
+
+
+
+
     public void OpenEditProfilePage(View view){
         startActivity(new Intent(DonatorProfile.this,EditDonatorProfile.class));
     }
@@ -192,11 +177,6 @@ public class DonatorProfile extends AppCompatActivity {
         Toast.makeText(DonatorProfile.this, "log out Was Successful!!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(DonatorProfile.this,LogIn.class);
         startActivity(intent);
-    }
-
-    public void OpenAllComments(View view) {
-        //Intent intentC = new Intent(DonatorProfile.this, DonatorAllComments.class);
-        //startActivity(intentC);
     }
 
 }
@@ -238,55 +218,4 @@ class Review{
     }
 }
 
-class MyReviewAdapter extends BaseAdapter {
 
-    private Context context;
-    ArrayList<Review> review;
-    int layoutResourseId;
-
-
-    MyReviewAdapter(Context context,ArrayList<Review> review){
-        this.review=review;
-        this.context=context;
-    }
-
-    public MyReviewAdapter(Context context, int comments_list, ArrayList<Review> review) {
-
-        this.review=review;
-        this.context=context;
-        this.layoutResourseId = comments_list;
-    }
-
-    @Override
-    public int getCount() {
-        return review.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return review.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.comments_list, null);
-
-        TextView Commenter =(TextView) view.findViewById(R.id.commenter_name);
-        TextView comment =(TextView) view.findViewById(R.id.tv_desc_review);
-        RatingBar rate = (RatingBar)view.findViewById(R.id.rate_star);
-        /*
-        RatingBar.setText(review.get(position).EventType);
-        String type = review.get(position).getType();
-        String ss=review.get(position).Status;
-        */
-        Commenter.setText(review.get(position).getCommenterName());
-        comment.setText(review.get(position).getComment());
-        rate.setRating(review.get(position).getRate());
-        return view;
-    }
-}

@@ -41,6 +41,7 @@ public class PopReview extends Activity {
     EditText Comment;
     RatingBar Rate;
     Button send;
+
     //Button notNow;
     TextView close;
     FirebaseAuth mAuth;
@@ -178,6 +179,7 @@ public class PopReview extends Activity {
                                 }); */
                     }
                 });
+
                 Intent i = new Intent(PopReview.this,VolunteerRequests.class);
                 startActivity(i);
             }
@@ -217,9 +219,9 @@ class Review{
     String onUserID;
     String commenter;
     String comment;
-    double rate;
+    float rate;
 
-    public Review(String onUserID, String commenter, String comment, double rate) {
+    public Review(String onUserID, String commenter, String comment, float rate) {
         this.onUserID = onUserID;
         this.commenter = commenter;
         this.comment = comment;
@@ -255,11 +257,11 @@ class Review{
         this.comment = comment;
     }
 
-    public double getRate() {
+    public float getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(float rate) {
         this.rate = rate;
     }
 }

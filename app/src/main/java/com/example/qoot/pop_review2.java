@@ -84,7 +84,6 @@ public class pop_review2 extends Activity {
                 comment = Comment.getText().toString();
                 rate = ((double) Rate.getRating());
 
-
                 /*if (TextUtils.isEmpty(name)) {
                     Name.setError("Please Enter Your Name");
                     return;

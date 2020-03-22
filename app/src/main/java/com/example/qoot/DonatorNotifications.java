@@ -24,9 +24,19 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.annotation.Nullable;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DonatorNotifications extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -129,7 +141,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                     continue;
                                     MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
                                     request.add(MAGIC);
-                                 myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,null,reqID);
+                                 myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,null,reqID,PictureURI);
                                 listViewNoti.setAdapter(myRequestAdapter);
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -229,6 +241,9 @@ public class DonatorNotifications extends AppCompatActivity {
 
     }
 
+
+
+
     public Uri getPicturePath(String Vid){
         String ImageName = Vid+".png";
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
@@ -259,6 +274,7 @@ class MyNotificationsAdapter extends BaseAdapter {
     String VolunteerName;
     String UserID;
     String type;
+    Uri PictureURI;
 
 
 
@@ -268,7 +284,7 @@ class MyNotificationsAdapter extends BaseAdapter {
         this.context=context;
     }
 
-    public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request,ArrayList<Review> reviews, String reqID) {
+    public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request,ArrayList<Review> reviews, String reqID,Uri PictureURI) {
         if(request!=null){
         this.request=request;}
         if(reviews!=null){
@@ -277,6 +293,7 @@ class MyNotificationsAdapter extends BaseAdapter {
         this.context=context;
         this.layoutResourseId=activity_single_notification;
         this.reqID=reqID;
+        this.PictureURI=PictureURI;
         //this.VolunteerName=VolunteerName;
 
 
@@ -300,6 +317,9 @@ class MyNotificationsAdapter extends BaseAdapter {
 
     public String getreqID() {
         return reqID;
+    }
+    public Uri getPhoto(){
+        return PictureURI;
     }
 
     public int getViewTypeCount(){
@@ -345,6 +365,7 @@ class MyNotificationsAdapter extends BaseAdapter {
 
                 View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
                 String volunteer = request.get(position).getVolunteerName() + " ";
+                //String VolID=request.get(position).;
                 String state = request.get(position).Status;
                 String EventType = " Your " + request.get(position).EventType + " Request";
                 SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -384,8 +405,11 @@ class MyNotificationsAdapter extends BaseAdapter {
                 //String textbox=volunteer2+" "+state+" Your "+EventType+" Request";
                 //  SpannableString spannableString=new SpannableString(textbox);
                 TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+        CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo);
+
                 volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
                 ImageView volunteerPicture = view.findViewById(R.id.colo1);
+        //circleImageView.setImageURI(getPhoto());
 
 
         return view;

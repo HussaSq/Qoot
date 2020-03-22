@@ -35,6 +35,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class volunteer_notification extends AppCompatActivity {
 
     FirebaseAuth mAuth;
@@ -281,6 +283,7 @@ class MyNotificationsVolAdapter extends BaseAdapter {
         TextView volunteerName = (TextView) view.findViewById(R.id.requests);
 
         volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+        CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo);
 
         return view;
     }

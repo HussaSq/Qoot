@@ -83,12 +83,14 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
         if (intent1 != null){
             final String ReqIDDD = (String) intent1.getSerializable("RequestID");
+            ABEER2 = (String) intent1.getSerializable("Where");
             //to show location for vol
             location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i =new Intent(VolunteerRequestInfo.this,VolunteerMap.class);
                     i.putExtra("RequestID",ReqIDDD);
+                    i.putExtra("Where",ABEER2);
                     startActivity(i);
                 }
             });
@@ -310,12 +312,10 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     public void OpenVolunteerRequests(View view) {
         switch (ABEER2){
             case"Requests":
-                Toast.makeText(VolunteerRequestInfo.this, "REQUESTS"+ABEER2, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(VolunteerRequestInfo.this, VolunteerRequests.class);
                 startActivity(intent);
                 break;
             case"tab3":
-                Toast.makeText(VolunteerRequestInfo.this, "tab3", Toast.LENGTH_SHORT).show();
                 Intent intent2 = new Intent(VolunteerRequestInfo.this, AllRequests.class);
                 startActivity(intent2);
                 break;

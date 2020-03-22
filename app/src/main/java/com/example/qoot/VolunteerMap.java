@@ -43,6 +43,7 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
     String location;
     double lat,lang;
     ImageView back;
+    String Abeer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
 
         if(intent1 != null){
             ReqIDDD = (String) intent1.getSerializable("RequestID");
+            Abeer = (String)  intent1.getSerializable("Where");
 
             DocumentReference documentReference=db.collection("Requests").document(ReqIDDD);
             documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -96,6 +98,7 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                         public void onClick(View v) {
                             Intent i = new Intent(VolunteerMap.this,VolunteerRequestInfo.class);
                             i.putExtra("RequestID",ReqIDDD);
+                            i.putExtra("Where",Abeer);
                             startActivity(i);
                         }
                     });

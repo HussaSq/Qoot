@@ -17,7 +17,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -35,8 +34,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AttachmentPicture"></activity>
-        <activity android:name=".DonatorViewInfo"></activity>
+        <activity android:name=".pop_review2"
+            android:theme="@style/AppTheme.customWindowPop"></activity>
+        <activity android:name=".AttachmentPicture" />
+        <activity android:name=".DonatorViewInfo" />
         <activity
             android:name=".VolunteerCancel"
             android:theme="@style/AppTheme.customWindowPop" />
@@ -57,6 +58,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".VolunteerMap"
+            android:label="@string/title_activity_volunteer_map" />
         <activity android:name=".MapsActivity2" />
         <activity
             android:name=".MapsActivity"

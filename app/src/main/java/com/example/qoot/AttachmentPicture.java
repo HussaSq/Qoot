@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +38,7 @@ public class AttachmentPicture extends AppCompatActivity {
     String ImageName;
     //Deciding Variable
     String Type;
+    String Abeer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class AttachmentPicture extends AppCompatActivity {
         if (intent1 != null) {
             RequestID = (String) intent1.getSerializable("RequestID");
             Type = (String) intent1.getSerializable("Who");
+            Abeer = (String) intent1.getSerializable("Where");
             DocumentReference documentReference = db.collection("Requests").document(RequestID);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
@@ -76,16 +80,24 @@ public class AttachmentPicture extends AppCompatActivity {
         switch (Type) {
             case"D":
             Intent in = getIntent();
-            in.putExtra("RequestID", RequestID);
+                in.putExtra("RequestID", RequestID);
+                in.putExtra("Who",Type);
+                in.putExtra("Where",Abeer);
             Intent intent = new Intent(AttachmentPicture.this, DonatorRequestInfo.class);
-            intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+                intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+                intent.putExtra("Who", in.getStringExtra("Who"));
+                intent.putExtra("Where", in.getStringExtra("Where"));
             startActivity(intent);
             break;
             case"V":
                 Intent in2 = getIntent();
-                in2.putExtra("RequestID", RequestID);
+                    in2.putExtra("Who",Type);
+                    in2.putExtra("Where",Abeer);
+                    in2.putExtra("RequestID", RequestID);
                 Intent intent2 = new Intent(AttachmentPicture.this, VolunteerRequestInfo.class);
-                intent2.putExtra("RequestID", in2.getStringExtra("RequestID"));
+                    intent2.putExtra("RequestID", in2.getStringExtra("RequestID"));
+                    intent2.putExtra("Who", in2.getStringExtra("Who"));
+                    intent2.putExtra("Where", in2.getStringExtra("Where"));
                 startActivity(intent2);
                 break;
         }

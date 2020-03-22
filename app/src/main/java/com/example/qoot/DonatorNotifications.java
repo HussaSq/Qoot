@@ -260,6 +260,9 @@ public class DonatorNotifications extends AppCompatActivity {
                 });
 
 
+
+
+
     }
 
 
@@ -284,6 +287,7 @@ public class DonatorNotifications extends AppCompatActivity {
         });
         //return uri;
     }
+
 
 
     class MyNotificationsAdapter extends BaseAdapter {

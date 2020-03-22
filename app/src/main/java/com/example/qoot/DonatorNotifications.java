@@ -41,7 +41,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -58,6 +62,9 @@ public class DonatorNotifications extends AppCompatActivity {
     Review review;
     ArrayList<Review> reviewList;
     MyNotificationsAdapter myRequestAdapter;
+
+    //Abeer
+    Uri uri;
 
 
     @Override
@@ -115,6 +122,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                 String DonatorName=document.getString("DonatorName");
                                 String VolunteerName=document.getString("VolnteerName");
                                 String VolunteerID=document.getString("VolnteerID");
+                                Uri PictureURI = getPicturePath(VolunteerID);
                                 if(VolunteerID.equals("--"))
                                     continue;
                                 if(VolunteerName.equals("--"))
@@ -220,6 +228,23 @@ public class DonatorNotifications extends AppCompatActivity {
 
 
     }
+
+    public Uri getPicturePath(String Vid){
+        String ImageName = Vid+".png";
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference mainRef = firebaseStorage.getReference("Images");
+        final File file = new File(getFilesDir(), ImageName);
+        mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    uri = Uri.parse(file.toString());
+                }
+            }
+        });
+        return uri;
+    }
+
 }
 
 class MyNotificationsAdapter extends BaseAdapter {
@@ -359,8 +384,9 @@ class MyNotificationsAdapter extends BaseAdapter {
                 //String textbox=volunteer2+" "+state+" Your "+EventType+" Request";
                 //  SpannableString spannableString=new SpannableString(textbox);
                 TextView volunteerName = (TextView) view.findViewById(R.id.requests);
-
                 volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+                ImageView volunteerPicture = view.findViewById(R.id.colo1);
+
 
         return view;
     }

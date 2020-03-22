@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,8 +33,6 @@ import javax.annotation.Nullable;
 
 public class VolunteerRequestInfo extends AppCompatActivity {
 
-
-
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     TextView type,guests, location, date, time,notes, DonName,state;
@@ -45,6 +44,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
     Bundle intent1;
+    ImageView chat;
+    String ABEER;
+    String ABEER2;
     String dateCheck,currentDate;
 
 
@@ -64,6 +66,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         Acceptbtn = findViewById(R.id.offers);
         noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
         checkDelivered = (CheckBox)findViewById(R.id.checkDel);
+        chat = findViewById(R.id.ChatIcon);
         cancel =(Button)findViewById(R.id.cancel) ;
 
         mAuth = FirebaseAuth.getInstance();
@@ -72,10 +75,10 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         userID =mAuth.getCurrentUser().getUid();
 
 
-
-
         if (intent1 != null){
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
+            ABEER =(String) intent1.getSerializable("RequestID");
+            ABEER2 = (String) intent1.getSerializable("Where");
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
                 DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
                 documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -167,18 +170,41 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             }
                         });
 
-                        //volName.setText(documentSnapshot.getString("Volunteer"));
-                        //Bundle intent1 = getIntent().getExtras();
-                        //String ReqIDDD = (String) intent1.getSerializable("RequestID");
-                       // DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
-                        if (documentSnapshot.getString("State").equals("Delivered"))
-                        {
-                            checkDelivered.setVisibility(View.GONE);}
+
+
+                        switch (documentSnapshot.getString("State")){
+                            case "Delivered":
+                                chat.setVisibility(View.VISIBLE);
+                                checkDelivered.setVisibility(View.GONE);
+                                Acceptbtn.setVisibility(View.GONE);
+                                break;
+                            case "Pending":
+                                chat.setVisibility(View.GONE);
+                                checkDelivered.setVisibility(View.GONE);
+                                Acceptbtn.setVisibility(View.VISIBLE);
+                                break;
+                            case "Accepted":
+                                chat.setVisibility(View.VISIBLE);
+                                checkDelivered.setVisibility(View.VISIBLE);
+                                Acceptbtn.setVisibility(View.GONE);
+                                break;
+                            case"Cancelled":
+                                chat.setVisibility(View.GONE);
+                                checkDelivered.setVisibility(View.GONE);
+                                Acceptbtn.setVisibility(View.GONE);
+                                break;
+                        }
+
+
+//                        if (documentSnapshot.getString("State").equals("Delivered"))
+//                        {
+//                            checkDelivered.setVisibility(View.GONE);}
+
 
                         if (documentSnapshot.getString("State").equals("Pending"))
                         {
-                            checkDelivered.setVisibility(View.GONE);
-                            Acceptbtn.setVisibility(View.VISIBLE);
+//                            checkDelivered.setVisibility(View.GONE);
+//                            Acceptbtn.setVisibility(View.VISIBLE);
                             Acceptbtn.setOnClickListener(new View.OnClickListener() {
                             Bundle intent1 = getIntent().getExtras();
                             String ReqIDDD = (String) intent1.getSerializable("RequestID");
@@ -229,7 +255,31 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     }
     }
     public void OpenVolunteerRequests(View view) {
-        Intent intent = new Intent(VolunteerRequestInfo.this,AllRequests.class);
+        switch (ABEER2){
+            case"Requests":
+                Toast.makeText(VolunteerRequestInfo.this, "REQUESTS"+ABEER2, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(VolunteerRequestInfo.this, VolunteerRequests.class);
+                startActivity(intent);
+                break;
+            case"tab3":
+                Toast.makeText(VolunteerRequestInfo.this, "tab3", Toast.LENGTH_SHORT).show();
+                Intent intent2 = new Intent(VolunteerRequestInfo.this, AllRequests.class);
+                startActivity(intent2);
+                break;
+            case"tab4":
+                Intent intent3 = new Intent(VolunteerRequestInfo.this, AllRequests.class);
+                startActivity(intent3);
+                ;
+                break;
+        }
+    }
+    public void OpenAttachment(View view){
+        Intent in = getIntent();
+        in.putExtra("RequestID",ABEER);
+        in.putExtra("Who","V");
+        Intent intent = new Intent(VolunteerRequestInfo.this, AttachmentPicture.class);
+        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+        intent.putExtra("Who", in.getStringExtra("Who"));
         startActivity(intent);
     }
 }

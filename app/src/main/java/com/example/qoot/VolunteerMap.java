@@ -20,6 +20,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -80,12 +81,16 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                     location=documentSnapshot.getString("Location") ;
                     lat=Double.parseDouble(location.substring(0,location.indexOf(',')));
                     lang=Double.parseDouble(location.substring(location.indexOf(',')+1));
-                    System.out.println("lat"+lat);
-                    System.out.println("lang"+lang);
-                    System.out.println("loxaa******************"+location);
+                    //System.out.println("lat"+lat);
+                    //System.out.println("lang"+lang);
+                    //System.out.println("loxaa******************"+location);
                     LatLng loc = new LatLng(lat, lang);
-                    mMap.addMarker(new MarkerOptions().position(loc).title("Marker in Sydney"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                    mMap.addMarker(new MarkerOptions().position(loc).title(loc.toString()));
+                    CameraPosition myPosition = new CameraPosition.Builder()
+                            .target(loc).zoom(10).bearing(90).tilt(30).build();
+                    mMap.animateCamera(
+                            CameraUpdateFactory.newCameraPosition(myPosition));
+                    //mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
                     back.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -1,58 +1,50 @@
 package com.example.qoot;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+
+import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import org.w3c.dom.Comment;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+public class pop_review2 extends Activity {
 
-public class PopReview extends Activity {
-
-    EditText Name;
     EditText Comment;
     RatingBar Rate;
     Button send;
-    //Button notNow;
     TextView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String userID, ReqIDDD, on_user;
-    String name, comment;
+    String comment;
     double rate;
     Bundle myIntent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop_review);
+        setContentView(R.layout.activity_pop_review2);
 
         DisplayMetrics dm= new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -68,12 +60,10 @@ public class PopReview extends Activity {
         getWindow().setLayout((int)(width*.85),(int)(height*.5));
 
 
-        //Name = findViewById(R.id.et_name);
         Comment = findViewById(R.id.review);
-        Rate = findViewById(R.id.rate_star);
-        send = findViewById(R.id.btn_send_review);
-        //notNow = findViewById(R.id.btn_not_now);
-        close = findViewById(R.id.close_X);
+        Rate = findViewById(R.id.rate_bar);
+        send = findViewById(R.id.send_review);
+        close=findViewById(R.id.txtclose);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -85,6 +75,7 @@ public class PopReview extends Activity {
                 finish();
             }
         });
+
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +106,7 @@ public class PopReview extends Activity {
                 reqid.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        on_user = documentSnapshot.getString("DonatorID");
+                        on_user = documentSnapshot.getString("VolnteerID");
 
 
                         /// First try to add in DB
@@ -123,6 +114,7 @@ public class PopReview extends Activity {
                         //DocumentReference documentReference = db.collection("Reviews").document(userID);
 
                         Map<String, Object> review = new HashMap<>();
+                        //**********=donater id
                         review.put("CommenterID", userID);
                         review.put("onUserID", on_user);
                         review.put("Comment", comment);
@@ -135,100 +127,24 @@ public class PopReview extends Activity {
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText( pop_review2.this,"Thank You!",Toast.LENGTH_SHORT).show();
 
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(pop_review2.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
                 });
-                Intent i = new Intent(PopReview.this,VolunteerRequests.class);
+                Intent i = new Intent(pop_review2.this,DonatorRequests.class);
                 startActivity(i);
             }
         });
 
 
-/*
-                /// third try to add in DB
-                DocumentReference documentReference1 = db.collection("Reviews").document(userID);
-                Map<String, Object> review = new HashMap<>();
-                review.put("Commenter", name);
-                review.put("onUserID", on_user);
-                review.put("Comment", comment);
-                review.put("Rating", rate);
-                review.put("RequestId",ReqIDDD);
-                documentReference1.set(review).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Log.d(TAG,"OnFailure "+ e.toString());
-                    }
-                });
-
-            }
-        });*/
-    }
-}
-
-
-
-
-class Review{
-    String onUserID;
-    String commenter;
-    String comment;
-    double rate;
-
-    public Review(String onUserID, String commenter, String comment, double rate) {
-        this.onUserID = onUserID;
-        this.commenter = commenter;
-        this.comment = comment;
-        this.rate = rate;
-    }
-
-    public Review(String onUserID) {
-        this.onUserID = onUserID;
-    }
-
-
-    public String getOnUserID() {
-        return onUserID;
-    }
-
-    public void setOnUserID(String onUserID) {
-        this.onUserID = onUserID;
-    }
-
-    public String getCommenter() {
-        return commenter;
-    }
-
-    public void setCommenter(String commenter) {
-        this.commenter = commenter;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public double getRate() {
-        return rate;
-    }
-
-    public void setRate(double rate) {
-        this.rate = rate;
     }
 }

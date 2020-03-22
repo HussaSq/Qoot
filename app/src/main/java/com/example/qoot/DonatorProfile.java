@@ -112,12 +112,14 @@ public class DonatorProfile extends AppCompatActivity {
         mainRef.child(imageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                //Toast.makeText(DonatorProfile.this, "photo : "+file, Toast.LENGTH_SHORT).show();
                 if (task.isSuccessful()) {
+
                   Uri u =Uri.parse(file.toString());
                     Photo.setImageURI(u);
                     Photo.requestLayout();
-                    Photo.getLayoutParams().height = 400;
-                    Photo.getLayoutParams().width = 400;
+                    //Photo.getLayoutParams().height = 400;
+                    //Photo.getLayoutParams().width = 400;
                 } else {
 
                 }

@@ -86,7 +86,9 @@ public class tab3 extends Fragment {
                                         Request temp = (Request) parent.getItemAtPosition(position);
                                         Intent in = getActivity().getIntent();
                                         in.putExtra("RequestID", temp.getID());
+                                        in.putExtra("Where","tab3");
                                         Intent intent = new Intent(getActivity(), VolunteerRequestInfo.class);
+                                        intent.putExtra("Where", in.getStringExtra("Where"));
                                         intent.putExtra("RequestID", in.getStringExtra("RequestID"));
                                         startActivity(intent);
                                     }

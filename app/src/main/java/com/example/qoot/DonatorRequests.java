@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -141,6 +142,16 @@ class Request {
     public String date;
     public String DonatorName;
     public String VolunteerName;
+
+    public Uri getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Uri picture) {
+        this.picture = picture;
+    }
+
+    public Uri picture;
 
 
     public String getType() {
@@ -287,6 +298,10 @@ class MyRequestAdapter extends BaseAdapter{
         }
         else if(ss.equals("Cancelled")){
             ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
+            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            status.setText(spannableString);
+        }else if(ss.equals("Delivered")){
+            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
             spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             status.setText(spannableString);
         }

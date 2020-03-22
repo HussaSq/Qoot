@@ -99,8 +99,8 @@ public class VolunteerProfile extends AppCompatActivity {
                     Uri u =Uri.parse(file.toString());
                     Photo.setImageURI(u);
                     Photo.requestLayout();
-                    Photo.getLayoutParams().height = 400;
-                    Photo.getLayoutParams().width = 400;
+                    //Photo.getLayoutParams().height = 400;
+                    //Photo.getLayoutParams().width = 400;
                 } else {
 
                 }

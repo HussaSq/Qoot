@@ -1,5 +1,6 @@
 package com.example.qoot;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,13 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,6 +36,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
     TextView car,name;
     CircleImageView circleImageView;
     ImageView imageView;
+    Uri uri;
 
 
     @Override
@@ -45,7 +54,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
         Bundle intent1 = getIntent().getExtras();
 
         if (intent1 != null) {
-            String VolID = (String) intent1.getSerializable("Volunteers");
+            final String VolID = (String) intent1.getSerializable("Volunteers");
             DocumentReference documentReference = db.collection("Volunteers").document(VolID);
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>(){
 
@@ -53,6 +62,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     name.setText(documentSnapshot.getString("UserName"));
                     car.setText(documentSnapshot.getString("Vehicle"));
+                    getPicturePath(VolID);
                 }
             });
 
@@ -81,6 +91,29 @@ public class VolunteerViewInfo extends AppCompatActivity {
         }
 
 
+    }
+    public void getPicturePath(String Vid){
+        String ImageName = Vid+".png";
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference mainRef = firebaseStorage.getReference("Images");
+        final File file = new File(getFilesDir(), ImageName);
+        //Toast.makeText(DonatorViewInfo.this, "photo : "+file, Toast.LENGTH_SHORT).show();
+
+        mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    uri = Uri.parse(file.toString());
+                    //Toast.makeText(VolunteerViewInfo.this, "photo in: "+uri, Toast.LENGTH_SHORT).show();
+                    circleImageView.setImageURI(uri);
+                    circleImageView.requestLayout();
+
+                }
+            }
+        });
+        //return uri;
     }
     public void OpenDonatorNoti(View view) {
         startActivity(new Intent(VolunteerViewInfo.this,DonatorNotifications.class));

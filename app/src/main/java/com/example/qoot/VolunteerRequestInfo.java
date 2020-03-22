@@ -177,34 +177,38 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 chat.setVisibility(View.VISIBLE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.GONE);
+                                cancel.setVisibility(View.GONE);
                                 break;
                             case "Pending":
                                 chat.setVisibility(View.GONE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.VISIBLE);
+                                cancel.setVisibility(View.GONE);
                                 break;
                             case "Accepted":
                                 chat.setVisibility(View.VISIBLE);
                                 checkDelivered.setVisibility(View.VISIBLE);
                                 Acceptbtn.setVisibility(View.GONE);
+                                cancel.setVisibility(View.VISIBLE);
                                 break;
                             case"Cancelled":
                                 chat.setVisibility(View.GONE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.GONE);
+                                cancel.setVisibility(View.GONE);
                                 break;
                         }
 
 
-//                        if (documentSnapshot.getString("State").equals("Delivered"))
-//                        {
-//                            checkDelivered.setVisibility(View.GONE);}
+                        if (documentSnapshot.getString("State").equals("Delivered"))
+                        {
+                            checkDelivered.setVisibility(View.GONE);}
 
 
                         if (documentSnapshot.getString("State").equals("Pending"))
                         {
-//                            checkDelivered.setVisibility(View.GONE);
-//                            Acceptbtn.setVisibility(View.VISIBLE);
+                            checkDelivered.setVisibility(View.GONE);
+                            Acceptbtn.setVisibility(View.VISIBLE);
                             Acceptbtn.setOnClickListener(new View.OnClickListener() {
                             Bundle intent1 = getIntent().getExtras();
                             String ReqIDDD = (String) intent1.getSerializable("RequestID");

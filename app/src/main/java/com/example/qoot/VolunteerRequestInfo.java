@@ -330,9 +330,11 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         Intent in = getIntent();
         in.putExtra("RequestID",ABEER);
         in.putExtra("Who","V");
+        in.putExtra("Where",ABEER2);
         Intent intent = new Intent(VolunteerRequestInfo.this, AttachmentPicture.class);
         intent.putExtra("RequestID", in.getStringExtra("RequestID"));
         intent.putExtra("Who", in.getStringExtra("Who"));
+        intent.putExtra("Where", in.getStringExtra("Where"));
         startActivity(intent);
     }
 }

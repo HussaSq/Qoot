@@ -120,7 +120,7 @@ public class DonatorNotifications extends AppCompatActivity {
 
         //.whereEqualTo("State"," Accepted || Cancelled")
 
-       Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID).whereIn("State", Arrays.asList("Accepted","Cancelled","Delivered"));
+        Query q1 = db.collection("Requests").whereEqualTo("DonatorID",UserID).whereIn("State", Arrays.asList("Accepted","Cancelled","Delivered"));
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -139,9 +139,9 @@ public class DonatorNotifications extends AppCompatActivity {
                                     continue;
                                 if(VolunteerName.equals("--"))
                                     continue;
-                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
-                                    request.add(MAGIC);
-                                 myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,null,reqID,PictureURI);
+                                MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
+                                request.add(MAGIC);
+                                myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,null,reqID,PictureURI);
                                 listViewNoti.setAdapter(myRequestAdapter);
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -195,14 +195,13 @@ public class DonatorNotifications extends AppCompatActivity {
                                 listViewNoti.setAdapter(myRequestAdapter);
                             }
                         }else{
-
                         }
                     }
                 });*/
 
-       Query q2 = db.collection("Reviews").whereEqualTo("onUserID",UserID);
+        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",UserID);
         //Toast.makeText(DonatorNotifications.this, "The User ID Is"+UserID, Toast.LENGTH_SHORT).show();
-      q2.get()
+        q2.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -216,7 +215,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                 String com = document.getString("Comment");
                                 //Toast.makeText(DonatorNotifications.this, "The Comment Is"+com, Toast.LENGTH_SHORT).show();
                                 double rate= document.getDouble("Rating");
-                               // Toast.makeText(DonatorNotifications.this, "The rate Is"+rate, Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(DonatorNotifications.this, "The rate Is"+rate, Toast.LENGTH_SHORT).show();
                                 //double rateing = Double.valueOf(rate);
                                 String userID=document.getString("onUserID");
                                 //Toast.makeText(DonatorNotifications.this, "The userID Is"+userID, Toast.LENGTH_SHORT).show();
@@ -286,7 +285,7 @@ class MyNotificationsAdapter extends BaseAdapter {
 
     public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request,ArrayList<Review> reviews, String reqID,Uri PictureURI) {
         if(request!=null){
-        this.request=request;}
+            this.request=request;}
         if(reviews!=null){
             this.reviews=reviews;
         }
@@ -340,11 +339,9 @@ class MyNotificationsAdapter extends BaseAdapter {
         /*TextView volunteerName=(TextView) view.findViewById(R.id.volunteerName);
         TextView status=(TextView) view.findViewById(R.id.state);
         TextView requestType=(TextView) view.findViewById(R.id.request);
-
         volunteerName.setText(request.get(position).getVolunteerName());
         requestType.setText("Your "+request.get(position).EventType+" Request");
         String ss=request.get(position).Status;
-
         SpannableString spannableString=new SpannableString(ss);
         if(ss.equals("Pending")){
             ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
@@ -363,52 +360,52 @@ class MyNotificationsAdapter extends BaseAdapter {
         }*/
 
 
-                View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
-                String volunteer = request.get(position).getVolunteerName() + " ";
-                //String VolID=request.get(position).;
-                String state = request.get(position).Status;
-                String EventType = " Your " + request.get(position).EventType + " Request";
-                SpannableStringBuilder builder = new SpannableStringBuilder();
-                SpannableString volunteer1 = new SpannableString(volunteer);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
+        String volunteer = request.get(position).getVolunteerName() + " ";
+        //String VolID=request.get(position).;
+        String state = request.get(position).Status;
+        String EventType = " Your " + request.get(position).EventType + " Request";
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        SpannableString volunteer1 = new SpannableString(volunteer);
 
-                //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                // volunteer1.setSpan(new ForegroundColorSpan(Color.RED),0,volunteer.length(), 0);
-                builder.append(volunteer1);
+        //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+        // volunteer1.setSpan(new ForegroundColorSpan(Color.RED),0,volunteer.length(), 0);
+        builder.append(volunteer1);
 
-                if (state.equals("Pending")) {
-                    //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                    SpannableString state1 = new SpannableString(state);
-                    state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, state.length(), 0);
-                    builder.append(state1);
-                } else if (state.equals("Accepted")) {
-                    // ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
-                    SpannableString state1 = new SpannableString(state);
-                    state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, state.length(), 0);
-                    builder.append(state1);
-                } else if (state.equals("Cancelled")) {
-                    //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
-                    SpannableString state1 = new SpannableString(state);
-                    state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, state.length(), 0);
-                    builder.append(state1);
-                }else if(state.equals("Delivered")){
-                    SpannableString state1 = new SpannableString(state);
-                    state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, state.length(), 0);
-                    builder.append(state1);
-                }
-                //ForegroundColorSpan foregroundColorSpan2=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                //state1.setSpan(new ForegroundColorSpan(Color.YELLOW),0,state.length(),0);
-                //builder.append(state1);
-                SpannableString EventType1 = new SpannableString(EventType);
-                //ForegroundColorSpan foregroundColorSpan3=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                //EventType1.setSpan(new ForegroundColorSpan(Color.BLUE),0,EventType.length(), 0);
-                builder.append(EventType1);
-                //String textbox=volunteer2+" "+state+" Your "+EventType+" Request";
-                //  SpannableString spannableString=new SpannableString(textbox);
-                TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+        if (state.equals("Pending")) {
+            //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+            SpannableString state1 = new SpannableString(state);
+            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, state.length(), 0);
+            builder.append(state1);
+        } else if (state.equals("Accepted")) {
+            // ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
+            SpannableString state1 = new SpannableString(state);
+            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, state.length(), 0);
+            builder.append(state1);
+        } else if (state.equals("Cancelled")) {
+            //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
+            SpannableString state1 = new SpannableString(state);
+            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, state.length(), 0);
+            builder.append(state1);
+        }else if(state.equals("Delivered")){
+            SpannableString state1 = new SpannableString(state);
+            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, state.length(), 0);
+            builder.append(state1);
+        }
+        //ForegroundColorSpan foregroundColorSpan2=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+        //state1.setSpan(new ForegroundColorSpan(Color.YELLOW),0,state.length(),0);
+        //builder.append(state1);
+        SpannableString EventType1 = new SpannableString(EventType);
+        //ForegroundColorSpan foregroundColorSpan3=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+        //EventType1.setSpan(new ForegroundColorSpan(Color.BLUE),0,EventType.length(), 0);
+        builder.append(EventType1);
+        //String textbox=volunteer2+" "+state+" Your "+EventType+" Request";
+        //  SpannableString spannableString=new SpannableString(textbox);
+        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
         CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo);
 
-                volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
-                ImageView volunteerPicture = view.findViewById(R.id.colo1);
+        volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+        ImageView volunteerPicture = view.findViewById(R.id.colo1);
         //circleImageView.setImageURI(getPhoto());
 
 

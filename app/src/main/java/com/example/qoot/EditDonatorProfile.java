@@ -259,8 +259,8 @@ public class EditDonatorProfile extends AppCompatActivity {
             mImageUri = data.getData();
             NEW_IMAGE.setImageURI(mImageUri);
             NEW_IMAGE.requestLayout();
-            NEW_IMAGE.getLayoutParams().height = 400;
-            NEW_IMAGE.getLayoutParams().width = 400;
+            //NEW_IMAGE.getLayoutParams().height = 400;
+            //NEW_IMAGE.getLayoutParams().width = 400;
         }
     }
     public void Updatename(String name){

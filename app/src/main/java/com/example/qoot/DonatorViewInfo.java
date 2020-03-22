@@ -86,7 +86,7 @@ public class DonatorViewInfo extends AppCompatActivity {
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
                         uri = Uri.parse(file.toString());
-                        //Toast.makeText(DonatorViewInfo.this, "photo in: "+uri, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DonatorViewInfo.this, "photo in: "+uri, Toast.LENGTH_SHORT).show();
                         circleImageView.setImageURI(uri);
                         circleImageView.requestLayout();
 

@@ -89,6 +89,10 @@ public class DonatorRequestInfo extends AppCompatActivity {
                         spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         state.setText(spannableString);
                     }
+                    else if(ss.equals("Delivered")){
+                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                        spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);}
 
                     guests.setText(documentSnapshot.getString("NumberOfGuests"));
                     location.setText(documentSnapshot.getString("Location"));

@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
@@ -44,7 +45,7 @@ public class PopReview extends Activity {
     TextView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String userID, ReqIDDD, on_user;
+    String userID, ReqIDDD, on_user, myName;
     String name, comment;
     double rate;
     Bundle myIntent;
@@ -54,15 +55,15 @@ public class PopReview extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop_review);
 
-        DisplayMetrics dm= new DisplayMetrics();
+        DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
         // curve
         WindowManager.LayoutParams params=getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
-        params.x=0;
-        params.y=-40;
+        params.x = 0;
+        params.y = -40;
         getWindow().setAttributes(params);
 
         getWindow().setLayout((int)(width*.85),(int)(height*.5));
@@ -116,12 +117,42 @@ public class PopReview extends Activity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("DonatorID");
+                        myName = documentSnapshot.getString("VolnteerName");
 
 
+                /// First try to add in DB
+                //Review MyReview = new Review(on_user,name,comment,rate);
+                //DocumentReference documentReference = db.collection("Reviews").document(userID);
+
+                Map<String, Object> review = new HashMap<>();
+                review.put("CommenterID", userID);
+                review.put("CommenterName", myName);
+                review.put("onUserID", on_user);
+                review.put("Comment", comment);
+                review.put("Rating", rate);
+                review.put("RequestId",ReqIDDD);
+                //review.put("Timestamb", FieldValue.serverTimestamp());
+
+                /// second try to add in DB
+                db.collection("Reviews")
+                        .add(review)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                 Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         /// First try to add in DB
                         //Review MyReview = new Review(on_user,name,comment,rate);
                         //DocumentReference documentReference = db.collection("Reviews").document(userID);
-
+/*
                         Map<String, Object> review = new HashMap<>();
                         review.put("CommenterID", userID);
                         review.put("onUserID", on_user);
@@ -144,7 +175,7 @@ public class PopReview extends Activity {
                                     public void onFailure(@NonNull Exception e) {
                                         Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
                                     }
-                                });
+                                }); */
                     }
                 });
                 Intent i = new Intent(PopReview.this,VolunteerRequests.class);
@@ -181,7 +212,7 @@ public class PopReview extends Activity {
 
 
 
-
+/*
 class Review{
     String onUserID;
     String commenter;
@@ -232,3 +263,4 @@ class Review{
         this.rate = rate;
     }
 }
+*/

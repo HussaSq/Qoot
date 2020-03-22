@@ -91,6 +91,10 @@ public class DonatorRequestInfo extends AppCompatActivity {
                         ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
                         spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         state.setText(spannableString);
+                    }else if(ss.equals("Delivered")){
+                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                        spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);
                     }
                     else if(ss.equals("Delivered")){
                         ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));

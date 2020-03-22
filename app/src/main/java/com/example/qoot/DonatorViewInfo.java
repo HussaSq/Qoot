@@ -56,19 +56,9 @@ public class DonatorViewInfo extends AppCompatActivity {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     name.setText(documentSnapshot.getString("UserName"));
-                    /*Uri img=(Uri)getPicturePath(VolID);
-                    Toast.makeText(DonatorViewInfo.this, "photo out: "+img, Toast.LENGTH_SHORT).show();
-                    if(img!=null)
-                        Toast.makeText(DonatorViewInfo.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                    circleImageView.setImageURI(img);
-                    circleImageView.requestLayout();*/
                     getPicturePath(VolID);
-
-
-
                 }
             });
-
 
         }
     }
@@ -86,14 +76,12 @@ public class DonatorViewInfo extends AppCompatActivity {
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
                         uri = Uri.parse(file.toString());
-                        Toast.makeText(DonatorViewInfo.this, "photo in: "+uri, Toast.LENGTH_SHORT).show();
                         circleImageView.setImageURI(uri);
                         circleImageView.requestLayout();
 
                     }
                 }
             });
-            //return uri;
         }
 
 

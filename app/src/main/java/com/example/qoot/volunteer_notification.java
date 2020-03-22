@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -31,7 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,6 +52,11 @@ public class volunteer_notification extends AppCompatActivity {
     ArrayList<Request> request;
     Review review;
     ArrayList<Review> reviewList;
+    ArrayList<Uri> userIDS;
+
+
+    //Abeer
+    Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +68,7 @@ public class volunteer_notification extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
+        userIDS=new ArrayList<Uri>();
 
         //BottomNavigationViewStart
         BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation_vol);
@@ -107,11 +117,19 @@ public class volunteer_notification extends AppCompatActivity {
                                 String REQTYPE= document.getString("RequestType");
                                 String DonatorName=document.getString("DonatorName");
                                 String VolunteerName=document.getString("VolnteerName");
-                                String VolunteerID=document.getString("VolnteerID");
-
+                                String DonatorID=document.getString("DonatorID");
+                                if(DonatorID==null)
+                                    continue;
+                                String ImageName = DonatorID + ".png";
+                                FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                                StorageReference mainRef = firebaseStorage.getReference("Images");
+                                final File file = new File(getFilesDir(), ImageName);
+                                uri = Uri.parse(file.toString());
+                                //if(uri!=null)
+                                    userIDS.add(uri);
                                 MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
                                 request.add(MAGIC);
-                                MyNotificationsVolAdapter myRequestAdapter=new MyNotificationsVolAdapter(volunteer_notification.this,R.layout.activity_single_notification,request,reqID);
+                                MyNotificationsVolAdapter myRequestAdapter=new MyNotificationsVolAdapter(volunteer_notification.this,R.layout.activity_single_notification,request,reqID,userIDS);
                                 listViewNoti.setAdapter(myRequestAdapter);
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -159,6 +177,8 @@ class MyNotificationsVolAdapter extends BaseAdapter {
     String VolunteerName;
     String UserID;
     String type;
+    ArrayList<Uri> userIDS;
+
 
 
 
@@ -168,13 +188,14 @@ class MyNotificationsVolAdapter extends BaseAdapter {
         this.context=context;
     }
 
-    public MyNotificationsVolAdapter(Context context, int activity_single_notification, ArrayList<Request> request, String reqID) {
+    public MyNotificationsVolAdapter(Context context, int activity_single_notification, ArrayList<Request> request, String reqID,ArrayList<Uri> userIDS) {
 
         this.request=request;
         this.context=context;
         this.layoutResourseId=activity_single_notification;
         this.reqID=reqID;
-        //this.VolunteerName=VolunteerName;
+        this.userIDS=userIDS;
+
 
 
     }
@@ -214,31 +235,6 @@ class MyNotificationsVolAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos=position;
-        /*TextView volunteerName=(TextView) view.findViewById(R.id.volunteerName);
-        TextView status=(TextView) view.findViewById(R.id.state);
-        TextView requestType=(TextView) view.findViewById(R.id.request);
-
-        volunteerName.setText(request.get(position).getVolunteerName());
-        requestType.setText("Your "+request.get(position).EventType+" Request");
-        String ss=request.get(position).Status;
-
-        SpannableString spannableString=new SpannableString(ss);
-        if(ss.equals("Pending")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }
-        else if(ss.equals("Accepted")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
-            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }
-        else if(ss.equals("Cancelled")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
-            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }*/
-
 
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
         String volunteer = request.get(position).getVolunteerName() + " ";
@@ -246,23 +242,17 @@ class MyNotificationsVolAdapter extends BaseAdapter {
         String EventType = " The " + request.get(position).EventType + " Request";
         SpannableStringBuilder builder = new SpannableStringBuilder();
         SpannableString volunteer1 = new SpannableString(volunteer);
-
-        //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-        // volunteer1.setSpan(new ForegroundColorSpan(Color.RED),0,volunteer.length(), 0);
         builder.append(volunteer1);
 
         if (state.equals("Pending")) {
-            //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
             SpannableString state1 = new SpannableString(state);
             state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, state.length(), 0);
             builder.append(state1);
         } else if (state.equals("Accepted")) {
-            // ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
             SpannableString state1 = new SpannableString(state);
             state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, state.length(), 0);
             builder.append(state1);
         } else if (state.equals("Cancelled")) {
-            //ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
             SpannableString state1 = new SpannableString(state);
             state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, state.length(), 0);
             builder.append(state1);
@@ -271,19 +261,16 @@ class MyNotificationsVolAdapter extends BaseAdapter {
             state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, state.length(), 0);
             builder.append(state1);
         }
-        //ForegroundColorSpan foregroundColorSpan2=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-        //state1.setSpan(new ForegroundColorSpan(Color.YELLOW),0,state.length(),0);
-        //builder.append(state1);
-        SpannableString EventType1 = new SpannableString(EventType);
-        //ForegroundColorSpan foregroundColorSpan3=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-        //EventType1.setSpan(new ForegroundColorSpan(Color.BLUE),0,EventType.length(), 0);
-        builder.append(EventType1);
-        //String textbox=volunteer2+" "+state+" Your "+EventType+" Request";
-        //  SpannableString spannableString=new SpannableString(textbox);
-        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
 
+        SpannableString EventType1 = new SpannableString(EventType);
+
+        builder.append(EventType1);
+        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+        Uri Uri2=userIDS.get(position);
         volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
-        CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo);
+        CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo1);
+        if(Uri2!=null)
+        circleImageView.setImageURI(Uri2);
 
         return view;
     }

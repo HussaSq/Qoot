@@ -26,6 +26,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 import javax.annotation.Nullable;
@@ -45,7 +47,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
     Bundle intent1;
-    String dateCheck,currentDate;
+    String dateCheck,currentDate,typeR,timeCheck,currenttime;
 
 
     @Override
@@ -83,25 +85,23 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                         type.setText(documentSnapshot.getString("TypeOfEvent"));
                         String ss = (documentSnapshot.getString("State"));
-                        SpannableString spannableString=new SpannableString(ss);
-                        if(ss.equals("Pending")){
-                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        typeR = documentSnapshot.getString("RequestType");
+                        SpannableString spannableString = new SpannableString(ss);
+                        if (ss.equals("Pending")) {
+                            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+                            spannableString.setSpan(foregroundColorSpan, 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             state.setText(spannableString);
-                        }
-                        else if(ss.equals("Accepted")){
-                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
-                            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        } else if (ss.equals("Accepted")) {
+                            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#4CAF50"));
+                            spannableString.setSpan(foregroundColorSpan, 0, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             state.setText(spannableString);
-                        }
-                        else if(ss.equals("Cancelled")){
-                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
-                            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        } else if (ss.equals("Cancelled")) {
+                            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#BF360C"));
+                            spannableString.setSpan(foregroundColorSpan, 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             state.setText(spannableString);
-                        }
-                        else if(ss.equals("Delivered")){
-                            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
-                            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        } else if (ss.equals("Delivered")) {
+                            ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                            spannableString.setSpan(foregroundColorSpan, 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             state.setText(spannableString);
                         }
 
@@ -111,25 +111,60 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         time.setText(documentSnapshot.getString("Time"));
 
                         String empty = "";
-                        if((documentSnapshot.getString("Note"))== empty){
-                            noteLay.setVisibility(View.GONE);}
-                        else{
-                            notes.setText(documentSnapshot.getString("Note"));}
+                        if ((documentSnapshot.getString("Note")) == empty) {
+                            noteLay.setVisibility(View.GONE);
+                        } else {
+                            notes.setText(documentSnapshot.getString("Note"));
+                        }
                         DonName.setText(documentSnapshot.getString("DonatorName"));
                         //cancel
                         // checkDate
                         Calendar now = Calendar.getInstance();
                         dateCheck = date.getText().toString();
-                        currentDate =(now.get(Calendar.MONTH) + 1)
+                        currentDate = (now.get(Calendar.MONTH) + 1)
                                 + "/"
                                 + now.get(Calendar.DATE)
                                 + "/"
                                 + now.get(Calendar.YEAR);
+                        //check for schedule
+                        if (ss.equals("Accepted") && typeR.equals("Scheduled"))
+                            if (!dateCheck.equals(currentDate))
+                                cancel.setVisibility(View.VISIBLE);
+                        //check for Urgent
+                        now.add(Calendar.HOUR, 2);
+                        // SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+                        // format.format(now.getTime());
+                        currenttime = now.get(Calendar.HOUR_OF_DAY)
+                                + ":"
+                                + now.get(Calendar.MINUTE);
 
-                        if(ss.equals("Accepted"))
-                            if(!dateCheck.equals(currentDate))
-                            cancel.setVisibility(View.VISIBLE);
+                        timeCheck = documentSnapshot.getString("Time");
+                        String str = timeCheck.replaceAll("\\s+", "");
 
+
+                        String k=str.substring(0,(str.indexOf(':')));
+
+
+                     //   System.out.println("**************k************"+k+"len"+k.length());
+                       // System.out.println("**************************"+timeCheck+"len"+timeCheck.length());
+                        if (ss.equals("Accepted") && typeR.equals("Urgent")){
+                            int hour =0;
+                            if(timeCheck != null){
+                             hour = Integer.parseInt(k);
+                              //  hour=13;
+                            if(hour<12)
+                                hour+=12;
+                            timeCheck = documentSnapshot.getString("Time");
+                           // int min = Integer.parseInt(timeCheck.substring(timeCheck.indexOf(':') + 1));
+                                }
+                            Toast.makeText( VolunteerRequestInfo.this,"c="+hour,Toast.LENGTH_SHORT).show();
+                            Toast.makeText( VolunteerRequestInfo.this,"now="+now.get(Calendar.HOUR_OF_DAY),Toast.LENGTH_SHORT).show();
+
+                            // Toast.makeText( VolunteerRequestInfo.this,"c="+dateCheck+"t="+currentDate,Toast.LENGTH_SHORT).show();
+                        if (dateCheck.equals(currentDate))
+                            if (now.get(Calendar.HOUR_OF_DAY) < hour)
+                                cancel.setVisibility(View.VISIBLE);
+                    }
                         // to display pop up
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -166,6 +201,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 }
                             }
                         });
+                        // HERE To display location for volunteer
 
                         //volName.setText(documentSnapshot.getString("Volunteer"));
                         //Bundle intent1 = getIntent().getExtras();

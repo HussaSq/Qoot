@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qoot">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -17,10 +19,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -33,15 +35,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VolunteerCancel"
-            android:theme="@style/AppTheme.customWindowPop"></activity>
-        <activity android:name=".SingleNotification" />
-
-        <activity android:name=".location" />
-        
-
-        <activity android:name=".PopReview" android:theme="@style/AppTheme.customWindowPop"></activity>
-
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -55,6 +48,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".VolunteerMap"
+            android:label="@string/title_activity_volunteer_map"></activity>
+        <activity
+            android:name=".VolunteerCancel"
+            android:theme="@style/AppTheme.customWindowPop" />
+        <activity android:name=".SingleNotification" />
+        <activity android:name=".location" />
+        <activity
+            android:name=".PopReview"
+            android:theme="@style/AppTheme.customWindowPop" />
         <activity android:name=".MapsActivity2" />
         <activity
             android:name=".MapsActivity"
@@ -87,8 +91,7 @@
         <activity android:name=".VolunteerViewInfo" />
         <activity
             android:name=".cancelPopUp"
-            android:theme="@style/AppTheme.customWindowPop"></activity>
-
+            android:theme="@style/AppTheme.customWindowPop" />
     </application>
 
 </manifest>

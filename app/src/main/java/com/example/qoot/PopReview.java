@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
@@ -43,7 +44,7 @@ public class PopReview extends Activity {
     ImageView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String userID, ReqIDDD, on_user;
+    String userID, ReqIDDD, on_user, myName;
     String name, comment;
     double rate;
     Bundle myIntent;
@@ -112,6 +113,7 @@ public class PopReview extends Activity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("DonatorID");
+                        myName = documentSnapshot.getString("VolnteerName");
 
 
                 /// First try to add in DB
@@ -120,10 +122,12 @@ public class PopReview extends Activity {
 
                 Map<String, Object> review = new HashMap<>();
                 review.put("CommenterID", userID);
+                review.put("CommenterName", myName);
                 review.put("onUserID", on_user);
                 review.put("Comment", comment);
                 review.put("Rating", rate);
                 review.put("RequestId",ReqIDDD);
+                //review.put("Timestamb", FieldValue.serverTimestamp());
 
                 /// second try to add in DB
                 db.collection("Reviews")
@@ -177,7 +181,7 @@ public class PopReview extends Activity {
 
 
 
-
+/*
 class Review{
     String onUserID;
     String commenter;
@@ -228,3 +232,4 @@ class Review{
         this.rate = rate;
     }
 }
+*/

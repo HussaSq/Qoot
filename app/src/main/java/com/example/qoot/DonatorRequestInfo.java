@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,8 +34,12 @@ public class DonatorRequestInfo extends AppCompatActivity {
     TextView type,guests, location, date, time,notes, volName, state;
     LinearLayout noteLay;
     Button cancel;
+    Button Rate;
     Bundle intent1;
     String ss;
+    String ABEER;
+    ImageView ChatIcon;
+
     //  DonatorRequests r =new DonatorRequests();
 
     @Override
@@ -49,8 +55,9 @@ public class DonatorRequestInfo extends AppCompatActivity {
         notes = findViewById(R.id.note);
         volName = findViewById(R.id.volname);
         cancel=(Button) findViewById(R.id.cancel) ;
+        Rate=(Button)findViewById(R.id.Rate_but);
         noteLay = (LinearLayout) findViewById(R.id.linearLayout4);
-
+        ChatIcon = findViewById(R.id.CHAT);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -59,6 +66,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
 
         if (intent1 != null) {
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
+            ABEER =(String) intent1.getSerializable("RequestID");
             // String ReqIDDD = intent1.getStringExtra("RequestID");
            // Toast.makeText(DonatorRequestInfo.this, "It" + ReqIDDD, Toast.LENGTH_SHORT).show();
             DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
@@ -116,6 +124,22 @@ public class DonatorRequestInfo extends AppCompatActivity {
                         }
                     });
 
+
+                    if(ss.equals("Delivered"))
+                        Rate.setVisibility(View.VISIBLE);
+
+                 Rate.setOnClickListener(new View.OnClickListener() {
+                     @Override
+                     public void onClick(View v) {
+                         Intent i = new Intent(DonatorRequestInfo.this,pop_review2.class);
+                         if(intent1 != null)
+                             i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+
+                         startActivity(i);
+                     }
+                 });
+
+
                     // عشان نضيف الايكون على حسب الطلب
                     switch (documentSnapshot.getString("State")) {
                         case "Pending":
@@ -123,6 +147,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
                             break;
                         case "Accepted":
                             // AddAcceptedIcon();
+                            ChatIcon.setVisibility(View.VISIBLE);
                             break;
                         case "Cancelled":
                             break;
@@ -154,5 +179,14 @@ public class DonatorRequestInfo extends AppCompatActivity {
 
     public void OpenListOffer(View view) {
         startActivity(new Intent(DonatorRequestInfo.this,list_offers.class));
+    }
+    public void OpenAttachment(View view){
+        Intent in = getIntent();
+        in.putExtra("RequestID",ABEER);
+        in.putExtra("Who","D");
+        Intent intent = new Intent(DonatorRequestInfo.this, AttachmentPicture.class);
+        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+        intent.putExtra("Who", in.getStringExtra("Who"));
+        startActivity(intent);
     }
 }

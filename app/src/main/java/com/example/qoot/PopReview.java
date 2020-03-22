@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +42,7 @@ public class PopReview extends Activity {
     RatingBar Rate;
     Button send;
     //Button notNow;
-    ImageView close;
+    TextView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String userID, ReqIDDD, on_user, myName;
@@ -58,12 +59,15 @@ public class PopReview extends Activity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int) (width * .8), (int) (height * .5));
-        WindowManager.LayoutParams params = getWindow().getAttributes();
+        // curve
+        WindowManager.LayoutParams params=getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
         params.x = 0;
         params.y = -40;
         getWindow().setAttributes(params);
+
+        getWindow().setLayout((int)(width*.85),(int)(height*.5));
+
 
         //Name = findViewById(R.id.et_name);
         Comment = findViewById(R.id.review);
@@ -145,6 +149,33 @@ public class PopReview extends Activity {
                                 Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
                             }
                         });
+                        /// First try to add in DB
+                        //Review MyReview = new Review(on_user,name,comment,rate);
+                        //DocumentReference documentReference = db.collection("Reviews").document(userID);
+/*
+                        Map<String, Object> review = new HashMap<>();
+                        review.put("CommenterID", userID);
+                        review.put("onUserID", on_user);
+                        review.put("Comment", comment);
+                        review.put("Rating", rate);
+                        review.put("RequestId",ReqIDDD);
+
+                        /// second try to add in DB
+                        db.collection("Reviews")
+                                .add(review)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(PopReview.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();
+                                    }
+                                }); */
                     }
                 });
                 Intent i = new Intent(PopReview.this,VolunteerRequests.class);

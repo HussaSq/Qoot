@@ -48,7 +48,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_gravity="center"
-            android:text="Are You Sure You Want To Cancel Your Request?"
+            android:text="Are You Sure You Want To Cancel Your Volunteering Service ?"
             android:textSize="20dp" />
 
         <LinearLayout

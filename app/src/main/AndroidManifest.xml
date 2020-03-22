@@ -17,9 +17,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -33,16 +34,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VolunteerCancel"
+        <activity android:name=".pop_review2"
             android:theme="@style/AppTheme.customWindowPop"></activity>
+        <activity android:name=".AttachmentPicture" />
+        <activity android:name=".DonatorViewInfo" />
+        <activity
+            android:name=".VolunteerCancel"
+            android:theme="@style/AppTheme.customWindowPop" />
         <activity android:name=".SingleNotification" />
-
         <activity android:name=".location" />
-        
-
-        <activity android:name=".PopReview" android:theme="@style/AppTheme.customWindowPop"></activity>
-
-
+        <activity
+            android:name=".PopReview"
+            android:theme="@style/AppTheme.customWindowPop" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -55,6 +58,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".VolunteerMap"
+            android:label="@string/title_activity_volunteer_map" />
         <activity android:name=".MapsActivity2" />
         <activity
             android:name=".MapsActivity"
@@ -84,11 +90,10 @@
         <activity android:name=".SignUpAs" />
         <activity android:name=".VolunteerRequests" />
         <activity android:name=".AllRequests" />
-        <activity android:name=".VolunteerViewInfo" />
         <activity
             android:name=".cancelPopUp"
             android:theme="@style/AppTheme.customWindowPop"></activity>
-
+        <activity android:name=".VolunteerViewInfo" />
     </application>
 
 </manifest>

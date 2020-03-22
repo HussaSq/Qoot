@@ -1,7 +1,9 @@
 package com.example.qoot;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -12,17 +14,20 @@ import android.view.ViewGroup;
 import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,7 +35,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,8 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
+import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.getIntent;
 
 
@@ -49,7 +59,7 @@ import static android.content.Intent.getIntent;
  */
 public class tab1 extends Fragment {
 
-    TextView textView;
+    TextView textView, THE_INVESIBLE_TEXT;
     TextView dateTimeDisplay;
     Calendar calendar;
     int day,month,year;
@@ -62,11 +72,46 @@ public class tab1 extends Fragment {
     Spinner events;
     String DonatorName;
 
+    // For Capturing the request.
+    Button Capture;
+    private static final int CAMERA_REQUEST_CODE =1;
+    FirebaseStorage mStorage;
+    StorageReference mStorageRef;
+    String PIC_ID;
+    private StorageTask UploadTask;
+
     public tab1() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Attaching Picture...");
+        progressDialog.show();
 
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            PIC_ID = uri.getLastPathSegment();
+            StorageReference STOREAGE = FirebaseStorage.getInstance().getReference();
+            StorageReference filePath = STOREAGE.child("UrgentRequest").child(PIC_ID);
+            UploadTask= filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<com.google.firebase.storage.UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(com.google.firebase.storage.UploadTask.TaskSnapshot taskSnapshot) {
+                        THE_INVESIBLE_TEXT.setVisibility(View.VISIBLE);
+                        progressDialog.dismiss();
+                }
+
+        }).addOnProgressListener(new OnProgressListener<com.google.firebase.storage.UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull com.google.firebase.storage.UploadTask.TaskSnapshot taskSnapshot) {
+                    double progressDouble = 100*(taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Attaching Picture..."+progressDouble+"%");
+                }
+            });
+    }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,7 +124,19 @@ public class tab1 extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, eventTypes);
         events.setAdapter(adapter);
 
-
+        //PICTURE
+        THE_INVESIBLE_TEXT = view.findViewById(R.id.ViewAttachment);
+        mStorage = FirebaseStorage.getInstance();
+        mStorageRef = mStorage.getReference("UrgentRequest");
+        Capture = view.findViewById(R.id.buttonCapture);
+        Capture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i,CAMERA_REQUEST_CODE);
+                // if u want to use picture
+            }
+        });
 
 
         calendar = Calendar.getInstance();
@@ -208,7 +265,10 @@ public class tab1 extends Fragment {
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
-                //request.put("Photo",);
+                if (PIC_ID != null)
+                request.put("Photo",PIC_ID);
+                else
+                    request.put("Photo","--");
                 db.collection("Requests")
                         .add(request)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

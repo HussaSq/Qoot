@@ -189,8 +189,10 @@ public class VolunteerRequests extends AppCompatActivity {
                                     Request temp = (Request) parent.getItemAtPosition(position);
                                     Intent in = getIntent();
                                     in.putExtra("RequestID", temp.getID());
+                                    in.putExtra("Where","Requests");
                                     Intent intent = new Intent(VolunteerRequests.this, VolunteerRequestInfo.class);
                                     intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+                                    intent.putExtra("Where", in.getStringExtra("Where"));
                                     startActivity(intent);
                                 }
                             });

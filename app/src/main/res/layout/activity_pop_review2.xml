@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
     android:layout_height="320dp"
     android:background="#E6E6E6"
@@ -10,9 +8,8 @@
     android:layout_gravity="center">
 
 
-
     <TextView
-        android:id="@+id/close_X"
+        android:id="@+id/txtclose"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
@@ -22,8 +19,8 @@
         android:text="X"
         android:textColor="#B8B8B8"
         android:textSize="20dp"
-        android:textStyle="bold"/>
-
+        android:textStyle="bold"
+        />
 
     <TextView
         android:id="@+id/textView6"
@@ -31,12 +28,11 @@
         android:layout_height="45dp"
         android:layout_gravity="center_horizontal"
         android:text="How was your experience?"
-        android:textSize="22dp"/>
-
+        android:textSize="22dp" />
 
 
     <RatingBar
-        android:id="@+id/rate_star"
+        android:id="@+id/rate_bar"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:layout_gravity="center"
@@ -50,16 +46,6 @@
         android:stepSize="1" />
 
 
-
-    <!--<EditText
-        android:id="@+id/et_name"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:ems="10"
-        android:hint="Your Name"
-        android:inputType="textPersonName" />-->
-
     <EditText
         android:id="@+id/review"
         android:layout_width="280dp"
@@ -71,40 +57,8 @@
         android:inputType="textMultiLine" />
 
 
-
-
-
-
-
-
-    <!-- <View
-         android:layout_width="match_parent"
-         android:layout_height=".5dp"
-         android:layout_marginLeft="10dp"
-         android:layout_marginTop="10dp"
-         android:layout_marginRight="10dp"
-         android:background="@android:color/darker_gray" />-->
-
-    <!--<LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp">
-
-
-        <Button
-            android:id="@+id/btn_not_now"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/nobutton"
-            android:text="Not Now"
-            android:textColor="@android:color/white"
-            android:textSize="15dp" /> -->
-
     <Button
-        android:id="@+id/btn_send_review"
+        android:id="@+id/send_review"
         android:layout_width="105dp"
         android:layout_height="38dp"
         android:layout_gravity="center"
@@ -112,9 +66,7 @@
         android:background="@drawable/custom_button"
         android:text="Send Review"
         android:textColor="@android:color/white"
-        android:textSize="14dp"  />
-
-
-
+        android:textSize="14dp" />
 
 </LinearLayout>
+

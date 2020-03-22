@@ -290,12 +290,62 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="68dp"
+        android:background="@drawable/box"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_image_black_24dp"
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="80dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/pic"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Attachments:"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="72dp" />
+
+        <Button
+            android:id="@+id/VIEwATTACHMENT"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="220dp"
+            android:background="@drawable/custom_button"
+            android:text="View"
+            android:textColor="#ffff"
+            android:textSize="20sp"
+            android:onClick="OpenAttachment"
+             />
+
+    </RelativeLayout>
 
     <!-- android:onClick="" -->
 
 
     <ImageView
+        android:id="@+id/CHAT"
         android:layout_width="50dp"
         android:layout_height="60dp"
         android:src="@drawable/chat"
@@ -303,9 +353,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.883"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
         app:layout_constraintVertical_bias="0.268"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/cancel"
@@ -321,8 +372,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
         app:layout_constraintVertical_bias="0.356" />
+
+
+    <Button
+        android:id="@+id/Rate_but"
+        android:layout_width="115dp"
+        android:layout_height="39dp"
+        android:background="@drawable/custom_button"
+        android:text="Rate"
+        android:textColor="#ffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <!-- android:onClick="" -->
 
 

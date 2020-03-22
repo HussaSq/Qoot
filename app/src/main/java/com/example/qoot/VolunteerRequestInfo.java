@@ -82,7 +82,16 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
 
         if (intent1 != null){
-            String ReqIDDD = (String) intent1.getSerializable("RequestID");
+            final String ReqIDDD = (String) intent1.getSerializable("RequestID");
+            //to show location for vol
+            location.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i =new Intent(VolunteerRequestInfo.this,VolunteerMap.class);
+                    i.putExtra("RequestID",ReqIDDD);
+                    startActivity(i);
+                }
+            });
             ABEER =(String) intent1.getSerializable("RequestID");
             ABEER2 = (String) intent1.getSerializable("Where");
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
@@ -208,7 +217,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 }
                             }
                         });
-                        // HERE To display location for volunteer
+
 
 
 

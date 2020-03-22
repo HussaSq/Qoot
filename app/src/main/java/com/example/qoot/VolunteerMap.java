@@ -2,7 +2,19 @@ package com.example.qoot;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -10,10 +22,26 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.Calendar;
+
+import javax.annotation.Nullable;
 
 public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback {
-
+    Bundle intent1;
     private GoogleMap mMap;
+    String ReqIDDD;
+    FirebaseFirestore db;
+    String location;
+    double lat,lang;
+    ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +66,41 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        db = FirebaseFirestore.getInstance();
+        intent1 = getIntent().getExtras();
+        back= findViewById(R.id.back);
+
+        if(intent1 != null){
+            ReqIDDD = (String) intent1.getSerializable("RequestID");
+
+            DocumentReference documentReference=db.collection("Requests").document(ReqIDDD);
+            documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    location=documentSnapshot.getString("Location") ;
+                    lat=Double.parseDouble(location.substring(0,location.indexOf(',')));
+                    lang=Double.parseDouble(location.substring(location.indexOf(',')+1));
+                    System.out.println("lat"+lat);
+                    System.out.println("lang"+lang);
+                    System.out.println("loxaa******************"+location);
+                    LatLng loc = new LatLng(lat, lang);
+                    mMap.addMarker(new MarkerOptions().position(loc).title("Marker in Sydney"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                    back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(VolunteerMap.this,VolunteerRequestInfo.class);
+                            i.putExtra("RequestID",ReqIDDD);
+                            startActivity(i);
+                        }
+                    });
+                }
+            });
+            }//end of my if
+
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
     }
 }

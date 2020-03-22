@@ -13,7 +13,7 @@
         android:background="#AED581">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/back"
             android:layout_width="40dp"
             android:layout_height="24dp"
             android:src="@drawable/downarrow"

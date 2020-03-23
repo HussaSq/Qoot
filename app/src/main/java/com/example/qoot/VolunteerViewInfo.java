@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -42,7 +44,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
     TextView averageRate;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    TextView car,name;
+    TextView car,name,mor_com;
     CircleImageView circleImageView;
     ImageView imageView;
     Uri uri;
@@ -56,6 +58,10 @@ public class VolunteerViewInfo extends AppCompatActivity {
         car=findViewById(R.id.car);
         circleImageView=findViewById(R.id.colo);
         imageView=findViewById(R.id.UserImage);
+        numVol=findViewById(R.id.Volunteered);
+        averageRate=findViewById(R.id.RateV);
+        mor_com=findViewById(R.id.more_com);
+
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -63,8 +69,31 @@ public class VolunteerViewInfo extends AppCompatActivity {
         Bundle intent1 = getIntent().getExtras();
 
 
-            String userId=mAuth.getUid();
-            Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",userId).whereEqualTo("State","Delivered");
+            //String userId=mAuth.getUid();
+
+
+
+
+
+
+            //final String MyUserId = mAuth.getCurrentUser().getUid();
+
+        if (intent1 != null) {
+            final String VolID = (String) intent1.getSerializable("Volunteers");
+            DocumentReference documentReference = db.collection("Volunteers").document(VolID);
+            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>(){
+
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                    name.setText(documentSnapshot.getString("UserName"));
+                    car.setText(documentSnapshot.getString("Vehicle"));
+                    //numVol.setText(documentSnapshot.getString("numVol"));
+                    //averageRate.setText(documentSnapshot.getString("averageRate"));
+                    getPicturePath(VolID);
+                }
+            });
+
+            Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",VolID).whereEqualTo("State","Delivered");
             q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 int Vol=0;
                 @Override
@@ -78,8 +107,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
                 }
             });
 
-
-            Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
+            Query q = db.collection("Reviews").whereEqualTo("onUserID",VolID);
             q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 int numRate=0;
                 float sum=0;
@@ -100,11 +128,9 @@ public class VolunteerViewInfo extends AppCompatActivity {
                 }
             });
 
-
-            final String MyUserId = mAuth.getCurrentUser().getUid();
             listView = findViewById(R.id.list_Comments);
             review = new ArrayList<Review>();
-            Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
+            Query q2 = db.collection("Reviews").whereEqualTo("onUserID",VolID);
             q2.limit(3).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -126,20 +152,20 @@ public class VolunteerViewInfo extends AppCompatActivity {
                         }
 
                     });
-        if (intent1 != null) {
-            final String VolID = (String) intent1.getSerializable("Volunteers");
-            DocumentReference documentReference = db.collection("Volunteers").document(VolID);
-            documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>(){
 
+            mor_com.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                    name.setText(documentSnapshot.getString("UserName"));
-                    car.setText(documentSnapshot.getString("Vehicle"));
-                    numVol.setText(documentSnapshot.getString("numVol"));
-                    averageRate.setText(documentSnapshot.getString("averageRate"));
-                    getPicturePath(VolID);
+                public void onClick(View v) {
+                    Intent in = getIntent();
+                    in.putExtra("Volunteers", VolID);
+                    Intent intent = new Intent(VolunteerViewInfo.this, VolunteerAllComment.class);
+                    intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
+                    startActivity(intent);
+
                 }
             });
+
+
 
 
             /*DocumentReference documentReference2 = db.collection("profilePicture").document(VolID);

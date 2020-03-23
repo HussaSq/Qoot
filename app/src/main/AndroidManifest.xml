@@ -35,7 +35,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VolunteerAllComment"></activity>
+        <activity android:name=".VolAllCommentView"></activity>
+        <activity android:name=".VolunteerAllComment" />
         <activity android:name=".volnteer_all_comments" />
         <activity
             android:name=".pop_review2"

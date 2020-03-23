@@ -143,7 +143,10 @@ public class tab1 extends Fragment {
         year=calendar.get(Calendar.YEAR);
         month=calendar.get(Calendar.MONTH)+1;
         day=calendar.get(Calendar.DAY_OF_MONTH);
-        dateTimeDisplay.setText(month+"/"+day+"/"+year);
+        if(month<10)
+        dateTimeDisplay.setText("0"+month+"/"+day+"/"+year);
+        else
+            dateTimeDisplay.setText(month+"/"+day+"/"+year);
 
 
 

@@ -139,15 +139,19 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         // checkDate
                         Calendar now = Calendar.getInstance();
                         dateCheck = date.getText().toString();
+
+                        //int  y= Integer.parseInt(dateCheck.substring(dateCheck.indexOf('/',6)+1));
                         currentDate = (now.get(Calendar.MONTH) + 1)
                                 + "/"
-                                + now.get(Calendar.DATE)
+                                + now.get(Calendar.DAY_OF_MONTH)
                                 + "/"
                                 + now.get(Calendar.YEAR);
                         //check for schedule
-                        if (ss.equals("Accepted") && typeR.equals("Scheduled"))
-                            if (!dateCheck.equals(currentDate))
-                                cancel.setVisibility(View.VISIBLE);
+                        if (ss.equals("Accepted") && typeR.equals("Scheduled")){
+                            int  m = Integer.parseInt(dateCheck.substring(0,dateCheck.indexOf('/')));
+                            int  d= Integer.parseInt(dateCheck.substring(dateCheck.indexOf('/')+1,dateCheck.indexOf('/',4)));
+                            if ((now.get(Calendar.MONTH)+1)>= m && now.get(Calendar.DAY_OF_MONTH)<d  )
+                                cancel.setVisibility(View.VISIBLE);}
                         //check for Urgent
                         now.add(Calendar.HOUR, 2);
                         // SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
@@ -167,20 +171,26 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                        // System.out.println("**************************"+timeCheck+"len"+timeCheck.length());
                         if (ss.equals("Accepted") && typeR.equals("Urgent")){
                             int hour =0;
+                            int nowh=0;
                             if(timeCheck != null){
                              hour = Integer.parseInt(k);
                               //  hour=13;
-                            if(hour<12)
-                                hour+=12;
+
+                            if(now.get(Calendar.HOUR_OF_DAY)>12){
+                                nowh=now.get(Calendar.HOUR_OF_DAY);
+                                nowh-=12;
+                            }else
+                                nowh=now.get(Calendar.HOUR_OF_DAY);
+
                             timeCheck = documentSnapshot.getString("Time");
                            // int min = Integer.parseInt(timeCheck.substring(timeCheck.indexOf(':') + 1));
                                 }
-                            Toast.makeText( VolunteerRequestInfo.this,"c="+hour,Toast.LENGTH_SHORT).show();
-                            Toast.makeText( VolunteerRequestInfo.this,"now="+now.get(Calendar.HOUR_OF_DAY),Toast.LENGTH_SHORT).show();
+                            //Toast.makeText( VolunteerRequestInfo.this,"c="+hour,Toast.LENGTH_SHORT).show();
+                           // Toast.makeText( VolunteerRequestInfo.this,"now="+now.get(Calendar.HOUR_OF_DAY),Toast.LENGTH_SHORT).show();
 
                             // Toast.makeText( VolunteerRequestInfo.this,"c="+dateCheck+"t="+currentDate,Toast.LENGTH_SHORT).show();
                         if (dateCheck.equals(currentDate))
-                            if (now.get(Calendar.HOUR_OF_DAY) < hour)
+                            if (nowh < hour)
                                 cancel.setVisibility(View.VISIBLE);
                     }
                         // to display pop up
@@ -228,25 +238,25 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 chat.setVisibility(View.VISIBLE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.GONE);
-                                cancel.setVisibility(View.GONE);
+                              //  cancel.setVisibility(View.GONE);
                                 break;
                             case "Pending":
                                 chat.setVisibility(View.GONE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.VISIBLE);
-                                cancel.setVisibility(View.GONE);
+                              //  cancel.setVisibility(View.GONE);
                                 break;
                             case "Accepted":
                                 chat.setVisibility(View.VISIBLE);
                                 checkDelivered.setVisibility(View.VISIBLE);
                                 Acceptbtn.setVisibility(View.GONE);
-                                cancel.setVisibility(View.VISIBLE);
+                              //  cancel.setVisibility(View.VISIBLE);
                                 break;
                             case"Cancelled":
                                 chat.setVisibility(View.GONE);
                                 checkDelivered.setVisibility(View.GONE);
                                 Acceptbtn.setVisibility(View.GONE);
-                                cancel.setVisibility(View.GONE);
+                              //  cancel.setVisibility(View.GONE);
                                 break;
                         }
 

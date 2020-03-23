@@ -90,4 +90,10 @@ public class DonatorViewInfo extends AppCompatActivity {
             startActivity(new Intent(DonatorViewInfo.this,volunteer_notification.class));
 
     }
+
+    public void OpenAllComments(View view) {
+        Intent intentC = new Intent(DonatorViewInfo.this, DonatorAllComments.class);
+        //intentC.putExtra("MyUserId",intentC.getStringExtra("MyUserId"));
+        startActivity(intentC);
+    }
 }

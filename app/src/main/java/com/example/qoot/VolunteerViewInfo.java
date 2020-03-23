@@ -63,7 +63,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
         Bundle intent1 = getIntent().getExtras();
 
 
-            String userId=mAuth.getCurrentUser().getUid();
+            String userId=mAuth.getUid();
             Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",userId).whereEqualTo("State","Delivered");
             q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 int Vol=0;

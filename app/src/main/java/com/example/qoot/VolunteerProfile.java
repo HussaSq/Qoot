@@ -197,7 +197,7 @@ public class VolunteerProfile extends AppCompatActivity {
     }
 
     public void OpenAllComments(View view) {
-        Intent intentC = new Intent(VolunteerProfile.this, DonatorAllComments.class);
+        Intent intentC = new Intent(VolunteerProfile.this,VolunteerAllComment.class);
         //intentC.putExtra("MyUserId",intentC.getStringExtra("MyUserId"));
         startActivity(intentC);
     }

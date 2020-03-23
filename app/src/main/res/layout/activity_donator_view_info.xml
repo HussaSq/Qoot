@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:text="VOLUNTEER PROFILE"
+            android:text="DONATOR PROFILE"
             android:textColor="#3f4658"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -65,7 +65,7 @@
             android:id="@+id/colo"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="72dp"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="64dp"
             android:elevation="5dp"
             android:src="@drawable/profileimge"

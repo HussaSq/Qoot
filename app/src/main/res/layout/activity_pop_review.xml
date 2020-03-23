@@ -34,7 +34,6 @@
         android:textSize="22dp"/>
 
 
-
     <RatingBar
         android:id="@+id/rate_star"
         android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
         android:backgroundTint="@color/design_default_color_primary"
         android:isIndicator="false"
         android:numStars="5"
-        android:progressTint="#FFB340"
+        android:progressTint="#DAFFB340"
         android:rating="1"
         android:stepSize="1" />
 

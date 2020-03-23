@@ -117,7 +117,26 @@ public class DonatorProfile extends AppCompatActivity {
             }
         });
 
-
+        Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
+        q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            int numRate=0;
+            float sum=0;
+            String num;
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        numRate++;
+                        sum= sum+ document.getLong("Rating");
+                    }
+                    if(numRate !=0){
+                        sum=sum/numRate;}
+                    num=""+sum;
+                    TextRate.setText(num.substring(0,3));
+                } else {
+                }
+            }
+        });
 
 
 

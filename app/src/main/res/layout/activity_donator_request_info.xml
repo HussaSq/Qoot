@@ -382,6 +382,7 @@
         android:layout_height="39dp"
         android:background="@drawable/custom_button"
         android:text="Rate"
+        android:visibility="gone"
         android:textColor="#ffff"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/cancel"

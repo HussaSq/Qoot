@@ -258,8 +258,8 @@
 
     <RelativeLayout
         android:id="@+id/Mycomments"
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_width="389dp"
+        android:layout_height="389dp"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -270,7 +270,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="225dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -284,9 +284,9 @@
             <ListView
                 android:id="@+id/list_Comments"
                 android:layout_width="match_parent"
-                android:layout_height="227dp"
+                android:layout_height="match_parent"
                 app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"
-                app:layout_constraintTop_toBottomOf="@+id/more_com" />
+                app:layout_constraintTop_toBottomOf="@+id/Mycomments" />
 
         </LinearLayout>
 

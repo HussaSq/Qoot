@@ -90,6 +90,7 @@ public class DonatorProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mfStore = FirebaseStorage.getInstance().getReference();
         db = FirebaseFirestore.getInstance();
+        //Donations = findViewById(R.id.Donations);
         final String userId=mAuth.getCurrentUser().getUid();
         user = mAuth.getCurrentUser();
 
@@ -127,6 +128,49 @@ public class DonatorProfile extends AppCompatActivity {
                 }
             });
         }
+
+        //// comment section
+        final String MyUserId = mAuth.getCurrentUser().getUid();
+        listView = findViewById(R.id.list_Comments);
+        review = new ArrayList<Review>();
+        Query q1 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
+        q1.limit(3).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String VolName = document.getString("CommenterName");
+                                String comment = document.getString("Comment");
+                                float rate = document.getLong("Rating");
+
+                                MAGIC = new Review(VolName, comment, rate);
+                                review.add(MAGIC);
+                                MyReviewAdapter myReviewAdapter = new MyReviewAdapter(DonatorProfile.this,R.layout.comments_list,review);
+                                listView.setAdapter(myReviewAdapter);
+                            }
+
+                        } else {
+                        }
+                    }
+
+                });
+            /* count donations
+        Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
+        q2.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                    donation++;
+                            }
+                        }
+                    }
+                });
+            //Donations.setText(donation);
+        */
+        ///// END of comments section
         DocumentReference documentReference =db.collection("Donators").document(userId);
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
@@ -179,6 +223,12 @@ public class DonatorProfile extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void OpenAllComments(View view) {
+        Intent intentC = new Intent(DonatorProfile.this, DonatorAllComments.class);
+        //intentC.putExtra("MyUserId",intentC.getStringExtra("MyUserId"));
+        startActivity(intentC);
+    }
+
 }
 
 class Review{
@@ -218,4 +268,55 @@ class Review{
     }
 }
 
+class MyReviewAdapter extends BaseAdapter {
 
+    private Context context;
+    ArrayList<Review> review;
+    int layoutResourseId;
+
+
+    MyReviewAdapter(Context context,ArrayList<Review> review){
+        this.review=review;
+        this.context=context;
+    }
+
+    public MyReviewAdapter(Context context, int comments_list, ArrayList<Review> review) {
+
+        this.review=review;
+        this.context=context;
+        this.layoutResourseId = comments_list;
+    }
+
+    @Override
+    public int getCount() {
+        return review.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return review.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = LayoutInflater.from(context).inflate(R.layout.comments_list, null);
+
+        TextView Commenter =(TextView) view.findViewById(R.id.commenter_name);
+        TextView comment =(TextView) view.findViewById(R.id.tv_desc_review);
+        RatingBar rate = (RatingBar)view.findViewById(R.id.rate_star);
+        /*
+        RatingBar.setText(review.get(position).EventType);
+        String type = review.get(position).getType();
+        String ss=review.get(position).Status;
+        */
+        Commenter.setText(review.get(position).getCommenterName());
+        comment.setText(review.get(position).getComment());
+        rate.setRating(review.get(position).getRate());
+        return view;
+    }
+}

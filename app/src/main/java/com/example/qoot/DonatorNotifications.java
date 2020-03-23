@@ -74,6 +74,7 @@ public class DonatorNotifications extends AppCompatActivity {
     Review review;
     ArrayList<Review> reviewList;
     MyNotificationsAdapter myRequestAdapter;
+    ArrayList<Uri> userIDS;
 
     //Abeer
     Uri uri;
@@ -130,18 +131,38 @@ public class DonatorNotifications extends AppCompatActivity {
                                 String State = document.getString("State");
                                 String Event = document.getString("TypeOfEvent");
                                 reqID = document.getString("RequestID");
-                                String REQTYPE= document.getString("RequestType");
-                                String DonatorName=document.getString("DonatorName");
-                                String VolunteerName=document.getString("VolnteerName");
-                                String VolunteerID=document.getString("VolnteerID");
-                                Uri PictureURI = getPicturePath(VolunteerID);
-                                if(VolunteerID.equals("--"))
+                                String REQTYPE = document.getString("RequestType");
+                                String DonatorName = document.getString("DonatorName");
+                                String VolunteerName = document.getString("VolnteerName");
+                                String VolunteerID = document.getString("VolnteerID");
+                                //Uri PictureURI = getPicturePath(VolunteerID);
+
+                                if (VolunteerID.equals("--"))
                                     continue;
                                 if(VolunteerName.equals("--"))
                                     continue;
+                                String ImageName = VolunteerID + ".png";
+                                FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                                StorageReference mainRef = firebaseStorage.getReference("Images");
+                                final File file = new File(getFilesDir(), ImageName);
+                                uri = Uri.parse(file.toString());
+                                if(uri!=null)
+                                userIDS.add(uri);
+                               /* mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                                    //@Override
+                                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            uri = Uri.parse(file.toString());
+                                            userIDS.add(uri);
+                                        }
+                                    }
+
+                                });*/
+
+
                                 MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
                                 request.add(MAGIC);
-                                myRequestAdapter=new MyNotificationsAdapter(DonatorNotifications.this,R.layout.activity_single_notification,request,null,reqID,PictureURI);
+                                myRequestAdapter = new MyNotificationsAdapter(DonatorNotifications.this, R.layout.activity_single_notification, request, null, reqID, userIDS);
                                 listViewNoti.setAdapter(myRequestAdapter);
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
@@ -221,6 +242,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                 //Toast.makeText(DonatorNotifications.this, "The userID Is"+userID, Toast.LENGTH_SHORT).show();
                                 //String reqId=document.getString("reqID");
                               //  review = new Review(userID, name, com, rate);
+                               // review = new Review(userID, name, com, rate);
                                 //Toast.makeText(DonatorNotifications.this, "The Name of review Is"+review.getByName(), Toast.LENGTH_SHORT).show();
 
                                 reviewList.add(review);
@@ -241,59 +263,58 @@ public class DonatorNotifications extends AppCompatActivity {
     }
 
 
-
-
-    public Uri getPicturePath(String Vid){
-        String ImageName = Vid+".png";
+    public void getPicturePath(String Vid) {
+        String ImageName = Vid + ".png";
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference mainRef = firebaseStorage.getReference("Images");
         final File file = new File(getFilesDir(), ImageName);
         mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
+            //@Override
             public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
                     uri = Uri.parse(file.toString());
                 }
             }
         });
-        return uri;
+        //return uri;
     }
 
 }
 
-class MyNotificationsAdapter extends BaseAdapter {
+    class MyNotificationsAdapter extends BaseAdapter {
 
-    private Context context;
-    ArrayList<Request> request;
-    ArrayList<Review> reviews;
-    int layoutResourseId;
-    String reqID;
-    FirebaseAuth mAuth;
-    FirebaseFirestore db;
-    String VolunteerName;
-    String UserID;
-    String type;
-    Uri PictureURI;
+        private Context context;
+        ArrayList<Request> request;
+        ArrayList<Review> reviews;
+        int layoutResourseId;
+        String reqID;
+        FirebaseAuth mAuth;
+        FirebaseFirestore db;
+        String VolunteerName;
+        String UserID;
+        String type;
+        //Uri PictureURI;
+        ArrayList<Uri> userIDS;
 
 
-
-
-    MyNotificationsAdapter(Context context,ArrayList<Request> request){
-        this.request=request;
-        this.context=context;
-    }
-
-    public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request,ArrayList<Review> reviews, String reqID,Uri PictureURI) {
-        if(request!=null){
-            this.request=request;}
-        if(reviews!=null){
-            this.reviews=reviews;
+        MyNotificationsAdapter(Context context, ArrayList<Request> request) {
+            this.request = request;
+            this.context = context;
         }
-        this.context=context;
-        this.layoutResourseId=activity_single_notification;
-        this.reqID=reqID;
-        this.PictureURI=PictureURI;
-        //this.VolunteerName=VolunteerName;
+
+        public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request, ArrayList<Review> reviews, String reqID, ArrayList<Uri> userIDS) {
+            if (request != null) {
+                this.request = request;
+            }
+            if (reviews != null) {
+                this.reviews = reviews;
+            }
+            this.context = context;
+            this.layoutResourseId = activity_single_notification;
+            this.reqID = reqID;
+            //this.PictureURI=PictureURI;
+            //this.VolunteerName=VolunteerName;
+            this.userIDS = userIDS;
 
 
     }
@@ -314,12 +335,10 @@ class MyNotificationsAdapter extends BaseAdapter {
         return position;
     }
 
-    public String getreqID() {
-        return reqID;
-    }
-    public Uri getPhoto(){
-        return PictureURI;
-    }
+        public String getreqID() {
+            return reqID;
+        }
+
 
     public int getViewTypeCount(){
         return 2;

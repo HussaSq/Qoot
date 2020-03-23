@@ -3,15 +3,21 @@ package com.example.qoot;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +55,9 @@ public class DonatorProfile extends AppCompatActivity {
     TextView TextRate;
     LinearLayout linearLayout;
     ConstraintLayout root ;
+    Review MAGIC ;
+    ArrayList<Review> review;
+    ListView listView;
     // eventually we will add comments and ratings as well
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
@@ -133,8 +142,8 @@ public class DonatorProfile extends AppCompatActivity {
         final String MyUserId = mAuth.getCurrentUser().getUid();
         listView = findViewById(R.id.list_Comments);
         review = new ArrayList<Review>();
-        Query q1 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
-        q1.limit(3).get()
+        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
+        q2.limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -205,13 +214,6 @@ public class DonatorProfile extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
-
-
 
 
     public void OpenEditProfilePage(View view){

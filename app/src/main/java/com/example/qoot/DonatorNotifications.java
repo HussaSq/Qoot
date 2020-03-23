@@ -85,7 +85,7 @@ public class DonatorNotifications extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donator_notifications);
         listViewNoti=findViewById(R.id.list_Requestnoti);
-        listViewNoti2=findViewById(R.id.list_Requestnoti2);
+        //listViewNoti2=findViewById(R.id.list_Requestnoti2);
         request=new ArrayList<Request>();
         reviewList=new ArrayList<Review>();
         mAuth = FirebaseAuth.getInstance();

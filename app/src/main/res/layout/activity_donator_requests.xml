@@ -145,7 +145,7 @@
         android:layout_height="50dp"
         android:layout_above="@+id/bottom_navigation_don"
         android:layout_marginHorizontal="280dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="10dp"
         android:onClick="OpenRequestForm"
         android:src="@drawable/orangeplus" />
     <!--        android:layout_marginBottom="0dp"-->

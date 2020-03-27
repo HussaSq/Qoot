@@ -20,8 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class VolAllCommentView extends AppCompatActivity {
-
+public class DonViewAllComment extends AppCompatActivity {
     Review MAGIC;
     ListView listView;
     ArrayList<Review> review;
@@ -32,8 +31,7 @@ public class VolAllCommentView extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vol_all_comment_view);
-
+        setContentView(R.layout.activity_don_view_all_comment);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         listView = findViewById(R.id.list_co);
@@ -43,7 +41,7 @@ public class VolAllCommentView extends AppCompatActivity {
         Bundle intent1 = getIntent().getExtras();
 
         if (intent1 != null) {
-            final String VolID = (String) intent1.getSerializable("Volunteers");
+            final String VolID = (String) intent1.getSerializable("Donators");
 
             Query q1 = db.collection("Reviews").whereEqualTo("onUserID", VolID);
 
@@ -60,12 +58,12 @@ public class VolAllCommentView extends AppCompatActivity {
 
                                     MAGIC = new Review(VolName, comment, rate);
                                     review.add(MAGIC);
-                                    MyReviewAdapter2 myReviewAdapter2 = new MyReviewAdapter2(VolAllCommentView.this, R.layout.comments_list, review);
+                                    MyReviewAdapter2 myReviewAdapter2 = new MyReviewAdapter2(DonViewAllComment.this, R.layout.comments_list, review);
                                     listView.setAdapter(myReviewAdapter2);
                                 }
 
                             } else {
-                                Toast.makeText(VolAllCommentView.this, "Something Wrong! Try Again", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DonViewAllComment.this, "Something Wrong! Try Again", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -75,9 +73,9 @@ public class VolAllCommentView extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent in = getIntent();
-                    in.putExtra("Volunteers", VolID);
-                    Intent intent = new Intent(VolAllCommentView.this, VolunteerViewInfo.class);
-                    intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
+                    in.putExtra("Donators", VolID);
+                    Intent intent = new Intent(DonViewAllComment.this, DonatorViewInfo.class);
+                    intent.putExtra("Donators", in.getStringExtra("Donators"));
                     startActivity(intent);
 
                 }
@@ -85,5 +83,6 @@ public class VolAllCommentView extends AppCompatActivity {
 
         }
     }
+
 
 }

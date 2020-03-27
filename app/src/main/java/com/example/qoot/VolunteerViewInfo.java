@@ -158,7 +158,7 @@ public class VolunteerViewInfo extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent in = getIntent();
                     in.putExtra("Volunteers", VolID);
-                    Intent intent = new Intent(VolunteerViewInfo.this, VolunteerAllComment.class);
+                    Intent intent = new Intent(VolunteerViewInfo.this, VolAllCommentView.class);
                     intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
                     startActivity(intent);
 

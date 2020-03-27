@@ -30,6 +30,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import org.w3c.dom.Comment;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +48,12 @@ public class PopReview extends Activity {
     TextView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String userID, ReqIDDD, on_user, myName;
+    String userID, ReqIDDD, on_user, myName,Date,Time;
     String name, comment;
     double rate;
     Bundle myIntent;
+    Calendar calendar;
+    int day,month,year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,17 @@ public class PopReview extends Activity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("DonatorID");
                         myName = documentSnapshot.getString("VolnteerName");
+                        calendar = Calendar.getInstance();
+                        year=calendar.get(Calendar.YEAR);
+                        month=calendar.get(Calendar.MONTH)+1;
+                        day=calendar.get(Calendar.DAY_OF_MONTH);
+                        if(month<10)
+                            Date="0"+month+"/"+day+"/"+year;
+                        else
+                            Date=month+"/"+day+"/"+year;
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                        Time =simpleDateFormat.format(calendar.getTime());
+
 
 
                 /// First try to add in DB
@@ -132,6 +147,8 @@ public class PopReview extends Activity {
                 review.put("Comment", comment);
                 review.put("Rating", rate);
                 review.put("RequestId",ReqIDDD);
+                review.put("Date",Date);
+                review.put("Time",Time);
                 //review.put("Timestamb", FieldValue.serverTimestamp());
 
                 /// second try to add in DB

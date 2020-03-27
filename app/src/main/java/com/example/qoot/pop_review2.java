@@ -25,6 +25,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +38,12 @@ public class pop_review2 extends Activity {
     TextView close;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String userID, ReqIDDD, on_user;
+    String userID, ReqIDDD, on_user,myName,Date,Time;
     String comment;
     double rate;
     Bundle myIntent;
+    Calendar calendar;
+    int day,month,year;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +110,18 @@ public class pop_review2 extends Activity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("VolnteerID");
+                        myName = documentSnapshot.getString("DonatorName");
+
+                        calendar = Calendar.getInstance();
+                        year=calendar.get(Calendar.YEAR);
+                        month=calendar.get(Calendar.MONTH)+1;
+                        day=calendar.get(Calendar.DAY_OF_MONTH);
+                        if(month<10)
+                            Date="0"+month+"/"+day+"/"+year;
+                        else
+                            Date=month+"/"+day+"/"+year;
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                        Time =simpleDateFormat.format(calendar.getTime());
 
 
                         /// First try to add in DB
@@ -115,10 +131,13 @@ public class pop_review2 extends Activity {
                         Map<String, Object> review = new HashMap<>();
                         //**********=donater id
                         review.put("CommenterID", userID);
+                        review.put("CommenterName", myName);
                         review.put("onUserID", on_user);
                         review.put("Comment", comment);
                         review.put("Rating", rate);
                         review.put("RequestId",ReqIDDD);
+                        review.put("Date",Date);
+                        review.put("Time",Time);
 
                         /// second try to add in DB
                         db.collection("Reviews")

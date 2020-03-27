@@ -67,7 +67,7 @@ public class tab1 extends Fragment {
     ImageView submit;
     FirebaseFirestore db;
     FirebaseAuth mAuth;
-    String type,numOfGuest,userId,time,date,name;
+    String type,numOfGuest,userId,time,date,name,Time;
     private static final String TAG = "tab1";
     Spinner events;
     String DonatorName;
@@ -254,6 +254,8 @@ public class tab1 extends Fragment {
                             }
 
                         });*/
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                        Time =simpleDateFormat.format(calendar.getTime());
                 Map<String,Object> request = new HashMap<>();
                 request.put("TypeOfEvent",type);
                 request.put("NumberOfGuests",numOfGuest);
@@ -268,6 +270,7 @@ public class tab1 extends Fragment {
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
+                request.put("submetTime",Time);
                 if (PIC_ID != null)
                 request.put("Photo",PIC_ID);
                 else

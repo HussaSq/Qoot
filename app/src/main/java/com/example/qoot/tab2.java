@@ -75,7 +75,7 @@ import java.util.Calendar;
 public class tab2 extends Fragment {
     TextView textView,location, mLocation;
     TextView dateOfPickUp;
-    String selectedDate;
+    String selectedDate,Time,Date;
     Calendar calendar;
     int day,month,year;
     public static final int REQUEST_CODE = 11; // ???
@@ -272,6 +272,15 @@ public class tab2 extends Fragment {
                 });*/
 
                 // DocumentReference documentReference=db.collection("Requests").document(reqId);
+                        year=calendar.get(Calendar.YEAR);
+                        month=calendar.get(Calendar.MONTH)+1;
+                        day=calendar.get(Calendar.DAY_OF_MONTH);
+                        if(month<10)
+                            Date="0"+month+"/"+day+"/"+year;
+                        else
+                            Date=month+"/"+day+"/"+year;
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                        Time =simpleDateFormat.format(calendar.getTime());
                 Map<String,Object> request = new HashMap<>();
                 request.put("TypeOfEvent",type);
                 request.put("NumberOfGuests",numOfGuest);
@@ -286,6 +295,8 @@ public class tab2 extends Fragment {
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");
                 request.put("RequestType","Scheduled");
+                request.put("submetTime",Time);
+                request.put("submetDate",Date);
 
 
                 db.collection("Requests")

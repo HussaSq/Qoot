@@ -109,12 +109,5 @@ public class AllRequests extends AppCompatActivity {
         startActivity(new Intent(AllRequests.this,tab4.class));
     }
 
-    public void OpenVolunteerRequests(View view) {
-        //Intent intent1 = getIntent();
-        //String userId = intent1.getStringExtra("user");
-        Intent intent = new Intent(AllRequests.this,VolunteerRequests.class);
-        //intent.putExtra("user",userId);
-        startActivity(intent);
-       // startActivity(new Intent(AllRequests.this,VolunteerRequests.class));
-    }
+
 }

@@ -16,15 +16,7 @@
         android:layout_alignParentTop="true"
         android:background="#AED581">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/downarrow"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="OpenVolunteerRequests"/>
+
 
 
         <TextView
@@ -73,7 +65,10 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/tablayout"
+        >
+
     </androidx.viewpager.widget.ViewPager>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -75,31 +75,29 @@ public class DonatorRequestInfo extends AppCompatActivity {
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                     type.setText(documentSnapshot.getString("TypeOfEvent"));
 
-                     ss = (documentSnapshot.getString("State"));
-                    SpannableString spannableString=new SpannableString(ss);
-                    if(ss.equals("Pending")){
-                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-                        spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    ss = (documentSnapshot.getString("State"));
+                    SpannableString spannableString = new SpannableString(ss);
+                    if (ss.equals("Pending")) {
+                        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#FB8C00"));
+                        spannableString.setSpan(foregroundColorSpan, 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);
+                    } else if (ss.equals("Accepted")) {
+                        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#4CAF50"));
+                        spannableString.setSpan(foregroundColorSpan, 0, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);
+                    } else if (ss.equals("Cancelled")) {
+                        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#BF360C"));
+                        spannableString.setSpan(foregroundColorSpan, 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);
+                    } else if (ss.equals("Delivered")) {
+                        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                        spannableString.setSpan(foregroundColorSpan, 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        state.setText(spannableString);
+                    } else if (ss.equals("Delivered")) {
+                        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#0392cf"));
+                        spannableString.setSpan(foregroundColorSpan, 0, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         state.setText(spannableString);
                     }
-                    else if(ss.equals("Accepted")){
-                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
-                        spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        state.setText(spannableString);
-                    }
-                    else if(ss.equals("Cancelled")){
-                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
-                        spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        state.setText(spannableString);
-                    }else if(ss.equals("Delivered")){
-                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
-                        spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        state.setText(spannableString);
-                    }
-                    else if(ss.equals("Delivered")){
-                        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#0392cf"));
-                        spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        state.setText(spannableString);}
 
                     guests.setText(documentSnapshot.getString("NumberOfGuests"));
                     location.setText(documentSnapshot.getString("Location"));
@@ -107,41 +105,43 @@ public class DonatorRequestInfo extends AppCompatActivity {
                     time.setText(documentSnapshot.getString("Time"));
 
                     String empty = "";
-                    if((documentSnapshot.getString("Note"))== empty){
-                        noteLay.setVisibility(View.GONE);}
-                    else{
-                    notes.setText(documentSnapshot.getString("Note"));}
-                    volName.setText(documentSnapshot.getString("VolnteerName"));
+                    if ((documentSnapshot.getString("Note")) == empty) {
+                        noteLay.setVisibility(View.GONE);
+                    } else {
+                        notes.setText(documentSnapshot.getString("Note"));
+                    }
+                    String Vol = documentSnapshot.getString("VolnteerName");
+                    volName.setText(Vol);
 
-                    if(ss.equals("Pending") || ss.equals("Accepted"))
+                    if (ss.equals("Pending") || ss.equals("Accepted"))
                         cancel.setVisibility(View.VISIBLE);
 
                     // to display pop up
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent i = new Intent(DonatorRequestInfo.this,cancelPopUp.class);
-                            if(intent1 != null)
-                                i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+                            Intent i = new Intent(DonatorRequestInfo.this, cancelPopUp.class);
+                            if (intent1 != null)
+                                i.putExtra("RequestID", (String) intent1.getSerializable("RequestID"));
 
                             startActivity(i);
                         }
                     });
 
 
-                    if(ss.equals("Delivered"))
+                    if (ss.equals("Delivered"))
                         Rate.setVisibility(View.VISIBLE);
 
-                 Rate.setOnClickListener(new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         Intent i = new Intent(DonatorRequestInfo.this,pop_review2.class);
-                         if(intent1 != null)
-                             i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
+                    Rate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(DonatorRequestInfo.this, pop_review2.class);
+                            if (intent1 != null)
+                                i.putExtra("RequestID", (String) intent1.getSerializable("RequestID"));
 
-                         startActivity(i);
-                     }
-                 });
+                            startActivity(i);
+                        }
+                    });
 
 
                     // عشان نضيف الايكون على حسب الطلب
@@ -156,6 +156,21 @@ public class DonatorRequestInfo extends AppCompatActivity {
                         case "Cancelled":
                             break;
                     }
+                    if(Vol!=null || Vol!="--"){
+                    final String VolID = documentSnapshot.getString("VolnteerID");
+                    volName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in = getIntent();
+                            in.putExtra("Volunteers", VolID);
+                            Intent intent = new Intent(DonatorRequestInfo.this, VolunteerViewInfo.class);
+                            intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
+                            startActivity(intent);
+
+                        }
+                    });
+
+                }
 
                 }
             });

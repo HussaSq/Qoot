@@ -134,7 +134,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         } else {
                             notes.setText(documentSnapshot.getString("Note"));
                         }
-                        DonName.setText(documentSnapshot.getString("DonatorName"));
+                        String Don=documentSnapshot.getString("DonatorName");
+                        DonName.setText(Don);
+
                         //cancel
                         // checkDate
                         Calendar now = Calendar.getInstance();
@@ -259,6 +261,21 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                               //  cancel.setVisibility(View.GONE);
                                 break;
                         }
+                        if(Don!=null || Don!="--" ) {
+                            final String VolID = documentSnapshot.getString("VolnteerID");
+                            DonName.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent in = getIntent();
+                                    in.putExtra("Donators", VolID);
+                                    Intent intent = new Intent(VolunteerRequestInfo.this, DonatorViewInfo.class);
+                                    intent.putExtra("Donators", in.getStringExtra("Donators"));
+                                    startActivity(intent);
+
+                                }
+                            });
+
+                        }
 
 
                         if (documentSnapshot.getString("State").equals("Delivered"))
@@ -316,6 +333,8 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         });
                     }
                     }
+
+
                 });
     }
     }

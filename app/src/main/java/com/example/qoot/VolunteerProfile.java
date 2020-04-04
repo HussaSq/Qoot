@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class VolunteerProfile extends AppCompatActivity {
     Review MAGIC ;
     ListView listView;
@@ -46,6 +48,7 @@ public class VolunteerProfile extends AppCompatActivity {
     private ImageView Photo;
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
+    CircleImageView circleImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,7 @@ public class VolunteerProfile extends AppCompatActivity {
         numVol=findViewById(R.id.Volunteered);
         Username = findViewById(R.id.UserNameV);
         averageRate=findViewById(R.id.RateV);
-        Photo = findViewById(R.id.UserImage);
+        circleImageView = findViewById(R.id.UserImage);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -175,8 +178,8 @@ public class VolunteerProfile extends AppCompatActivity {
             public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
                     Uri u =Uri.parse(file.toString());
-                    Photo.setImageURI(u);
-                    Photo.requestLayout();
+                    circleImageView.setImageURI(u);
+                    circleImageView.requestLayout();
                     //Photo.getLayoutParams().height = 400;
                     //Photo.getLayoutParams().width = 400;
                 } else {

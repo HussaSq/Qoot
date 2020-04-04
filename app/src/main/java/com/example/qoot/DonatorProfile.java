@@ -47,6 +47,8 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class DonatorProfile extends AppCompatActivity {
 
     TextView Username;
@@ -63,6 +65,7 @@ public class DonatorProfile extends AppCompatActivity {
     FirebaseFirestore db;
     StorageReference mfStore;
     FirebaseUser user ;
+    CircleImageView circleImageView;
     public static final String TAG = "DonatorProfile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +96,7 @@ public class DonatorProfile extends AppCompatActivity {
         numDona=findViewById(R.id.Donations);
         TextRate=findViewById(R.id.RateD);
         Username = findViewById(R.id.UserNameD);
-        Photo = findViewById(R.id.UserImage);
+        circleImageView = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
         root = findViewById(R.id.rootProfile);
         mAuth = FirebaseAuth.getInstance();
@@ -223,8 +226,8 @@ public class DonatorProfile extends AppCompatActivity {
                 if (task.isSuccessful()) {
 
                   Uri u =Uri.parse(file.toString());
-                    Photo.setImageURI(u);
-                    Photo.requestLayout();
+                    circleImageView.setImageURI(u);
+                    circleImageView.requestLayout();
                     //Photo.getLayoutParams().height = 400;
                     //Photo.getLayoutParams().width = 400;
                 } else {

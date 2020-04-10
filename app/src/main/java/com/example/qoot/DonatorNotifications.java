@@ -125,7 +125,7 @@ public class DonatorNotifications extends AppCompatActivity {
 
         //.whereEqualTo("State"," Accepted || Cancelled")
 
-        Query q1 = db.collection("Requests").whereEqualTo("DonatorID", UserID).whereIn("State", Arrays.asList("Accepted", "Cancelled", "Delivered"));
+       /* Query q1 = db.collection("Requests").whereEqualTo("DonatorID", UserID).whereIn("State", Arrays.asList("Accepted", "Cancelled", "Delivered"));
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -154,7 +154,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                 //Toast.makeText(DonatorNotifications.this,"THe FILE IS: "+file,Toast.LENGTH_SHORT).show();
                                 uri = Uri.parse(file.toString());
                                 //if(uri!=null)
-                                userIDS.add(uri);
+                                userIDS.add(uri);*/
                                /* mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                                     //@Override
                                     public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
@@ -166,7 +166,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                 });*/
 
 
-                                MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
+                              /*  MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
                                 request.add(MAGIC);
                                 myRequestAdapter = new MyNotificationsAdapter(DonatorNotifications.this, R.layout.activity_single_notification, request, reqID, userIDS);
                                 listViewNoti.setAdapter(myRequestAdapter);
@@ -197,7 +197,7 @@ public class DonatorNotifications extends AppCompatActivity {
                         }
                     }
 
-                });
+                });*/
 
 
 

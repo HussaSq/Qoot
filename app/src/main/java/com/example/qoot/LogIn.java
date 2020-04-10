@@ -15,15 +15,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -82,6 +88,20 @@ public class LogIn extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Toast.makeText(LogIn.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
 
+
+                                String token_id= FirebaseInstanceId.getInstance().getToken();
+                                        String current_id=fAuth.getCurrentUser().getUid();
+
+                                        Map<String,Object> tokenMap=new HashMap<>();
+                                        tokenMap.put("token_id", token_id);
+                                        db.collection("users").document(current_id).update(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+
+                                            }
+                                        });
+
+
                                 //to open the right profile
                                 whichOne();
 
@@ -109,6 +129,7 @@ public class LogIn extends AppCompatActivity {
     public void whichOne(){
         userId=fAuth.getCurrentUser().getUid();
         DocumentReference documentReference =db.collection("users").document(userId);
+
         documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {

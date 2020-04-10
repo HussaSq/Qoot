@@ -21,8 +21,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -116,29 +118,35 @@ public class RegisterAsDonator extends AppCompatActivity {
 
                             // Donator don = new Donator(username,email,gender.getText().toString());
                             db= FirebaseFirestore.getInstance();
+                            final DocumentReference documentReference=db.collection("Donators").document(userId);
 
-                            DocumentReference documentReference=db.collection("Donators").document(userId);
-                            Map<String,Object> donators = new HashMap<>();
-                            donators.put("UserName",username);
-                            donators.put("Email",email);
-                            donators.put("Gender",gen);
-                            donators.put("PhoneNumber","05xxxxxxxx");
-                            documentReference.set(donators).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                   // Log.d(TAG,"OnSuccess: user profile is created for"+userId);
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                 //  Log.d(TAG,"OnFailure "+ e.toString());
-                                }
-                            });
+                                    String token_id= FirebaseInstanceId.getInstance().getToken();
+                                    Map<String,Object> donators = new HashMap<>();
+                                    donators.put("UserName",username);
+                                    donators.put("Email",email);
+                                    donators.put("Gender",gen);
+                                    donators.put("PhoneNumber","05xxxxxxxx");
+                                    donators.put("token_id", token_id);
+                                    documentReference.set(donators).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Log.d(TAG,"OnSuccess: user profile is created for"+userId);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            //  Log.d(TAG,"OnFailure "+ e.toString());
+                                        }
+                                    });
+
+
                             DocumentReference documentReference1=db.collection("users").document(userId);
                             Map<String,Object> user = new HashMap<>();
                             user.put("Type","Donator");
                             user.put("email",email);
+                            user.put("token_id", token_id);
                             documentReference1.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
                                 @Override
@@ -152,12 +160,15 @@ public class RegisterAsDonator extends AppCompatActivity {
                                 }
                             });
 
+
+
                             //db.collection("users").document(userid).set(don);
 
                            /* db = FirebaseFirestore.getInstance();
                             String  USER = mAuth.getCurrentUser().getUid();
                             Donator donator = new Donator(username,email,(String)gender.getText());
                             db.collection("users").document(USER).set(donator);*/
+
 
                             startActivity(new Intent(RegisterAsDonator.this, DonatorProfile.class));
                         } else {

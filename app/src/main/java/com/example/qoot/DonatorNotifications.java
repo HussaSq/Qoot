@@ -142,7 +142,6 @@ public class DonatorNotifications extends AppCompatActivity {
                                 //Uri PictureURI = getPicturePath(VolunteerID);
                                 if(VolunteerID==null)
                                     continue;
-
                                 if (VolunteerID.equals("--"))
                                     continue;
                                 if (VolunteerName.equals("--"))
@@ -191,12 +190,9 @@ public class DonatorNotifications extends AppCompatActivity {
                                     }
                                 });
                             }
-
-
                         } else {
                         }
                     }
-
                 });*/
 
 
@@ -516,4 +512,3 @@ class MyNotificationsAdapter2 extends BaseAdapter {
         return view;
     }
 }
-

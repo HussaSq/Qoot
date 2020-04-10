@@ -107,24 +107,36 @@
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="80dp" />
 
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="144dp"
-            android:layout_height="52dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Location"
-            android:inputType="textMultiLine"
-            android:textSize="20dp"
-            tools:layout_editor_absoluteX="46dp"
-            tools:layout_editor_absoluteY="72dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/location"-->
+<!--            android:layout_width="144dp"-->
+<!--            android:layout_height="52dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:ems="10"-->
+<!--            android:gravity="start|top"-->
+<!--            android:hint="Location"-->
+<!--            android:inputType="textMultiLine"-->
+<!--            android:textSize="20dp"-->
+<!--            tools:layout_editor_absoluteX="46dp"-->
+<!--            tools:layout_editor_absoluteY="72dp" />-->
+        <Button
+            android:id="@+id/letsTrack"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/custom_button"
+            android:text="Track"
+            android:textColor="#ffff"
+            android:textSize="20sp"
+            android:onClick="OpenTrackDonatorRequest"
+            />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="wrap_content"
-
+android:layout_marginLeft="40dp"
             android:layout_marginTop="12dp"
             android:src="@drawable/guest"
             tools:layout_editor_absoluteX="16dp"

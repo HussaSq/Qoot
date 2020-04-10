@@ -39,7 +39,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    TextView type,guests, location, date, time,notes, DonName,state;
+    TextView type,guests,date, time,notes, DonName,state;
     Button Acceptbtn,cancel;
     String userID;
     LinearLayout noteLay;
@@ -54,7 +54,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     ImageView chat;
     String ABEER;
     String ABEER2;
-
+    SpannableString spannableString;
 
 
 
@@ -66,7 +66,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         type = findViewById(R.id.FoodType);
         state = findViewById(R.id.requesrStatus);
         guests = findViewById(R.id.numberOfGuest);
-        location = findViewById(R.id.location);
+      //  location = findViewById(R.id.location);
         date = findViewById(R.id.Date);
         time = findViewById(R.id.pickUpTime);
         notes = findViewById(R.id.note);
@@ -87,15 +87,15 @@ public class VolunteerRequestInfo extends AppCompatActivity {
             final String ReqIDDD = (String) intent1.getSerializable("RequestID");
             ABEER2 = (String) intent1.getSerializable("Where");
             //to show location for vol
-            location.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i =new Intent(VolunteerRequestInfo.this,VolunteerMap.class);
-                    i.putExtra("RequestID",ReqIDDD);
-                    i.putExtra("Where",ABEER2);
-                    startActivity(i);
-                }
-            });
+//            location.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Intent i =new Intent(VolunteerRequestInfo.this,VolunteerMap.class);
+//                    i.putExtra("RequestID",ReqIDDD);
+//                    i.putExtra("Where",ABEER2);
+//                    startActivity(i);
+//                }
+//            });
             ABEER =(String) intent1.getSerializable("RequestID");
             ABEER2 = (String) intent1.getSerializable("Where");
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
@@ -108,7 +108,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         String ss = (documentSnapshot.getString("State"));
                         typeR = documentSnapshot.getString("RequestType");
                         donID=documentSnapshot.getString("DonatorID");
-                        SpannableString spannableString = new SpannableString(ss);
+                       SpannableString spannableString = new SpannableString(ss);
                         if (ss.equals("Pending")) {
                             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#FB8C00"));
                             spannableString.setSpan(foregroundColorSpan, 0, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -128,7 +128,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                         }
 
                         guests.setText(documentSnapshot.getString("NumberOfGuests"));
-                        location.setText(documentSnapshot.getString("Location"));
+                     //   location.setText(documentSnapshot.getString("Location"));
                         date.setText(documentSnapshot.getString("Date"));
                         time.setText(documentSnapshot.getString("Time"));
 
@@ -390,6 +390,19 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         intent.putExtra("Who", in.getStringExtra("Who"));
         intent.putExtra("Where", in.getStringExtra("Where"));
         startActivity(intent);
+    }
+
+    public void OpenTrackDonatorRequest(View view){
+        Intent in = getIntent();
+        in.putExtra("RequestID",ABEER);
+        in.putExtra("Who","V");
+        in.putExtra("Where",ABEER2);
+        Intent intent = new Intent(VolunteerRequestInfo.this, VolunteerMap.class);
+        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+        intent.putExtra("Who", in.getStringExtra("Who"));
+        intent.putExtra("Where", in.getStringExtra("Where"));
+        startActivity(intent);
+
     }
     public void OpenChat(View view) {
         intent1 = getIntent().getExtras();

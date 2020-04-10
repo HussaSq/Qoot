@@ -6,6 +6,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
     @Override
@@ -15,17 +17,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String messageBody=remoteMessage.getNotification().getBody();
 
         NotificationCompat.Builder mBuilder=
-                new NotificationCompat.Builder(this,getString(R.string.default_notification_channel_id))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(messageTitle)
-                .setContentText(messageBody);
+                new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(messageTitle)
+                        .setContentText(messageBody);
 
         int mNotificatonId=(int) System.currentTimeMillis();
         NotificationManager mNotifyMgr=
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNotifyMgr.notify(mNotificatonId,mBuilder.build());
-
-
 
     }
 }

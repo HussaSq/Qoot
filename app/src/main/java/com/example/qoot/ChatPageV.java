@@ -67,6 +67,7 @@ public class ChatPageV extends AppCompatActivity {
     ProgressBar sendingProgress;
     Bundle myIntent;
     String RequestID;
+    String Alia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,8 +238,10 @@ public class ChatPageV extends AppCompatActivity {
         if (myIntent != null) {
             RequestID = (String) myIntent.getSerializable("RequestID");
         }
+        Alia = (String) myIntent.getSerializable("Where");
         Intent intent = new Intent(ChatPageV.this, VolunteerRequestInfo.class);
         intent.putExtra("RequestID",RequestID);
+        intent.putExtra("Where",Alia);
         startActivity(intent);
     }
 }

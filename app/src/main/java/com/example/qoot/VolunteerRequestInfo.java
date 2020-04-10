@@ -391,4 +391,13 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         intent.putExtra("Where", in.getStringExtra("Where"));
         startActivity(intent);
     }
+    public void OpenChat(View view) {
+        intent1 = getIntent().getExtras();
+        Intent intent = new Intent(VolunteerRequestInfo.this, ChatPageV.class);
+        if (intent1 != null)
+            intent.putExtra("RequestID", (String) intent1.getSerializable("RequestID"));
+
+        startActivity(intent);
+    }
+
 }

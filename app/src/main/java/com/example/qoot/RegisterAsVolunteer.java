@@ -30,10 +30,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -137,13 +139,16 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                             // Donator don = new Donator(username,email,gender.getText().toString());
                             db= FirebaseFirestore.getInstance();
 
-                            DocumentReference documentReference=db.collection("Volunteers").document(userId);
-                            Map<String,Object> volunteer = new HashMap<>();
+                            final DocumentReference documentReference=db.collection("Volunteers").document(userId);
+
+                            String token_id= FirebaseInstanceId.getInstance().getToken();
+                                    Map<String,Object> volunteer = new HashMap<>();
                             volunteer.put("UserName",username);
                             volunteer.put("Email",email);
                             volunteer.put("Gender",gen);
                             volunteer.put("PhoneNumber","05xxxxxxxx");
                             volunteer.put("Vehicle",cars.getSelectedItem().toString());
+                            volunteer.put("token_id", token_id);
                             documentReference.set(volunteer).addOnSuccessListener(new OnSuccessListener<Void>() {
 
                                 @Override
@@ -160,6 +165,7 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                             Map<String,Object> user = new HashMap<>();
                             user.put("Type","Volunteer");
                             user.put("email",email);
+                            user.put("token_id", token_id);
                             documentReference1.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
 
                                 @Override
@@ -172,6 +178,8 @@ public class RegisterAsVolunteer extends AppCompatActivity {
                                    // Log.d(TAG,"OnFailure "+ e.toString());
                                 }
                             });
+
+
 
                             //db.collection("users").document(userid).set(don);
 
@@ -198,7 +206,10 @@ public class RegisterAsVolunteer extends AppCompatActivity {
 
                                                                 // this have to change v
 
+
+
  */
+
                             startActivity(new Intent(getApplicationContext(), VolunteerProfile.class));
                         } else {
                             Toast.makeText(RegisterAsVolunteer.this, "Something Went Wrong,Try Again ! " , Toast.LENGTH_SHORT).show();

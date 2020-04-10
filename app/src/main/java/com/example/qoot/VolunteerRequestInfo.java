@@ -30,6 +30,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +43,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     Button Acceptbtn,cancel;
     String userID;
     LinearLayout noteLay;
-    String VolunteerName;
+    String VolunteerName,donID;
     CheckBox checkDelivered;
     ProgressBar progressBar;
     ProgressDialog progressDialog;
@@ -100,10 +102,12 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
                 documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                        type.setText(documentSnapshot.getString("TypeOfEvent"));
+                    public void onEvent(@Nullable final DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        final String TOE=documentSnapshot.getString("TypeOfEvent");
+                        type.setText(TOE);
                         String ss = (documentSnapshot.getString("State"));
                         typeR = documentSnapshot.getString("RequestType");
+                        donID=documentSnapshot.getString("DonatorID");
                         SpannableString spannableString = new SpannableString(ss);
                         if (ss.equals("Pending")) {
                             ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#FB8C00"));
@@ -325,6 +329,27 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                         startActivity(i2);
                                     }
                                 });
+                                Calendar calendar = Calendar.getInstance();
+                                String Date;
+                                int year=calendar.get(Calendar.YEAR);
+                                int month=calendar.get(Calendar.MONTH)+1;
+                                int day=calendar.get(Calendar.DAY_OF_MONTH);
+                                if(month<10)
+                                    Date="0"+month+"/"+day+"/"+year;
+                                else
+                                    Date=month+"/"+day+"/"+year;
+                                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                                String Time =simpleDateFormat.format(calendar.getTime());
+
+                                Map<String,Object> notificationMessage=new HashMap<>();
+                                notificationMessage.put("from",userID);
+                                notificationMessage.put("typeOfNoti","Accepted");
+                                notificationMessage.put("typeOfEvent",TOE);
+                                notificationMessage.put("Comment","--");
+                                notificationMessage.put("Rate","--");
+                                notificationMessage.put("Time",Time);
+                                notificationMessage.put("Date",Date);
+                                db.collection("users/"+donID+"/Notification").add(notificationMessage);
 
 
 

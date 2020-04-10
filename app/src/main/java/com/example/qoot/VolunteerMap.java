@@ -64,7 +64,6 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
     View locationButton;
     LatLng Origin;
     LatLng Destination;
-    Button Track;
     ArrayList<LatLng> Positions ;
 
     @Override

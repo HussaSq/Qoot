@@ -2,7 +2,7 @@
     <string name="app_name">Qoot</string>
     <string name="tab_text1">Urgent</string>
     <string name="tab_text2">Scheduled</string>
-    <string name="default_notification_channel_id">Qoot</string>
+    <string name="default_notification_channel_id">Tvac_CH_01</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

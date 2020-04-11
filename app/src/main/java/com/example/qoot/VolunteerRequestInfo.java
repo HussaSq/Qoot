@@ -233,6 +233,26 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 }else{
                                     // nothing
                                 }
+                                Calendar calendar = Calendar.getInstance();
+                                String Date;
+                                int year=calendar.get(Calendar.YEAR);
+                                int month=calendar.get(Calendar.MONTH)+1;
+                                int day=calendar.get(Calendar.DAY_OF_MONTH);
+                                if(month<10)
+                                    Date="0"+month+"/"+day+"/"+year;
+                                else
+                                    Date=month+"/"+day+"/"+year;
+                                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                                String Time =simpleDateFormat.format(calendar.getTime());
+                                Map<String,Object> notificationMessage=new HashMap<>();
+                                notificationMessage.put("from",userID);
+                                notificationMessage.put("typeOfNoti","Delivered");
+                                notificationMessage.put("typeOfEvent",TOE);
+                                notificationMessage.put("Comment","--");
+                                notificationMessage.put("Rate","--");
+                                notificationMessage.put("Time",Time);
+                                notificationMessage.put("Date",Date);
+                                db.collection("users/"+donID+"/Notification").add(notificationMessage);
                             }
                         });
 

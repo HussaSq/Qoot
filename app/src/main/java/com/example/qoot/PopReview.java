@@ -168,18 +168,7 @@ public class PopReview extends Activity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText( PopReview.this,"Thank You!"+userID,Toast.LENGTH_SHORT).show();
-                                Map<String,Object> notificationMessage=new HashMap<>();
-                                notificationMessage.put("from",userID);
-                                notificationMessage.put("typeOfNoti","Review");
-                                notificationMessage.put("typeOfEvent","--");
-                                notificationMessage.put("Comment",comment);
-                                notificationMessage.put("Rate",rate);
-                                notificationMessage.put("Time",Time);
-                                notificationMessage.put("Date",Date);
-                                db.collection("users/"+on_user+"/Notification").add(notificationMessage);
-                                Toast.makeText( PopReview.this,"REVIEW ON:!"+userID,Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

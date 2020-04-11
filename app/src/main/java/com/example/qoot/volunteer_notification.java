@@ -55,7 +55,7 @@ public class volunteer_notification extends AppCompatActivity {
     ArrayList<Notification> notificarion;
     //Review review;
     //ArrayList<Review> reviewList;
-    MyNotificationsVolAdapter myNotificationsAdapter;
+    MyNotificationsAdapter myNotificationsAdapter;
     ArrayList<Uri> userIDS;
     TextView textView;
 
@@ -152,7 +152,7 @@ public class volunteer_notification extends AppCompatActivity {
                                                                 //Toast.makeText(context, "The Name Is: " + from_name, Toast.LENGTH_SHORT).show();
                                                                 notify = new Notification(Comment,Date,Rate1,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
                                                                 notificarion.add(notify);
-                                                                myNotificationsAdapter = new MyNotificationsVolAdapter(volunteer_notification.this, R.layout.activity_single_notification, notificarion);
+                                                                myNotificationsAdapter = new MyNotificationsAdapter(volunteer_notification.this, R.layout.activity_single_notification, notificarion);
                                                                 listViewNoti.setAdapter(myNotificationsAdapter);
                                                             } else {
                                                                 String from_name = " ";

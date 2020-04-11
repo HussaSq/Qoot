@@ -32,6 +32,7 @@
         <activity android:name=".VolunteerAllComment" />
         <!--<activity android:name=".volnteer_all_comments" />-->
         <activity android:name=".ChatPageV"/>
+        <activity android:name=".ChatPageD"/>
         <activity
             android:name=".pop_review2"
             android:theme="@style/AppTheme.customWindowPop" />

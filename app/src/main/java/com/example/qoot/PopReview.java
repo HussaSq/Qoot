@@ -149,6 +149,16 @@ public class PopReview extends Activity {
                 review.put("RequestId",ReqIDDD);
                 review.put("Date",Date);
                 review.put("Time",Time);
+
+                        Map<String,Object> notificationMessage=new HashMap<>();
+                        notificationMessage.put("from",userID);
+                        notificationMessage.put("typeOfNoti","Review");
+                        notificationMessage.put("typeOfEvent","--");
+                        notificationMessage.put("Comment",comment);
+                        notificationMessage.put("Rate",rate);
+                        notificationMessage.put("Time",Time);
+                        notificationMessage.put("Date",Date);
+                        db.collection("users/"+on_user+"/Notification").add(notificationMessage);
                 //review.put("Timestamb", FieldValue.serverTimestamp());
 
                 /// second try to add in DB
@@ -157,7 +167,17 @@ public class PopReview extends Activity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                 Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText( PopReview.this,"Thank You!"+userID,Toast.LENGTH_SHORT).show();
+                                Map<String,Object> notificationMessage=new HashMap<>();
+                                notificationMessage.put("from",userID);
+                                notificationMessage.put("typeOfNoti","Review");
+                                notificationMessage.put("typeOfEvent","--");
+                                notificationMessage.put("Comment",comment);
+                                notificationMessage.put("Rate",rate);
+                                notificationMessage.put("Time",Time);
+                                notificationMessage.put("Date",Date);
+                                db.collection("users/"+on_user+"/Notification").add(notificationMessage);
+                                Toast.makeText( PopReview.this,"REVIEW ON:!"+userID,Toast.LENGTH_SHORT).show();
 
                             }
                         })

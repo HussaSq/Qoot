@@ -24,8 +24,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,14 +69,15 @@ public class DonatorNotifications extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore db;
     String UserID, reqID;
-    Request MAGIC;
+    Notification notify;
     ListView listViewNoti;
     ListView listViewNoti2;
-    ArrayList<Request> request;
-    Review review;
-    ArrayList<Review> reviewList;
-    MyNotificationsAdapter myRequestAdapter;
+    ArrayList<Notification> notificarion;
+    //Review review;
+    //ArrayList<Review> reviewList;
+    MyNotificationsAdapter myNotificationsAdapter;
     ArrayList<Uri> userIDS;
+    TextView textView;
 
 
 
@@ -88,12 +91,17 @@ public class DonatorNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_donator_notifications);
         listViewNoti = findViewById(R.id.list_Requestnoti);
         //listViewNoti2 = findViewById(R.id.list_Requestnoti2);
-        request = new ArrayList<Request>();
-        reviewList = new ArrayList<Review>();
+        notificarion = new ArrayList<Notification>();
+        //reviewList = new ArrayList<Review>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
         userIDS = new ArrayList<Uri>();
+        //textView=findViewById(R.id.textView2);
+
+       /* String dataMessage=getIntent().getStringExtra("message");
+        String fromMessage=getIntent().getStringExtra("from_user_id");
+        textView.setText("Frome: "+fromMessage+" Message: "+dataMessage);*/
 
 
 
@@ -123,37 +131,34 @@ public class DonatorNotifications extends AppCompatActivity {
             }
         });
 
-        //.whereEqualTo("State"," Accepted || Cancelled")
-
-       /* Query q1 = db.collection("Requests").whereEqualTo("DonatorID", UserID).whereIn("State", Arrays.asList("Accepted", "Cancelled", "Delivered"));
+        Query q1 = db.collection("users").document(UserID).collection("Notification");
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String State = document.getString("State");
-                                String Event = document.getString("TypeOfEvent");
-                                reqID = document.getString("RequestID");
-                                String REQTYPE = document.getString("RequestType");
-                                String DonatorName = document.getString("DonatorName");
-                                String VolunteerName = document.getString("VolnteerName");
-                                String VolunteerID = document.getString("VolnteerID");
+                                final String Comment = document.getString("Comment");
+                                final String Date= document.getString("Date");
+                                final float Rate1 = document.getLong("Rate");
+                                //final float Rate1=Float.parseFloat(rate);
+                                final String Time = document.getString("Time");
+
+                                //reqID = document.getString("RequestID");
+                                final String from = document.getString("from");
+                                final String typeOfEvent = document.getString("typeOfEvent");
+                                final String typeOfNoti = document.getString("typeOfNoti");
+                                //String VolunteerID = document.getString("VolnteerID");
                                 //Uri PictureURI = getPicturePath(VolunteerID);
-                                if(VolunteerID==null)
-                                    continue;
-                                if (VolunteerID.equals("--"))
-                                    continue;
-                                if (VolunteerName.equals("--"))
-                                    continue;
-                                String ImageName = VolunteerID + ".png";
-                                FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                                StorageReference mainRef = firebaseStorage.getReference("Images");
-                                final File file = new File(getFilesDir(), ImageName);
+
+                                //String ImageName = from + ".png";//>
+                               // FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();//>
+                                //StorageReference mainRef = firebaseStorage.getReference("Images");//>
+                                //final File file = new File(getFilesDir(), ImageName);//>
                                 //Toast.makeText(DonatorNotifications.this,"THe FILE IS: "+file,Toast.LENGTH_SHORT).show();
-                                uri = Uri.parse(file.toString());
+                                //uri = Uri.parse(file.toString());//>
                                 //if(uri!=null)
-                                userIDS.add(uri);*/
+                                //userIDS.add(uri);//>
                                /* mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
                                     //@Override
                                     public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
@@ -164,36 +169,71 @@ public class DonatorNotifications extends AppCompatActivity {
                                     }
                                 });*/
 
+                               final String Msg;
+                               if(Comment.equals("--")){
+                                    Msg=typeOfNoti+" Your "+typeOfEvent+" Request";
+                               }else{
+                                    Msg=typeOfNoti+" You";
+                               }
 
-                              /*  MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
-                                request.add(MAGIC);
-                                myRequestAdapter = new MyNotificationsAdapter(DonatorNotifications.this, R.layout.activity_single_notification, request, reqID, userIDS);
-                                listViewNoti.setAdapter(myRequestAdapter);
+
+                                DocumentReference query = db.collection("users").document(from);
+
+                                query.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            if (documentSnapshot.exists()) {
+                                                String from_Type = documentSnapshot.getString("Type");
+                                                //Toast.makeText(context, "The Type Is: " + from_Type, Toast.LENGTH_SHORT).show();
+                                                DocumentReference query2 = db.collection(from_Type + "s").document(from);
+                                                query2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                                            if (documentSnapshot.exists()) {
+                                                               String from_name = documentSnapshot.getString("UserName");
+                                                                //Toast.makeText(context, "The Name Is: " + from_name, Toast.LENGTH_SHORT).show();
+                                                                notify = new Notification(Comment,Date,Rate1,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
+                                                                notificarion.add(notify);
+                                                                myNotificationsAdapter = new MyNotificationsAdapter(DonatorNotifications.this, R.layout.activity_single_notification, notificarion);
+                                                                listViewNoti.setAdapter(myNotificationsAdapter);
+                                                            } else {
+                                                                String from_name = " ";
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                String from_Type = " ";
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        final Request temp = (Request) parent.getItemAtPosition(position);
-                                        DocumentReference VolRef=db.collection("Requests").document(temp.getID());
-                                        VolRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                String VolID = documentSnapshot.getString("VolnteerID");
-                                                if (!VolID.equals("--")) {
-                                                    Intent in = getIntent();
-                                                    in.putExtra("Volunteers", VolID);
-                                                    Intent intent = new Intent(DonatorNotifications.this, VolunteerViewInfo.class);
-                                                    intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        });
+                                        final Notification temp = (Notification) parent.getItemAtPosition(position);
+                                        String VolID = temp.getFrom();
+                                        Intent in = getIntent();
+                                        in.putExtra("Volunteers", VolID);
+                                        Intent intent = new Intent(DonatorNotifications.this, VolunteerViewInfo.class);
+                                        intent.putExtra("Volunteers", in.getStringExtra("Volunteers"));
+                                        startActivity(intent);
                                     }
                                 });
                             }
+
                         } else {
                         }
                     }
-                });*/
+
+                });
 
 
 
@@ -254,6 +294,8 @@ public class DonatorNotifications extends AppCompatActivity {
                 });*/
 
 
+
+
     }
 
 
@@ -265,51 +307,38 @@ public class DonatorNotifications extends AppCompatActivity {
 class MyNotificationsAdapter extends BaseAdapter {
 
     private Context context;
-    ArrayList<Request> request;
-    //ArrayList<Review> reviews;
+    ArrayList<Notification> notificarion;
     int layoutResourseId;
-    String reqID;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String VolunteerName;
-    String UserID;
-    String type;
-    //Uri PictureURI;
-    ArrayList<Uri> userIDS;
+    CircleImageView circleImageView;
+    Uri uri;
 
 
 
-    MyNotificationsAdapter(Context context, ArrayList<Request> request) {
-        this.request = request;
+
+
+
+    MyNotificationsAdapter(Context context, ArrayList<Notification> notificarion) {
+        this.notificarion = notificarion;
         this.context = context;
     }
 
-    public MyNotificationsAdapter(Context context, int activity_single_notification, ArrayList<Request> request, String reqID, ArrayList<Uri> userIDS) {
-             /*if (request != null) {
-                this.request = request;
-            }
-           if (reviews != null) {
-                this.reviews = reviews;
-            }*/
-        this.request = request;
+    public MyNotificationsAdapter(Context context, int activity_single_notification,ArrayList<Notification> notificarion) {
+        this.notificarion = notificarion;
         this.context = context;
         this.layoutResourseId = activity_single_notification;
-        this.reqID = reqID;
-        this.userIDS = userIDS;
-
-
-
     }
 
 
     @Override
     public int getCount() {
-        return request.size();
+        return notificarion.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return request.get(position);
+        return notificarion.get(position);
     }
 
     @Override
@@ -317,17 +346,12 @@ class MyNotificationsAdapter extends BaseAdapter {
         return position;
     }
 
-    public String getreqID() {
-        return reqID;
-    }
-
-
     public int getViewTypeCount(){
         return 2;
     }
 
     public int getItemViewType(int position){
-        if(request!=null)
+        if(notificarion!=null)
             return 0;
         else return 1;
     }
@@ -336,75 +360,124 @@ class MyNotificationsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos=position;
-        /*TextView volunteerName=(TextView) view.findViewById(R.id.volunteerName);
-        TextView status=(TextView) view.findViewById(R.id.state);
-        TextView requestType=(TextView) view.findViewById(R.id.request);
-        volunteerName.setText(request.get(position).getVolunteerName());
-        requestType.setText("Your "+request.get(position).EventType+" Request");
-        String ss=request.get(position).Status;
-        SpannableString spannableString=new SpannableString(ss);
-        if(ss.equals("Pending")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#FB8C00"));
-            spannableString.setSpan(foregroundColorSpan,0,7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }
-        else if(ss.equals("Accepted")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#4CAF50"));
-            spannableString.setSpan(foregroundColorSpan,0,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }
-        else if(ss.equals("Cancelled")){
-            ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#BF360C"));
-            spannableString.setSpan(foregroundColorSpan,0,9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            status.setText(spannableString);
-        }*/
-
-
+       // =============================================initialization===============================================================
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
-        String volunteer = request.get(position).getVolunteerName() + " ";
-        //String VolID=request.get(position).;
-        String state = request.get(position).Status;
-        String EventType = " Your " + request.get(position).EventType + " Request";
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        SpannableString volunteer1 = new SpannableString(volunteer);
+        String Comment =notificarion.get(position).getComment();
+        float Rate =notificarion.get(position).getRate();
+        final String from =notificarion.get(position).getFrom();
+        String TypeOfEvent=notificarion.get(position).getEvent_Type();
+        String typeOfNotify=notificarion.get(position).getNotifiarion_Type();
+        String from_name=notificarion.get(position).getFrom_name();
+        String msg=notificarion.get(position).getMessage();
+        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+        //LinearLayout linearLayout=view.findViewById(R.id.cont);
+        //TextView com=view.findViewById(R.id.commenter_name);
+        //RatingBar ratingBar=view.findViewById(R.id.rate_star);
+        //TextView review_dec=view.findViewById(R.id.tv_desc_review);
+        final SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(from_name+" ");
+      //===================================Request===================================
+        if(!typeOfNotify.equals("Review")) {
+            if (typeOfNotify.equals("Pending")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Accepted")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Cancelled")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Delivered")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            }
+            SpannableString TypeOfEvent1 = new SpannableString(TypeOfEvent);
+            StyleSpan boldStyle=new StyleSpan(Typeface.BOLD);
+            TypeOfEvent1.setSpan(boldStyle,0,TypeOfEvent.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        builder.append(volunteer1);
+            builder.append(" Your " + TypeOfEvent1 + " Request");
 
-        if (state.equals("Pending")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, state.length(), 0);
-            builder.append(state1);
-        } else if (state.equals("Accepted")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, state.length(), 0);
-            builder.append(state1);
-        } else if (state.equals("Cancelled")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, state.length(), 0);
-            builder.append(state1);
-        } else if (state.equals("Delivered")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, state.length(), 0);
-            builder.append(state1);
+            volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+            // ==================================Review========================================
+        }else{
+            if(Rate>0 && Rate<=1){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            else if(Rate>1 && Rate<=2){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#AED581")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            else if(Rate>2 && Rate<=3){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FDD835")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }else if(Rate>3 && Rate<=4){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#69F0AE")),0,RateS.length(), 0);
+                builder.append(state1);
+            }else if(Rate>4 && Rate<=5){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#D84315")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            builder.append(" and Comment: "+Comment);
+            volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+
         }
 
-        SpannableString EventType1 = new SpannableString(EventType);
-        builder.append(EventType1);
-        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+
+       // builder.append(Comment);
+        //builder.append(Rate);
+       // builder.append(from);
+
+       // builder.append(msg);
 
 
-        Uri id = userIDS.get(position);
+
+        //Uri id = userIDS.get(position);>>>
         //builder.append(" This is Id For Uri: "+id);
         //String id2=userIDSTri.get(position);
         // builder.append(" This is Id For String: "+id2);
             /*if(id!=null)
             circleImageView.setImageURI(id);
             */
-        CircleImageView circleImageView = (CircleImageView) view.findViewById(R.id.colo1);
-        volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
-        if(id!=null)
-            circleImageView.setImageURI(id);
+        circleImageView = (CircleImageView) view.findViewById(R.id.colo1);
+
+        /*if(id!=null)
+            circleImageView.setImageURI(id);>>>*/
+/*==============================photo========================================
+            String ImageName = from+".png";
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference mainRef = firebaseStorage.getReference("Images");
+            final File file = new File(context.getFilesDir(), ImageName);
+
+            mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        uri = Uri.parse(file.toString());
+                        circleImageView.setImageURI(uri);
+                        circleImageView.requestLayout();
+
+                    }
+                }
+            });
+================================================================================*/
+
+
 
 
         return view;
@@ -509,6 +582,9 @@ class MyNotificationsAdapter2 extends BaseAdapter {
 
         volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
 
+
+
         return view;
     }
 }
+

@@ -13,16 +13,22 @@
         android:layout_height="45dp"
         android:background="#AED581"
         tools:ignore="MissingConstraints">
-
-        <ImageView
-            android:id="@+id/LogoutButtonD"
-            android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:src="@drawable/ic_power_settings_new_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="OpenLogOut"/>
+        <LinearLayout
+            android:layout_width="45dp"
+            android:gravity="center"
+            android:elevation="1dp"
+            android:background="@drawable/box_g"
+            android:layout_height="38dp">
+            <ImageView
+                android:id="@+id/LogoutButtonD"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:src="@drawable/ic_power_settings_new_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="OpenLogOut"/>
+        </LinearLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -242,38 +248,14 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="right"
-        app:layout_constraintBottom_toTopOf="@+id/Mycomments"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <TextView
-            android:id="@+id/more_com"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginRight="12dp"
-            android:onClick="OpenAllComments"
-            android:text="More Comments > "
-            android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.938"
-            app:layout_constraintStart_toStartOf="parent" />
-
-    </LinearLayout>
 
 
     <RelativeLayout
         android:id="@+id/Mycomments"
         android:layout_width="389dp"
-        android:layout_height="389dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="58dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -298,13 +280,31 @@
                 android:id="@+id/list_Comments"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"
                 app:layout_constraintTop_toBottomOf="@+id/Mycomments" />
 
         </LinearLayout>
 
 
     </RelativeLayout>
+
+    //اذا سويت رن تضبط في الجوال
+
+    <TextView
+        android:id="@+id/more_com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="225dp"
+        android:layout_below="@id/Mycomments"
+        android:onClick="OpenAllComments"
+        android:text="More Comments > "
+        android:textSize="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"/>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
@@ -317,4 +317,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

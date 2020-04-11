@@ -32,6 +32,7 @@
             android:layout_above="@id/bottom_navigation_don"
 
             />
+
         <!--<ListView
             android:id="@+id/list_Requestnoti2"
             android:layout_width="match_parent"
@@ -57,6 +58,13 @@
         android:layout_alignParentBottom="true"
         />
 
+    <!--TextView
+        android:id="@+id/textView2"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Notifications yet"
+        android:textSize="20dp"/>-->
 
 
 </RelativeLayout>

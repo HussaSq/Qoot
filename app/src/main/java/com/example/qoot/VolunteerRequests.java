@@ -36,6 +36,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VolunteerRequests extends AppCompatActivity {
 
@@ -163,7 +164,7 @@ public class VolunteerRequests extends AppCompatActivity {
 
 
         db.collection("Requests")
-                .whereEqualTo("VolnteerID", UserID)
+                .whereEqualTo("VolnteerID", UserID).whereIn("State", Arrays.asList("Pending","Accepted"))
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshots,
@@ -212,15 +213,15 @@ public class VolunteerRequests extends AppCompatActivity {
                                     request.add(MAGIC);
                                     break;
                                 case MODIFIED:
-                                   // Log.d("", "Modified city: " + dc.getDocument().getData());
+                                    // Log.d("", "Modified city: " + dc.getDocument().getData());
                                     break;
                                 case REMOVED:
                                     //dc.getDocument().getId();
                                     //request.remove(null);
                                     //listView.removeAllViews();
-                                  //  printTheRequest();
-                                  //  listPersonsFilter.removeAll(listPersonsSelected);
-                                   // Log.d("", "Removed city: " + dc.getDocument().getData());
+                                    //  printTheRequest();
+                                    //  listPersonsFilter.removeAll(listPersonsSelected);
+                                    // Log.d("", "Removed city: " + dc.getDocument().getData());
                                     break;
                             }
                         }//end for loop
@@ -231,6 +232,11 @@ public class VolunteerRequests extends AppCompatActivity {
 
     public void OpenAllRequests(View view) {
         startActivity(new Intent(VolunteerRequests.this, AllRequests.class));
+    }
+    public void OpenHis(View view) {
+        Intent intent = new Intent(VolunteerRequests.this,history_v.class);
+        startActivity(intent);
+
     }
 
 

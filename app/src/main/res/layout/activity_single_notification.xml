@@ -73,6 +73,49 @@
             android:layout_gravity="center"
              />
 
+    <!--<LinearLayout
+        android:id="@+id/cont"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/commenter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_above="@+id/rate_star"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            tools:text="Commenter Name" />
+
+        <RatingBar
+            android:id="@+id/rate_star"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="3dp"
+            android:isIndicator="true"
+            android:maxHeight="60dp"
+            android:minHeight="20dp"
+            android:numStars="5"
+            android:progressTint="#DAFFB340"
+            android:stepSize="0.25"
+            android:layout_above="@+id/tv_desc_review"/>
+        <TextView
+            android:id="@+id/tv_desc_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:textSize="16dp"
+            tools:text="comment" />
+    </LinearLayout>-->
+
         <!-- <LinearLayout
 
              android:layout_width="321dp"

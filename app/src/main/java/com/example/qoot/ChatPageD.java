@@ -52,7 +52,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ChatPageV extends AppCompatActivity {
+public class ChatPageD extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -67,7 +67,7 @@ public class ChatPageV extends AppCompatActivity {
     ProgressBar sendingProgress;
     Bundle myIntent;
     String RequestID;
-    String Alia;
+    String Alia2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class ChatPageV extends AppCompatActivity {
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent int1 = new Intent(ChatPageV.this, DonatorViewInfo.class);
+                Intent int1 = new Intent(ChatPageD.this, VolunteerViewInfo.class);
                 startActivity(int1);
             }
         });
@@ -103,7 +103,7 @@ public class ChatPageV extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideKeyboard(ChatPageV.this);
+                hideKeyboard(ChatPageD.this);
                 final String text = mMessageET.getText().toString();
 
                 String userID = mAuth.getCurrentUser().getUid();
@@ -115,14 +115,14 @@ public class ChatPageV extends AppCompatActivity {
                 reqid.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        mDisplayNameTV.setText(documentSnapshot.getString("DonatorName"));
-                        String myName = documentSnapshot.getString("VolnteerName");
+                        mDisplayNameTV.setText(documentSnapshot.getString("VolnteerName"));
+                        String myName = documentSnapshot.getString("DonatorName");
 
-                if (!TextUtils.isEmpty(text)) {
-                    sendingProgress.setVisibility(View.VISIBLE);
-                    MessageDTO message = new MessageDTO(currentUser.getUid(), myName ,RequestID, text);
-                    sendMessage(message);
-                }
+                        if (!TextUtils.isEmpty(text)) {
+                            sendingProgress.setVisibility(View.VISIBLE);
+                            MessageDTO message = new MessageDTO(currentUser.getUid(), myName ,RequestID, text);
+                            sendMessage(message);
+                        }
                     }
                 });
             }
@@ -184,7 +184,7 @@ public class ChatPageV extends AppCompatActivity {
 
             mFirestore.collection("Messages").whereEqualTo("requestID", RequestID)
                     .orderBy("dateSent")
-                    .addSnapshotListener(ChatPageV.this, new EventListener<QuerySnapshot>() {
+                    .addSnapshotListener(ChatPageD.this, new EventListener<QuerySnapshot>() {
                         @Override
                         public void onEvent(@Nullable QuerySnapshot snapshots,
                                             @Nullable FirebaseFirestoreException e) {
@@ -219,7 +219,7 @@ public class ChatPageV extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         sendingProgress.setVisibility(View.INVISIBLE);
                         if (!task.isSuccessful()) {
-                            Toast.makeText(ChatPageV.this, "Message sending failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChatPageD.this, "Message sending failed", Toast.LENGTH_SHORT).show();
                         } else {
                             mMessageET.setText("");
                         }
@@ -243,10 +243,10 @@ public class ChatPageV extends AppCompatActivity {
         if (myIntent != null) {
             RequestID = (String) myIntent.getSerializable("RequestID");
         }
-        Alia = (String) myIntent.getSerializable("Where");
-        Intent intent = new Intent(ChatPageV.this, VolunteerRequestInfo.class);
+        Alia2 = (String) myIntent.getSerializable("Where");
+        Intent intent = new Intent(ChatPageD.this, DonatorRequestInfo.class);
         intent.putExtra("RequestID",RequestID);
-        intent.putExtra("Where",Alia);
+        intent.putExtra("Where",Alia2);
         startActivity(intent);
     }
 }

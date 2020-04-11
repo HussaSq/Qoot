@@ -116,6 +116,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
                     if (ss.equals("Pending") || ss.equals("Accepted"))
                         cancel.setVisibility(View.VISIBLE);
 
+
                     // to display pop up
                     cancel.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -129,10 +130,12 @@ public class DonatorRequestInfo extends AppCompatActivity {
                     });
 
 
-                    if (ss.equals("Delivered"))
+                    if (ss.equals("Delivered")){
                         Rate.setVisibility(View.VISIBLE);
+                        ChatIcon.setVisibility(View.VISIBLE);
+                    }
 
-                    Rate.setOnClickListener(new View.OnClickListener() {
+                        Rate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(DonatorRequestInfo.this, pop_review2.class);
@@ -206,6 +209,15 @@ public class DonatorRequestInfo extends AppCompatActivity {
         Intent intent = new Intent(DonatorRequestInfo.this, AttachmentPicture.class);
         intent.putExtra("RequestID", in.getStringExtra("RequestID"));
         intent.putExtra("Who", in.getStringExtra("Who"));
+        startActivity(intent);
+    }
+    public void OpenChat(View view) {
+        intent1 = getIntent().getExtras();
+        ABEER = (String) intent1.getSerializable("Where");
+        Intent intent = new Intent(DonatorRequestInfo.this, ChatPageD.class);
+        if (intent1 != null)
+            intent.putExtra("RequestID", (String) intent1.getSerializable("RequestID"));
+        intent.putExtra("Where",ABEER);
         startActivity(intent);
     }
 }

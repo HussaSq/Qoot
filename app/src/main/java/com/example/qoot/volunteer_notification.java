@@ -117,7 +117,8 @@ public class volunteer_notification extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 final String Comment = document.getString("Comment");
                                 final String Date= document.getString("Date");
-                                final String Rate = document.getString("Rate");
+                                final float Rate1 = document.getLong("Rate");
+                                //final float Rate1=Float.parseFloat(rate);
                                 final String Time = document.getString("Time");
                                 final String from = document.getString("from");
                                 final String typeOfEvent = document.getString("typeOfEvent");
@@ -149,7 +150,7 @@ public class volunteer_notification extends AppCompatActivity {
                                                             if (documentSnapshot.exists()) {
                                                                 String from_name = documentSnapshot.getString("UserName");
                                                                 //Toast.makeText(context, "The Name Is: " + from_name, Toast.LENGTH_SHORT).show();
-                                                                notify = new Notification(Comment,Date,Rate,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
+                                                                notify = new Notification(Comment,Date,Rate1,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
                                                                 notificarion.add(notify);
                                                                 myNotificationsAdapter = new MyNotificationsVolAdapter(volunteer_notification.this, R.layout.activity_single_notification, notificarion);
                                                                 listViewNoti.setAdapter(myNotificationsAdapter);
@@ -251,7 +252,7 @@ class MyNotificationsVolAdapter extends BaseAdapter {
         // =============================================initialization===============================================================
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
         String Comment =notificarion.get(position).getComment();
-        String Rate =notificarion.get(position).getRate();
+        float Rate =notificarion.get(position).getRate();
         final String from =notificarion.get(position).getFrom();
         String TypeOfEvent=notificarion.get(position).getEvent_Type();
         String typeOfNotify=notificarion.get(position).getNotifiarion_Type();

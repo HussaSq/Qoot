@@ -106,7 +106,7 @@ public class VolunteerCancel extends Activity {
                                     notificationMessage.put("typeOfNoti","Cancelled");
                                     notificationMessage.put("typeOfEvent",TOE);
                                     notificationMessage.put("Comment","--");
-                                    notificationMessage.put("Rate","--");
+                                    notificationMessage.put("Rate",0);
                                     notificationMessage.put("Time",Time);
                                     notificationMessage.put("Date",Date);
                                     db.collection("users/"+donID+"/Notification").add(notificationMessage);

@@ -1,20 +1,12 @@
 package com.example.qoot;
 
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Notification {
     String Comment;
     String Date;
-    String Rate;
+    float Rate;
     String Time;
     String From;
     String Event_Type;
@@ -24,7 +16,7 @@ public class Notification {
     FirebaseFirestore db;
     String from_name;
 
-    public Notification(String comment, String date, String rate, String time, String from, String event_Type, String notifiarion_Type, String message,String from_name) {
+    public Notification(String comment, String date, float rate, String time, String from, String event_Type, String notifiarion_Type, String message,String from_name) {
         Comment = comment;
         Date = date;
         Rate = rate;
@@ -52,11 +44,11 @@ public class Notification {
         Date = date;
     }
 
-    public String getRate() {
+    public float getRate() {
         return Rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(float rate) {
         Rate = rate;
     }
 

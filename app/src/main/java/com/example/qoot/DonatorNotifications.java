@@ -24,8 +24,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -138,7 +140,8 @@ public class DonatorNotifications extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 final String Comment = document.getString("Comment");
                                 final String Date= document.getString("Date");
-                                final String Rate = document.getString("Rate");
+                                final float Rate1 = document.getLong("Rate");
+                                //final float Rate1=Float.parseFloat(rate);
                                 final String Time = document.getString("Time");
 
                                 //reqID = document.getString("RequestID");
@@ -193,7 +196,7 @@ public class DonatorNotifications extends AppCompatActivity {
                                                             if (documentSnapshot.exists()) {
                                                                String from_name = documentSnapshot.getString("UserName");
                                                                 //Toast.makeText(context, "The Name Is: " + from_name, Toast.LENGTH_SHORT).show();
-                                                                notify = new Notification(Comment,Date,Rate,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
+                                                                notify = new Notification(Comment,Date,Rate1,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
                                                                 notificarion.add(notify);
                                                                 myNotificationsAdapter = new MyNotificationsAdapter(DonatorNotifications.this, R.layout.activity_single_notification, notificarion);
                                                                 listViewNoti.setAdapter(myNotificationsAdapter);
@@ -360,12 +363,17 @@ class MyNotificationsAdapter extends BaseAdapter {
        // =============================================initialization===============================================================
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
         String Comment =notificarion.get(position).getComment();
-        String Rate =notificarion.get(position).getRate();
+        float Rate =notificarion.get(position).getRate();
         final String from =notificarion.get(position).getFrom();
         String TypeOfEvent=notificarion.get(position).getEvent_Type();
         String typeOfNotify=notificarion.get(position).getNotifiarion_Type();
         String from_name=notificarion.get(position).getFrom_name();
         String msg=notificarion.get(position).getMessage();
+        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+        //LinearLayout linearLayout=view.findViewById(R.id.cont);
+        //TextView com=view.findViewById(R.id.commenter_name);
+        //RatingBar ratingBar=view.findViewById(R.id.rate_star);
+        //TextView review_dec=view.findViewById(R.id.tv_desc_review);
         final SpannableStringBuilder builder = new SpannableStringBuilder();
         builder.append(from_name+" ");
       //===================================Request===================================
@@ -392,8 +400,40 @@ class MyNotificationsAdapter extends BaseAdapter {
             TypeOfEvent1.setSpan(boldStyle,0,TypeOfEvent.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             builder.append(" Your " + TypeOfEvent1 + " Request");
+
+            volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
             // ==================================Review========================================
         }else{
+            if(Rate>0 && Rate<=1){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            else if(Rate>1 && Rate<=2){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#AED581")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            else if(Rate>2 && Rate<=3){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FDD835")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }else if(Rate>3 && Rate<=4){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#69F0AE")),0,RateS.length(), 0);
+                builder.append(state1);
+            }else if(Rate>4 && Rate<=5){
+                String RateS=Rate+"";
+                SpannableString state1=new SpannableString(RateS);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#D84315")),0,RateS.length(), 0);
+                builder.append(" You got a new "+state1+" star review ");
+            }
+            builder.append(" and Comment: "+Comment);
+            volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
 
         }
 
@@ -403,7 +443,7 @@ class MyNotificationsAdapter extends BaseAdapter {
        // builder.append(from);
 
        // builder.append(msg);
-        TextView volunteerName = (TextView) view.findViewById(R.id.requests);
+
 
 
         //Uri id = userIDS.get(position);>>>
@@ -414,7 +454,7 @@ class MyNotificationsAdapter extends BaseAdapter {
             circleImageView.setImageURI(id);
             */
         circleImageView = (CircleImageView) view.findViewById(R.id.colo1);
-        volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+
         /*if(id!=null)
             circleImageView.setImageURI(id);>>>*/
 /*==============================photo========================================

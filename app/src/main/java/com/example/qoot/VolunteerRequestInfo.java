@@ -249,7 +249,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 notificationMessage.put("typeOfNoti","Delivered");
                                 notificationMessage.put("typeOfEvent",TOE);
                                 notificationMessage.put("Comment","--");
-                                notificationMessage.put("Rate","--");
+                                notificationMessage.put("Rate",0);
                                 notificationMessage.put("Time",Time);
                                 notificationMessage.put("Date",Date);
                                 db.collection("users/"+donID+"/Notification").add(notificationMessage);
@@ -366,7 +366,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 notificationMessage.put("typeOfNoti","Accepted");
                                 notificationMessage.put("typeOfEvent",TOE);
                                 notificationMessage.put("Comment","--");
-                                notificationMessage.put("Rate","--");
+                                notificationMessage.put("Rate",0);
                                 notificationMessage.put("Time",Time);
                                 notificationMessage.put("Date",Date);
                                 db.collection("users/"+donID+"/Notification").add(notificationMessage);

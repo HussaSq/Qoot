@@ -64,7 +64,12 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".volunteer_notification" />
+        <activity android:name=".volunteer_notification" >
+            <intent-filter>
+                <action android:name="clicks"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".DonatorNotifications" >
             <intent-filter>
                 <action android:name="click"/>

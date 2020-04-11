@@ -20,6 +20,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String click_action=remoteMessage.getNotification().getClickAction();
         String dataMessage=remoteMessage.getData().get("message");
         String dataFrom=remoteMessage.getData().get("from_user_id");
+        String to_type=remoteMessage.getData().get("to_type");
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, getString(R.string.default_notification_channel_id))
                 .setSmallIcon(R.mipmap.ic_launcher)

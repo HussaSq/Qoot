@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,14 +48,16 @@ public class volunteer_notification extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String UserID,reqID;
-    Request MAGIC;
+    String UserID, reqID;
+    Notification notify;
     ListView listViewNoti;
     ListView listViewNoti2;
-    ArrayList<Request> request;
-    Review review;
-    ArrayList<Review> reviewList;
+    ArrayList<Notification> notificarion;
+    //Review review;
+    //ArrayList<Review> reviewList;
+    MyNotificationsVolAdapter myNotificationsAdapter;
     ArrayList<Uri> userIDS;
+    TextView textView;
 
 
     //Abeer
@@ -63,8 +68,7 @@ public class volunteer_notification extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_volunteer_notification);
         listViewNoti=findViewById(R.id.list_Requestnoti);
-        request=new ArrayList<Request>();
-        reviewList=new ArrayList<Review>();
+        notificarion = new ArrayList<Notification>();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         UserID = mAuth.getCurrentUser().getUid();
@@ -104,56 +108,79 @@ public class volunteer_notification extends AppCompatActivity {
 
         //BottomNavigationViewEnd
 
-        Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",UserID).whereEqualTo("State", "Cancelled");
+        Query q1 = db.collection("users").document(UserID).collection("Notification");
         q1.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String State = document.getString("State");
-                                String Event = document.getString("TypeOfEvent");
-                                reqID = document.getString("RequestID");
-                                String REQTYPE= document.getString("RequestType");
-                                String DonatorName=document.getString("DonatorName");
-                                String VolunteerName=document.getString("VolnteerName");
-                                String DonatorID=document.getString("DonatorID");
-                                if(DonatorID==null)
-                                    continue;
-                                String ImageName = DonatorID + ".png";
-                                FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                                StorageReference mainRef = firebaseStorage.getReference("Images");
-                                final File file = new File(getFilesDir(), ImageName);
-                                uri = Uri.parse(file.toString());
-                                //if(uri!=null)
-                                    userIDS.add(uri);
-                                MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID, REQTYPE, DonatorName, VolunteerName);
-                                request.add(MAGIC);
-                                MyNotificationsVolAdapter myRequestAdapter=new MyNotificationsVolAdapter(volunteer_notification.this,R.layout.activity_single_notification,request,reqID,userIDS);
-                                listViewNoti.setAdapter(myRequestAdapter);
+                                final String Comment = document.getString("Comment");
+                                final String Date= document.getString("Date");
+                                final String Rate = document.getString("Rate");
+                                final String Time = document.getString("Time");
+                                final String from = document.getString("from");
+                                final String typeOfEvent = document.getString("typeOfEvent");
+                                final String typeOfNoti = document.getString("typeOfNoti");
+                                final String Msg;
+                                if(Comment.equals("--")){
+                                    Msg=typeOfNoti+" Your "+typeOfEvent+" Request";
+                                }else{
+                                    Msg=typeOfNoti+" You";
+                                }
+
+
+                                DocumentReference query = db.collection("users").document(from);
+
+                                query.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                            if (documentSnapshot.exists()) {
+                                                String from_Type = documentSnapshot.getString("Type");
+                                                //Toast.makeText(context, "The Type Is: " + from_Type, Toast.LENGTH_SHORT).show();
+                                                DocumentReference query2 = db.collection(from_Type + "s").document(from);
+                                                query2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot documentSnapshot = task.getResult();
+                                                            if (documentSnapshot.exists()) {
+                                                                String from_name = documentSnapshot.getString("UserName");
+                                                                //Toast.makeText(context, "The Name Is: " + from_name, Toast.LENGTH_SHORT).show();
+                                                                notify = new Notification(Comment,Date,Rate,Time, from, typeOfEvent, typeOfNoti, Msg,from_name);
+                                                                notificarion.add(notify);
+                                                                myNotificationsAdapter = new MyNotificationsVolAdapter(volunteer_notification.this, R.layout.activity_single_notification, notificarion);
+                                                                listViewNoti.setAdapter(myNotificationsAdapter);
+                                                            } else {
+                                                                String from_name = " ";
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                String from_Type = " ";
+                                            }
+                                        }
+                                    }
+                                });
+
+
+
                                 listViewNoti.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                        final Request temp = (Request) parent.getItemAtPosition(position);
-                                        DocumentReference VolRef=db.collection("Requests").document(temp.getID());
-                                        VolRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                String VolID = documentSnapshot.getString("DonatorID");
-                                                if(!VolID.equals("--")) {
-                                                    Intent in = getIntent();
-                                                    //Toast.makeText(volunteer_notification.this, "THE ID "+VolID, Toast.LENGTH_SHORT).show();
-                                                    in.putExtra("Donators", VolID);
-                                                    Intent intent = new Intent(volunteer_notification.this, DonatorViewInfo.class);
-                                                    intent.putExtra("Donators", in.getStringExtra("Donators"));
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        });
+                                        final Notification temp = (Notification) parent.getItemAtPosition(position);
+                                        String VolID = temp.getFrom();
+                                        Intent in = getIntent();
+                                        in.putExtra("Donators", VolID);
+                                        Intent intent = new Intent(volunteer_notification.this, DonatorViewInfo.class);
+                                        intent.putExtra("Donators", in.getStringExtra("Donators"));
+                                        startActivity(intent);
                                     }
                                 });
                             }
-
 
                         } else {
                         }
@@ -168,47 +195,38 @@ public class volunteer_notification extends AppCompatActivity {
 class MyNotificationsVolAdapter extends BaseAdapter {
 
     private Context context;
-    ArrayList<Request> request;
-    ArrayList<Review> reviews;
+    ArrayList<Notification> notificarion;
     int layoutResourseId;
-    String reqID;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    String VolunteerName;
-    String UserID;
-    String type;
-    ArrayList<Uri> userIDS;
+    CircleImageView circleImageView;
+    Uri uri;
 
 
 
 
 
-    MyNotificationsVolAdapter(Context context,ArrayList<Request> request){
-        this.request=request;
-        this.context=context;
+
+    MyNotificationsVolAdapter(Context context, ArrayList<Notification> notificarion) {
+        this.notificarion = notificarion;
+        this.context = context;
     }
 
-    public MyNotificationsVolAdapter(Context context, int activity_single_notification, ArrayList<Request> request, String reqID,ArrayList<Uri> userIDS) {
-
-        this.request=request;
-        this.context=context;
-        this.layoutResourseId=activity_single_notification;
-        this.reqID=reqID;
-        this.userIDS=userIDS;
-
-
-
+    public MyNotificationsVolAdapter(Context context, int activity_single_notification,ArrayList<Notification> notificarion) {
+        this.notificarion = notificarion;
+        this.context = context;
+        this.layoutResourseId = activity_single_notification;
     }
 
 
     @Override
     public int getCount() {
-        return request.size();
+        return notificarion.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return request.get(position);
+        return notificarion.get(position);
     }
 
     @Override
@@ -216,16 +234,12 @@ class MyNotificationsVolAdapter extends BaseAdapter {
         return position;
     }
 
-    public String getreqID() {
-        return reqID;
-    }
-
     public int getViewTypeCount(){
         return 2;
     }
 
     public int getItemViewType(int position){
-        if(request!=null)
+        if(notificarion!=null)
             return 0;
         else return 1;
     }
@@ -234,43 +248,88 @@ class MyNotificationsVolAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos=position;
-
+        // =============================================initialization===============================================================
         View view = LayoutInflater.from(context).inflate(R.layout.activity_single_notification, null);
-        String volunteer = request.get(position).getVolunteerName() + " ";
-        String state = request.get(position).Status;
-        String EventType = " The " + request.get(position).EventType + " Request";
-        SpannableStringBuilder builder = new SpannableStringBuilder();
-        SpannableString volunteer1 = new SpannableString(volunteer);
-        builder.append(volunteer1);
+        String Comment =notificarion.get(position).getComment();
+        String Rate =notificarion.get(position).getRate();
+        final String from =notificarion.get(position).getFrom();
+        String TypeOfEvent=notificarion.get(position).getEvent_Type();
+        String typeOfNotify=notificarion.get(position).getNotifiarion_Type();
+        String from_name=notificarion.get(position).getFrom_name();
+        String msg=notificarion.get(position).getMessage();
+        final SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(from_name+" ");
+        //===================================Request===================================
+        if(!typeOfNotify.equals("Review")) {
+            if (typeOfNotify.equals("Pending")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Accepted")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Cancelled")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            } else if (typeOfNotify.equals("Delivered")) {
+                SpannableString state1 = new SpannableString(typeOfNotify);
+                state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, typeOfNotify.length(), 0);
+                builder.append(state1);
+            }
+            SpannableString TypeOfEvent1 = new SpannableString(TypeOfEvent);
+            StyleSpan boldStyle=new StyleSpan(Typeface.BOLD);
+            TypeOfEvent1.setSpan(boldStyle,0,TypeOfEvent.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        if (state.equals("Pending")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, state.length(), 0);
-            builder.append(state1);
-        } else if (state.equals("Accepted")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#4CAF50")), 0, state.length(), 0);
-            builder.append(state1);
-        } else if (state.equals("Cancelled")) {
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#BF360C")), 0, state.length(), 0);
-            builder.append(state1);
-        }else if(state.equals("Delivered")){
-            SpannableString state1 = new SpannableString(state);
-            state1.setSpan(new ForegroundColorSpan(Color.parseColor("#0392cf")), 0, state.length(), 0);
-            builder.append(state1);
+            builder.append(" Your " + TypeOfEvent1 + " Request");
+            // ==================================Review========================================
+        }else{
+
         }
 
-        SpannableString EventType1 = new SpannableString(EventType);
 
-        builder.append(EventType1);
+        // builder.append(Comment);
+        //builder.append(Rate);
+        // builder.append(from);
+
+        // builder.append(msg);
         TextView volunteerName = (TextView) view.findViewById(R.id.requests);
-        Uri Uri2=userIDS.get(position);
+
+
+        //Uri id = userIDS.get(position);>>>
+        //builder.append(" This is Id For Uri: "+id);
+        //String id2=userIDSTri.get(position);
+        // builder.append(" This is Id For String: "+id2);
+            /*if(id!=null)
+            circleImageView.setImageURI(id);
+            */
+        circleImageView = (CircleImageView) view.findViewById(R.id.colo1);
         volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
-        CircleImageView circleImageView=(CircleImageView) view.findViewById(R.id.colo1);
-        if(Uri2!=null)
-        circleImageView.setImageURI(Uri2);
+        /*if(id!=null)
+            circleImageView.setImageURI(id);>>>*/
+/*==============================photo========================================
+            String ImageName = from+".png";
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+            StorageReference mainRef = firebaseStorage.getReference("Images");
+            final File file = new File(context.getFilesDir(), ImageName);
+
+            mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        uri = Uri.parse(file.toString());
+                        circleImageView.setImageURI(uri);
+                        circleImageView.requestLayout();
+
+                    }
+                }
+            });
+================================================================================*/
+
+
+
 
         return view;
     }

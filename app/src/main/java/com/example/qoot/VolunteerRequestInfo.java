@@ -204,13 +204,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 Intent i = new Intent(VolunteerRequestInfo.this,VolunteerCancel.class);
-                                if(intent1 != null){
-                                    //i.putExtra("From",userID);
-                                    //i.putExtra("From",(String) intent1.getSerializable("From"));
+                                if(intent1 != null)
                                     i.putExtra("RequestID",(String) intent1.getSerializable("RequestID"));
-                                //i.putExtra("from", userID);
-                                //i.putExtra("from",(String) intent1.getSerializable("from"));
-                                Toast.makeText( VolunteerRequestInfo.this,"here ID:"+userID,Toast.LENGTH_SHORT).show();}
+
                                 startActivity(i);
                             }
                         });

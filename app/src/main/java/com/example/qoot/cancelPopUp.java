@@ -10,11 +10,20 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class cancelPopUp extends Activity {
     Button yes,no;
@@ -68,6 +77,40 @@ public class cancelPopUp extends Activity {
                     ReqIDDD = (String) intent1.getSerializable("RequestID");
                     // DO NOT FORGET TO ADD IF TO CHECK STATE IF IT PENDING OR ACCEPTED.
                     DocumentReference documentReference =db.collection("Requests").document(ReqIDDD);
+                    documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                if (documentSnapshot.exists()) {
+                                    final String TOE=documentSnapshot.getString("TypeOfEvent");
+                                    String donID=documentSnapshot.getString("DonatorID");
+                                    String VolID=documentSnapshot.getString("VolnteerID");
+                                    Calendar calendar = Calendar.getInstance();
+                                    String Date;
+                                    int year=calendar.get(Calendar.YEAR);
+                                    int month=calendar.get(Calendar.MONTH)+1;
+                                    int day=calendar.get(Calendar.DAY_OF_MONTH);
+                                    if(month<10)
+                                        Date="0"+month+"/"+day+"/"+year;
+                                    else
+                                        Date=month+"/"+day+"/"+year;
+                                    SimpleDateFormat simpleDateFormat=new SimpleDateFormat("hh:mm a");
+                                    String Time =simpleDateFormat.format(calendar.getTime());
+                                    Map<String,Object> notificationMessage=new HashMap<>();
+                                    notificationMessage.put("from",donID);
+                                    notificationMessage.put("typeOfNoti","Cancelled");
+                                    notificationMessage.put("typeOfEvent",TOE);
+                                    notificationMessage.put("Comment","--");
+                                    notificationMessage.put("Rate","--");
+                                    notificationMessage.put("Time",Time);
+                                    notificationMessage.put("Date",Date);
+                                    db.collection("users/"+VolID+"/Notification").add(notificationMessage);
+
+                                }
+                            }
+                        }
+                    });
                     documentReference.update("State","Cancelled").addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

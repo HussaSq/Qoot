@@ -234,6 +234,7 @@ public class VolunteerRequests extends AppCompatActivity {
         startActivity(new Intent(VolunteerRequests.this, AllRequests.class));
     }
     public void OpenHis(View view) {
+
         Intent intent = new Intent(VolunteerRequests.this,history_v.class);
         startActivity(intent);
 

@@ -271,6 +271,7 @@ public class tab1 extends Fragment {
                 request.put("RequestID","--");
                 request.put("RequestType","Urgent");
                 request.put("submetTime",Time);
+                request.put("VolunteerCurrentLocation","--");
                 if (PIC_ID != null)
                 request.put("Photo",PIC_ID);
                 else

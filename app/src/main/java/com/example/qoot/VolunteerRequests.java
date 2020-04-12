@@ -198,33 +198,33 @@ public class VolunteerRequests extends AppCompatActivity {
                                 }
                             });
                         }
-                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    count++;
-                                    //Toast.makeText(VolunteerRequests.this," Added to list",Toast.LENGTH_LONG).show();
-                                    String State = dc.getDocument().getString("State");
-                                    String Event = dc.getDocument().getString("TypeOfEvent");
-                                    reqID = dc.getDocument().getString("RequestID");
-                                    String REQTYPE=dc.getDocument().getString("RequestType");
-                                    String DonatorName=dc.getDocument().getString("DonatorName");
-                                    String VolunteerName=dc.getDocument().getString("VolnteerName");
-                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID,REQTYPE,DonatorName,VolunteerName );
-                                    request.add(MAGIC);
-                                    break;
-                                case MODIFIED:
-                                    // Log.d("", "Modified city: " + dc.getDocument().getData());
-                                    break;
-                                case REMOVED:
-                                    //dc.getDocument().getId();
-                                    //request.remove(null);
-                                    //listView.removeAllViews();
-                                    //  printTheRequest();
-                                    //  listPersonsFilter.removeAll(listPersonsSelected);
-                                    // Log.d("", "Removed city: " + dc.getDocument().getData());
-                                    break;
-                            }
-                        }//end for loop
+//                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+//                            switch (dc.getType()) {
+//                                case ADDED:
+//                                    count++;
+//                                    //Toast.makeText(VolunteerRequests.this," Added to list",Toast.LENGTH_LONG).show();
+//                                    String State = dc.getDocument().getString("State");
+//                                    String Event = dc.getDocument().getString("TypeOfEvent");
+//                                    reqID = dc.getDocument().getString("RequestID");
+//                                    String REQTYPE=dc.getDocument().getString("RequestType");
+//                                    String DonatorName=dc.getDocument().getString("DonatorName");
+//                                    String VolunteerName=dc.getDocument().getString("VolnteerName");
+//                                    MAGIC = new Request(Event, State, mAuth.getCurrentUser().getUid(), reqID,REQTYPE,DonatorName,VolunteerName );
+//                                    request.add(MAGIC);
+//                                    break;
+//                                case MODIFIED:
+//                                    // Log.d("", "Modified city: " + dc.getDocument().getData());
+//                                    break;
+//                                case REMOVED:
+//                                    //dc.getDocument().getId();
+//                                    //request.remove(null);
+//                                    //listView.removeAllViews();
+//                                    //  printTheRequest();
+//                                    //  listPersonsFilter.removeAll(listPersonsSelected);
+//                                    // Log.d("", "Removed city: " + dc.getDocument().getData());
+//                                    break;
+//                            }
+//                        }//end for loop
 
                     }// end if null
                 });

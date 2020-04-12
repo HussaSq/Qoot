@@ -26,12 +26,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrackMap"></activity>
+        <activity android:name=".DonatorMap"></activity>
+        <activity android:name=".TrackMap" />
         <activity android:name=".VolAllCommentView" />
-        <activity android:name=".DonViewAllComment"></activity>
+        <activity android:name=".DonViewAllComment" />
         <activity android:name=".VolunteerAllComment" />
+        <activity android:name=".ChatPageV" />
         <!--<activity android:name=".volnteer_all_comments" />-->
-        <activity android:name=".ChatPageV"/>
         <activity android:name=".ChatPageD"/>
         <activity android:name=".history_d"/>
         <activity android:name=".history_v"/>
@@ -115,6 +116,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />

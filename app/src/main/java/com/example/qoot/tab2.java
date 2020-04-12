@@ -297,6 +297,7 @@ public class tab2 extends Fragment {
                 request.put("RequestType","Scheduled");
                 request.put("submetTime",Time);
                 request.put("submetDate",Date);
+                request.put("VolunteerCurrentLocation","--");
 
 
                 db.collection("Requests")

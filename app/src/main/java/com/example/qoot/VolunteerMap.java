@@ -43,6 +43,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -74,6 +76,16 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Positions = new ArrayList<>();
+
+        Timer timer=new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                UpdateVolunteerLocation();
+            }
+        }, 0, 10000);
+
+
     }
 
     @Override
@@ -186,6 +198,33 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                 startActivity(i);
             }
         });
+    }
+
+    private void UpdateVolunteerLocation() {
+        Bundle intent1 = getIntent().getExtras();
+        final String ReqID = (String) intent1.getSerializable("RequestID");
+        FusedLocationProviderClient mFusedLocationClient;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null) {
+                        String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
+                        DocumentReference documentReference = db.collection("Requests").document(ReqID);
+                        documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                            }
+                        });
+                    }else {
+                        Toast.makeText(getApplicationContext(),"your location is Unabled !",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
     }
 
     private String getRequestUrl(LatLng origin, LatLng destination) {

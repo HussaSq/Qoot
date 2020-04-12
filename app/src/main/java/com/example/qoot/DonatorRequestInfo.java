@@ -31,7 +31,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
-    TextView type,guests, location, date, time,notes, volName, state;
+    TextView type,guests, date, time,notes, volName, state;
     LinearLayout noteLay;
     Button cancel;
     Button Rate;
@@ -49,7 +49,6 @@ public class DonatorRequestInfo extends AppCompatActivity {
         type = findViewById(R.id.FoodType);
         state = findViewById(R.id.requesrStatus);
         guests = findViewById(R.id.numberOfGuest);
-        location = findViewById(R.id.location);
         date = findViewById(R.id.Date);
         time = findViewById(R.id.pickUpTime);
         notes = findViewById(R.id.note);
@@ -101,7 +100,6 @@ public class DonatorRequestInfo extends AppCompatActivity {
                     }
 
                     guests.setText(documentSnapshot.getString("NumberOfGuests"));
-                    location.setText(documentSnapshot.getString("Location"));
                     date.setText(documentSnapshot.getString("Date"));
                     time.setText(documentSnapshot.getString("Time"));
 
@@ -230,4 +228,14 @@ public class DonatorRequestInfo extends AppCompatActivity {
         intent.putExtra("Where",ABEER);
         startActivity(intent);
     }
+    public void OpenTrackDonatorRequest(View view){
+        Intent in = getIntent();
+        in.putExtra("RequestID",ABEER);
+        in.putExtra("Who","D");
+        Intent intent = new Intent(DonatorRequestInfo.this, DonatorMap.class);
+        intent.putExtra("RequestID", in.getStringExtra("RequestID"));
+        intent.putExtra("Who", in.getStringExtra("Who"));
+        startActivity(intent);
+    }
+
 }

@@ -1,10 +1,12 @@
 package com.example.qoot;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,7 +21,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -32,6 +38,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +56,6 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     ProgressBar progressBar;
     ProgressDialog progressDialog;
     Bundle intent1;
-
     String dateCheck,currentDate,typeR,timeCheck,currenttime;
 
     ImageView chat;
@@ -81,6 +88,15 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         intent1 = getIntent().getExtras();
         userID =mAuth.getCurrentUser().getUid();
+
+        Timer timer=new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+             UpdateVolunteerLocation();
+            }
+        }, 0, 10000);
+
 
 
         if (intent1 != null){
@@ -316,7 +332,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                             String ReqIDDD = (String) intent1.getSerializable("RequestID");
                             DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
 
-                            @Override
+
+
+                                @Override
                             public void onClick(View view) {
                                 documentReference.update("State", "Accepted").addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -371,9 +389,6 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 notificationMessage.put("Date",Date);
                                 db.collection("users/"+donID+"/Notification").add(notificationMessage);
 
-
-
-
                             }// end of accept button
                         });
                     }
@@ -383,6 +398,34 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 });
     }
     }
+
+    private void UpdateVolunteerLocation() {
+        Bundle intent1 = getIntent().getExtras();
+       final String ReqID = (String) intent1.getSerializable("RequestID");
+        FusedLocationProviderClient mFusedLocationClient;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    Location location = task.getResult();
+                    if (location != null) {
+                        String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
+                        DocumentReference documentReference = db.collection("Requests").document(ReqID);
+                        documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                            }
+                        });
+                    }else {
+                        Toast.makeText(getApplicationContext(),"your location is Unabled !",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+
+    }
+
     public void OpenVolunteerRequests(View view) {
         switch (ABEER2){
             case"Requests":

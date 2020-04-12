@@ -51,13 +51,9 @@ public class volunteer_notification extends AppCompatActivity {
     String UserID, reqID;
     Notification notify;
     ListView listViewNoti;
-    ListView listViewNoti2;
     ArrayList<Notification> notificarion;
-    //Review review;
-    //ArrayList<Review> reviewList;
     MyNotificationsAdapter myNotificationsAdapter;
     ArrayList<Uri> userIDS;
-    TextView textView;
 
 
     //Abeer
@@ -289,48 +285,9 @@ class MyNotificationsVolAdapter extends BaseAdapter {
 
         }
 
-
-        // builder.append(Comment);
-        //builder.append(Rate);
-        // builder.append(from);
-
-        // builder.append(msg);
         TextView volunteerName = (TextView) view.findViewById(R.id.requests);
-
-
-        //Uri id = userIDS.get(position);>>>
-        //builder.append(" This is Id For Uri: "+id);
-        //String id2=userIDSTri.get(position);
-        // builder.append(" This is Id For String: "+id2);
-            /*if(id!=null)
-            circleImageView.setImageURI(id);
-            */
         circleImageView = (CircleImageView) view.findViewById(R.id.colo1);
         volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
-        /*if(id!=null)
-            circleImageView.setImageURI(id);>>>*/
-/*==============================photo========================================
-            String ImageName = from+".png";
-            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-            StorageReference mainRef = firebaseStorage.getReference("Images");
-            final File file = new File(context.getFilesDir(), ImageName);
-
-            mainRef.child(ImageName).getFile(file).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-
-                @Override
-                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        uri = Uri.parse(file.toString());
-                        circleImageView.setImageURI(uri);
-                        circleImageView.requestLayout();
-
-                    }
-                }
-            });
-================================================================================*/
-
-
-
 
         return view;
     }

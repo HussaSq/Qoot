@@ -290,7 +290,7 @@ public class tab2 extends Fragment {
                 request.put("Note",""+mNotes.getText().toString());
                 request.put("State","Pending");
                 request.put("DonatorID",userId);
-                request.put("DonatorName",name);
+                request.put("DonatorName",DonatorName);
                 request.put("VolnteerID","--");
                 request.put("VolnteerName","--");
                 request.put("RequestID","--");

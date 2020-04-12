@@ -302,7 +302,7 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                                 break;
                         }
                         if(Don!=null || Don!="--" ) {
-                            final String VolID = documentSnapshot.getString("VolnteerID");
+                            final String VolID = documentSnapshot.getString("DonatorID");
                             DonName.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

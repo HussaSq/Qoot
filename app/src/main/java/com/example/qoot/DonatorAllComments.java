@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -40,12 +41,17 @@ public class DonatorAllComments extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         final String userId = mAuth.getCurrentUser().getUid();
+
         listView = findViewById(R.id.list_co);
         review = new ArrayList<Review>();
+
+
 
             Query q1 = db.collection("Reviews").whereEqualTo("onUserID", userId);
                 q1.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {

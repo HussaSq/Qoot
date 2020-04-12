@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -55,6 +56,8 @@ public class DonatorProfile extends AppCompatActivity {
     ImageView Photo;
     TextView numDona ;
     TextView TextRate;
+    TextView more_com;
+    TextView no_comm;
     LinearLayout linearLayout;
     ConstraintLayout root ;
     Review MAGIC ;
@@ -96,6 +99,8 @@ public class DonatorProfile extends AppCompatActivity {
         numDona=findViewById(R.id.Donations);
         TextRate=findViewById(R.id.RateD);
         Username = findViewById(R.id.UserNameD);
+        more_com = findViewById(R.id.more_com);
+        no_comm = findViewById(R.id.No_com);
         circleImageView = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
         root = findViewById(R.id.rootProfile);
@@ -164,7 +169,7 @@ public class DonatorProfile extends AppCompatActivity {
         final String MyUserId = mAuth.getCurrentUser().getUid();
         listView = findViewById(R.id.list_Comments);
         review = new ArrayList<Review>();
-        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
+        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId).orderBy("Date_t");
         q2.limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -174,7 +179,6 @@ public class DonatorProfile extends AppCompatActivity {
                                 String VolName = document.getString("CommenterName");
                                 String comment = document.getString("Comment");
                                 float rate = document.getLong("Rating");
-
                                 MAGIC = new Review(VolName, comment, rate);
                                 review.add(MAGIC);
                                 MyReviewAdapter myReviewAdapter = new MyReviewAdapter(DonatorProfile.this,R.layout.comments_list,review);
@@ -186,6 +190,12 @@ public class DonatorProfile extends AppCompatActivity {
                     }
 
                 });
+
+        if (!numDona.equals("0"))
+            no_comm.setVisibility(View.VISIBLE);
+
+        if (!numDona.equals("1")|| !numDona.equals("2")||!numDona.equals("3")||!numDona.equals("0"))
+            more_com.setVisibility(View.INVISIBLE);
             /* count donations
         Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
         q2.get()
@@ -215,6 +225,7 @@ public class DonatorProfile extends AppCompatActivity {
         String user = mAuth.getCurrentUser().getUid();
         download(user+".png");
             }
+
     private void download(String imageName) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         StorageReference mainRef = firebaseStorage.getReference("Images");
@@ -261,10 +272,12 @@ class Review{
     float rate;
 
 
+
     public Review(String commenterName, String comment, float rate) {
         this.commenterName = commenterName;
         this.comment = comment;
         this.rate = rate;
+
     }
 
     public String getCommenterName() {

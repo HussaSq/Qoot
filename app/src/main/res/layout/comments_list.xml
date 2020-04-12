@@ -21,10 +21,10 @@
 
             <TextView
                 android:id="@+id/commenter_name"
-                android:layout_width="235dp"
+                android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="23dp"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 tools:text="Commenter Name" />

@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,6 +44,7 @@ public class pop_review2 extends Activity {
     double rate;
     Bundle myIntent;
     Calendar calendar;
+    Timestamp DT;
     int day,month,year;
 
     @Override
@@ -113,6 +115,7 @@ public class pop_review2 extends Activity {
                         myName = documentSnapshot.getString("DonatorName");
                         String TOE=documentSnapshot.getString("TypeOfEvent");
                         calendar = Calendar.getInstance();
+                        DT=Timestamp.now();
                         year=calendar.get(Calendar.YEAR);
                         month=calendar.get(Calendar.MONTH)+1;
                         day=calendar.get(Calendar.DAY_OF_MONTH);
@@ -138,6 +141,7 @@ public class pop_review2 extends Activity {
                         review.put("RequestId",ReqIDDD);
                         review.put("Date",Date);
                         review.put("Time",Time);
+                        review.put("Date_t",DT);
 
                         Map<String,Object> notificationMessage=new HashMap<>();
                         notificationMessage.put("from",userID);

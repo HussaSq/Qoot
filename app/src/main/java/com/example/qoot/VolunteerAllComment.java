@@ -71,7 +71,7 @@ public class VolunteerAllComment extends AppCompatActivity {
     }
 
     public void OpenVloPro(View view) {
-        Intent intentC = new Intent(VolunteerAllComment.this, VolunteerViewInfo.class);
+        Intent intentC = new Intent(VolunteerAllComment.this, VolunteerProfile.class);
         startActivity(intentC);
     }
 }

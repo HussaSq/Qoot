@@ -370,14 +370,16 @@ class MyNotificationsAdapter extends BaseAdapter {
         String from_name=notificarion.get(position).getFrom_name();
         String msg=notificarion.get(position).getMessage();
         TextView volunteerName = (TextView) view.findViewById(R.id.requests);
-        //LinearLayout linearLayout=view.findViewById(R.id.cont);
-        //TextView com=view.findViewById(R.id.commenter_name);
-        //RatingBar ratingBar=view.findViewById(R.id.rate_star);
-        //TextView review_dec=view.findViewById(R.id.tv_desc_review);
+        LinearLayout linearLayout=view.findViewById(R.id.cont);
+        TextView com=view.findViewById(R.id.commenter_name);
+        RatingBar ratingBar=view.findViewById(R.id.rate_star);
+        TextView review_dec=view.findViewById(R.id.tv_desc_review);
+        TextView review_name=view.findViewById(R.id.review_name);
         final SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(from_name+" ");
+
       //===================================Request===================================
         if(!typeOfNotify.equals("Review")) {
+            builder.append(from_name+" ");
             if (typeOfNotify.equals("Pending")) {
                 SpannableString state1 = new SpannableString(typeOfNotify);
                 state1.setSpan(new ForegroundColorSpan(Color.parseColor("#FB8C00")), 0, typeOfNotify.length(), 0);
@@ -404,6 +406,8 @@ class MyNotificationsAdapter extends BaseAdapter {
             volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
             // ==================================Review========================================
         }else{
+              /* ================================================================================================
+
             if(Rate>0 && Rate<=1){
                 String RateS=Rate+"";
                 SpannableString state1=new SpannableString(RateS);
@@ -416,6 +420,9 @@ class MyNotificationsAdapter extends BaseAdapter {
                 state1.setSpan(new ForegroundColorSpan(Color.parseColor("#AED581")),0,RateS.length(), 0);
                 builder.append(" You got a new "+state1+" star review ");
             }
+
+
+
             else if(Rate>2 && Rate<=3){
                 String RateS=Rate+"";
                 SpannableString state1=new SpannableString(RateS);
@@ -434,6 +441,25 @@ class MyNotificationsAdapter extends BaseAdapter {
             }
             builder.append(" and Comment: "+Comment);
             volunteerName.setText(builder, TextView.BufferType.SPANNABLE);
+            ================================================================================================================*/
+
+            volunteerName.setVisibility(View.GONE);
+
+            linearLayout.setVisibility(View.VISIBLE);
+            if(Rate==5.0)
+                com.setText("Great, you got a new "+Rate+"-star review");
+            if(Rate==4.0)
+            com.setText("Good job, you got a new "+Rate+"-star review");
+            if(Rate==3.0)
+                com.setText("Good, you got a new "+Rate+"-star review");
+                if(Rate==2.0)
+                    com.setText("you got a new "+Rate+"-star review");
+                    if(Rate==1.0)
+                        com.setText("you got a new "+Rate+"-star review");
+            review_name.setText(from_name+" ");
+            ratingBar.setRating(Rate);
+            review_dec.setText("Comment: "+Comment);
+
 
         }
 

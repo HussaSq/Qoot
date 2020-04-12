@@ -33,6 +33,9 @@
         <!--<activity android:name=".volnteer_all_comments" />-->
         <activity android:name=".ChatPageV"/>
         <activity android:name=".ChatPageD"/>
+        <activity android:name=".history_d"/>
+        <activity android:name=".history_v"/>
+
         <activity
             android:name=".pop_review2"
             android:theme="@style/AppTheme.customWindowPop" />

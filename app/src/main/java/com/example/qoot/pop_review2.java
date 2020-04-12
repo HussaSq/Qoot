@@ -111,7 +111,7 @@ public class pop_review2 extends Activity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("VolnteerID");
                         myName = documentSnapshot.getString("DonatorName");
-
+                        String TOE=documentSnapshot.getString("TypeOfEvent");
                         calendar = Calendar.getInstance();
                         year=calendar.get(Calendar.YEAR);
                         month=calendar.get(Calendar.MONTH)+1;
@@ -138,6 +138,16 @@ public class pop_review2 extends Activity {
                         review.put("RequestId",ReqIDDD);
                         review.put("Date",Date);
                         review.put("Time",Time);
+
+                        Map<String,Object> notificationMessage=new HashMap<>();
+                        notificationMessage.put("from",userID);
+                        notificationMessage.put("typeOfNoti","Review");
+                        notificationMessage.put("typeOfEvent",TOE);
+                        notificationMessage.put("Comment",comment);
+                        notificationMessage.put("Rate",rate);
+                        notificationMessage.put("Time",Time);
+                        notificationMessage.put("Date",Date);
+                        db.collection("users/"+on_user+"/Notification").add(notificationMessage);
 
                         /// second try to add in DB
                         db.collection("Reviews")

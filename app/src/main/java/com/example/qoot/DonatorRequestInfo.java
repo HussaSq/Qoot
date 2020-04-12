@@ -36,7 +36,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
     Button cancel;
     Button Rate;
     Bundle intent1;
-    String ss;
+    String ss,Hussa;
     String ABEER;
     ImageView ChatIcon;
 
@@ -65,6 +65,7 @@ public class DonatorRequestInfo extends AppCompatActivity {
         intent1 = getIntent().getExtras();
 
         if (intent1 != null) {
+            Hussa =(String) intent1.getSerializable("Where");
             String ReqIDDD = (String) intent1.getSerializable("RequestID");
             ABEER =(String) intent1.getSerializable("RequestID");
             // String ReqIDDD = intent1.getStringExtra("RequestID");
@@ -196,6 +197,15 @@ public class DonatorRequestInfo extends AppCompatActivity {
     }
 
     public void OpenDonatorRequest(View view) {
+//HERE
+        if(Hussa != null) {
+            System.out.println("HERe in not null");
+            if (Hussa.equals("history")) {
+                System.out.println("HERe in eq");
+                startActivity(new Intent(DonatorRequestInfo.this, history_d.class));
+            }
+        }
+        else
         startActivity(new Intent(DonatorRequestInfo.this,DonatorRequests.class));
     }
 

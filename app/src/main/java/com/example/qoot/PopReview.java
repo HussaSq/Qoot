@@ -123,6 +123,7 @@ public class PopReview extends Activity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         on_user = documentSnapshot.getString("DonatorID");
                         myName = documentSnapshot.getString("VolnteerName");
+                        String TOE=documentSnapshot.getString("TypeOfEvent");
                         calendar = Calendar.getInstance();
                         year=calendar.get(Calendar.YEAR);
                         month=calendar.get(Calendar.MONTH)+1;
@@ -153,7 +154,7 @@ public class PopReview extends Activity {
                         Map<String,Object> notificationMessage=new HashMap<>();
                         notificationMessage.put("from",userID);
                         notificationMessage.put("typeOfNoti","Review");
-                        notificationMessage.put("typeOfEvent","--");
+                        notificationMessage.put("typeOfEvent",TOE);
                         notificationMessage.put("Comment",comment);
                         notificationMessage.put("Rate",rate);
                         notificationMessage.put("Time",Time);
@@ -167,18 +168,7 @@ public class PopReview extends Activity {
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText( PopReview.this,"Thank You!"+userID,Toast.LENGTH_SHORT).show();
-                                Map<String,Object> notificationMessage=new HashMap<>();
-                                notificationMessage.put("from",userID);
-                                notificationMessage.put("typeOfNoti","Review");
-                                notificationMessage.put("typeOfEvent","--");
-                                notificationMessage.put("Comment",comment);
-                                notificationMessage.put("Rate",rate);
-                                notificationMessage.put("Time",Time);
-                                notificationMessage.put("Date",Date);
-                                db.collection("users/"+on_user+"/Notification").add(notificationMessage);
-                                Toast.makeText( PopReview.this,"REVIEW ON:!"+userID,Toast.LENGTH_SHORT).show();
-
+                                Toast.makeText( PopReview.this,"Thank You!",Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

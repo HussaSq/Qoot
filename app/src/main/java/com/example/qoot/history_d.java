@@ -75,6 +75,7 @@ public class history_d extends AppCompatActivity {
                                         Intent in = getIntent();
                                         in.putExtra("RequestID",temp.getID());
                                         Intent intent = new Intent(history_d.this,DonatorRequestInfo.class);
+                                        intent.putExtra("Where", "history");
                                         intent.putExtra("RequestID",in.getStringExtra("RequestID"));
                                         startActivity(intent);
                                     }

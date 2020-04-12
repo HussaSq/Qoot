@@ -67,7 +67,7 @@ public class history_v extends AppCompatActivity {
                                         in.putExtra("RequestID",temp.getID());
                                         Intent intent = new Intent(history_v.this,VolunteerRequestInfo.class);
                                         intent.putExtra("RequestID",in.getStringExtra("RequestID"));
-                                        intent.putExtra("Where", in.getStringExtra("Where"));
+                                        intent.putExtra("Where", "history");
                                         startActivity(intent);
                                     }
                                 });

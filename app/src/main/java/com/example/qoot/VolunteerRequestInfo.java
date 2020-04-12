@@ -398,6 +398,11 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 startActivity(intent3);
                 ;
                 break;
+            case "history":
+                Intent intent4 = new Intent(VolunteerRequestInfo.this, history_v.class);
+                startActivity(intent4);
+
+
         }
     }
     public void OpenAttachment(View view){

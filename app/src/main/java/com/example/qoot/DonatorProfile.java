@@ -54,6 +54,7 @@ public class DonatorProfile extends AppCompatActivity {
 
     TextView Username;
     ImageView Photo;
+    static int numRate=0;
     TextView numDona ;
     TextView TextRate;
     TextView more_com;
@@ -100,7 +101,7 @@ public class DonatorProfile extends AppCompatActivity {
         TextRate=findViewById(R.id.RateD);
         Username = findViewById(R.id.UserNameD);
         more_com = findViewById(R.id.more_com);
-        no_comm = findViewById(R.id.No_com);
+       // no_comm = findViewById(R.id.No_com);
         circleImageView = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
         root = findViewById(R.id.rootProfile);
@@ -127,7 +128,7 @@ public class DonatorProfile extends AppCompatActivity {
 
         Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
         q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            int numRate=0;
+
             float sum=0;
             String num;
             @Override
@@ -169,7 +170,8 @@ public class DonatorProfile extends AppCompatActivity {
         final String MyUserId = mAuth.getCurrentUser().getUid();
         listView = findViewById(R.id.list_Comments);
         review = new ArrayList<Review>();
-        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId).orderBy("Date_t");
+        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
+
         q2.limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -191,11 +193,11 @@ public class DonatorProfile extends AppCompatActivity {
 
                 });
 
-        if (!numDona.equals("0"))
-            no_comm.setVisibility(View.VISIBLE);
+     //  if (!numDona.equals("0"))
+        //   no_comm.setVisibility(View.VISIBLE);
 
-        if (!numDona.equals("1")|| !numDona.equals("2")||!numDona.equals("3")||!numDona.equals("0"))
-            more_com.setVisibility(View.INVISIBLE);
+        //if (numRate>3)
+         //   more_com.setVisibility(View.VISIBLE);
             /* count donations
         Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
         q2.get()

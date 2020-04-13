@@ -276,15 +276,7 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/No_com"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="125dp"
-                android:layout_marginVertical="100dp"
-                android:visibility="gone"
-                android:text="No Comments"
-                android:textSize="15dp" />
+
             <ListView
                 android:id="@+id/list_Comments"
                 android:layout_width="match_parent"
@@ -297,21 +289,20 @@
     </RelativeLayout>
 
     //اذا سويت رن تضبط في الجوال
-
     <TextView
         android:id="@+id/more_com"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:layout_marginEnd="225dp"
         android:layout_below="@id/Mycomments"
+        android:layout_marginEnd="225dp"
+        android:layout_marginBottom="7dp"
         android:onClick="OpenAllComments"
         android:text="More Comments > "
         android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_vol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.938"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_vol"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

@@ -71,6 +71,7 @@ public class DonatorProfile extends AppCompatActivity {
     StorageReference mfStore;
     FirebaseUser user ;
     CircleImageView circleImageView;
+
     public static final String TAG = "DonatorProfile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,22 @@ public class DonatorProfile extends AppCompatActivity {
         final String userId=mAuth.getCurrentUser().getUid();
         user = mAuth.getCurrentUser();
 
+
+        if(!user.isEmailVerified()){
+            linearLayout.setVisibility(View.VISIBLE);
+            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG,"OnFailure: Email Not Sent");
+                }
+            });
+        }
+
         Query q1 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
         q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             int don=0;
@@ -152,20 +169,6 @@ public class DonatorProfile extends AppCompatActivity {
 
 
 
-                        if(!user.isEmailVerified()){
-            root.removeView(linearLayout);
-            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG,"OnFailure: Email Not Sent");
-                }
-            });
-        }
 
         //// comment section
         final String MyUserId = mAuth.getCurrentUser().getUid();

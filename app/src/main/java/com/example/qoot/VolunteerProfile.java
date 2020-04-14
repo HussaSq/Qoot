@@ -6,19 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -53,6 +58,9 @@ public class VolunteerProfile extends AppCompatActivity {
     FirebaseAuth mAuth ;
     FirebaseFirestore db;
     CircleImageView circleImageView;
+    FirebaseUser user ;
+    LinearLayout linearLayout;
+    public static final String TAG = "VolunteerProfile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +103,25 @@ public class VolunteerProfile extends AppCompatActivity {
         circleImageView = findViewById(R.id.UserImage);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        user = mAuth.getCurrentUser();
         String userId=mAuth.getCurrentUser().getUid();
+        linearLayout = findViewById(R.id.valid);
+
+
+        if(!user.isEmailVerified()){
+            linearLayout.setVisibility(View.VISIBLE);
+            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(VolunteerProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG,"OnFailure: Email Not Sent");
+                }
+            });
+        }
         Query q1 = db.collection("Requests").whereEqualTo("VolnteerID",userId).whereEqualTo("State","Delivered");
         q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             int Vol=0;

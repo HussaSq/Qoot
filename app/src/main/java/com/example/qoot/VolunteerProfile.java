@@ -42,6 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class VolunteerProfile extends AppCompatActivity {
     Review MAGIC ;
     TextView more_com;
+    static int numRate=0;
     TextView no_comm;
     ListView listView;
     ArrayList<Review> review;
@@ -90,7 +91,7 @@ public class VolunteerProfile extends AppCompatActivity {
         Username = findViewById(R.id.UserNameV);
         averageRate=findViewById(R.id.RateV);
         more_com=findViewById(R.id.more_com);
-        no_comm=findViewById(R.id.No_com);
+       // no_comm=findViewById(R.id.No_com);
         circleImageView = findViewById(R.id.UserImage);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -113,7 +114,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
         Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
         q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            int numRate=0;
+
             float sum=0;
             String num;
             @Override
@@ -136,7 +137,7 @@ public class VolunteerProfile extends AppCompatActivity {
         final String MyUserId = mAuth.getCurrentUser().getUid();
         listView = findViewById(R.id.list_Comments);
         review = new ArrayList<Review>();
-        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId).orderBy("Date_t");
+        Query q2 = db.collection("Reviews").whereEqualTo("onUserID",MyUserId);
         q2.limit(3).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -158,11 +159,10 @@ public class VolunteerProfile extends AppCompatActivity {
                     }
 
                 });
-        if (!numVol.equals("0"))
-            no_comm.setVisibility(View.VISIBLE);
 
-        if (!numVol.equals("1")|| !numVol.equals("2")||!numVol.equals("3")||!numVol.equals("0"))
-            more_com.setVisibility(View.INVISIBLE);
+
+       // if (numRate>3)
+        //    more_com.setVisibility(View.VISIBLE);
 
 
         DocumentReference documentReference =db.collection("Volunteers").document(userId);

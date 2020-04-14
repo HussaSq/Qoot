@@ -1,7 +1,9 @@
 package com.example.qoot;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,6 +43,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,16 +94,23 @@ public class tab1 extends Fragment {
         final ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Attaching Picture...");
         progressDialog.show();
+//(requestCode==what_you_assign && data!=null&&resultCode== Activity.RESULT_OK)
+        if (requestCode == CAMERA_REQUEST_CODE
+                && resultCode == RESULT_OK
+                && data != null ){
+//            Uri uri = data.getData();
 
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            PIC_ID = uri.getLastPathSegment();
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) extras.get("data");
+         Uri uri = getImageUri(getContext(),bitmap);
+
+            PIC_ID = UUID.randomUUID().toString();;
             StorageReference STOREAGE = FirebaseStorage.getInstance().getReference();
             StorageReference filePath = STOREAGE.child("UrgentRequest").child(PIC_ID);
             UploadTask= filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<com.google.firebase.storage.UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(com.google.firebase.storage.UploadTask.TaskSnapshot taskSnapshot) {
-                        THE_INVESIBLE_TEXT.setVisibility(View.VISIBLE);
+//                        THE_INVESIBLE_TEXT.setVisibility(View.VISIBLE);
                         progressDialog.dismiss();
                 }
 
@@ -111,7 +122,14 @@ public class tab1 extends Fragment {
                 }
             });
     }
+    }//
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -125,7 +143,7 @@ public class tab1 extends Fragment {
         events.setAdapter(adapter);
 
         //PICTURE
-        THE_INVESIBLE_TEXT = view.findViewById(R.id.ViewAttachment);
+//        THE_INVESIBLE_TEXT = view.findViewById(R.id.ViewAttachment);
         mStorage = FirebaseStorage.getInstance();
         mStorageRef = mStorage.getReference("UrgentRequest");
         Capture = view.findViewById(R.id.buttonCapture);

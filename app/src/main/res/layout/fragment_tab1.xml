@@ -140,28 +140,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="116dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
             android:padding="0dp">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="90dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:text="Picture is Attached"
-                android:textAlignment="center"
-                android:textSize="20dp"
-                android:textStyle="bold|italic"
-                android:textColor="#CF4A4A"
-                android:clickable="true"
-                android:visibility="gone"
-                android:id="@+id/ViewAttachment"
-                ></TextView>
 
             <Button
                 android:id="@+id/buttonCapture"
@@ -177,6 +159,22 @@
                 android:textColor="#ffff"
                 android:textSize="20sp" />
 
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="90dp"-->
+<!--                android:layout_marginTop="50dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Picture is Attached"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textSize="20dp"-->
+<!--                android:textStyle="bold|italic"-->
+<!--                android:textColor="#CF4A4A"-->
+<!--                android:clickable="true"-->
+<!--               android:visibility="gone"-->
+<!--                android:id="@+id/ViewAttachment"-->
+<!--                ></TextView>-->
         </RelativeLayout>
 
         <ImageView

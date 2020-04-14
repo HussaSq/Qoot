@@ -63,6 +63,8 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     String ABEER2;
     SpannableString spannableString;
 
+    String VolunteerID;
+    String CurrentState;
 
 
     @Override
@@ -89,15 +91,6 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         intent1 = getIntent().getExtras();
         userID =mAuth.getCurrentUser().getUid();
 
-        Timer timer=new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-             UpdateVolunteerLocation();
-            }
-        }, 0, 10000);
-
-
 
         if (intent1 != null){
             final String ReqIDDD = (String) intent1.getSerializable("RequestID");
@@ -114,6 +107,26 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 //            });
             ABEER =(String) intent1.getSerializable("RequestID");
             ABEER2 = (String) intent1.getSerializable("Where");
+
+
+            DocumentReference documentReference1 = db.collection("Requests").document(ReqIDDD);
+            documentReference1.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@androidx.annotation.Nullable DocumentSnapshot documentSnapshot, @androidx.annotation.Nullable FirebaseFirestoreException e) {
+                    VolunteerID = documentSnapshot.getString("VolnteerID");
+                    CurrentState = documentSnapshot.getString("State");
+                }
+            });
+            if (VolunteerID.equals(mAuth.getCurrentUser().getUid()) &&
+                CurrentState.equals("Accepted")) {
+                Timer timer = new Timer();
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        UpdateVolunteerLocation();
+                    }
+                }, 0, 10000);
+            }
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
                 DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
                 documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {

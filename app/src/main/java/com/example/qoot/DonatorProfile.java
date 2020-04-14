@@ -45,6 +45,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.zip.DataFormatException;
 
 import javax.annotation.Nullable;
 
@@ -54,7 +55,7 @@ public class DonatorProfile extends AppCompatActivity {
 
     TextView Username;
     ImageView Photo;
-    static int numRate=0;
+    private static int numRate=0;
     TextView numDona ;
     TextView TextRate;
     TextView more_com;
@@ -196,9 +197,10 @@ public class DonatorProfile extends AppCompatActivity {
      //  if (!numDona.equals("0"))
         //   no_comm.setVisibility(View.VISIBLE);
 
-        //if (numRate>3)
-         //   more_com.setVisibility(View.VISIBLE);
+        if (numRate>3){
+           more_com.setVisibility(View.VISIBLE);}
             /* count donations
+
         Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
         q2.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -272,7 +274,7 @@ class Review{
     String commenterName;
     String comment;
     float rate;
-
+    Timestamp Date_t;
 
 
     public Review(String commenterName, String comment, float rate) {
@@ -284,6 +286,10 @@ class Review{
 
     public String getCommenterName() {
         return commenterName;
+    }
+    public Timestamp getDate_t() { return Date_t; }
+    public void setDate_t(String comment) {
+        this.Date_t = Date_t;
     }
 
     public void setCommenterName(String commenterName) {

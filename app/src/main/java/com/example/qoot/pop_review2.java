@@ -142,6 +142,8 @@ public class pop_review2 extends Activity {
                         review.put("Date",Date);
                         review.put("Time",Time);
                         review.put("Date_t",DT);
+                      //  db.collection("users/"+on_user+"/Reviews").add(review);
+
 
                         Map<String,Object> notificationMessage=new HashMap<>();
                         notificationMessage.put("from",userID);

@@ -297,11 +297,12 @@
         android:layout_marginEnd="225dp"
         android:layout_marginBottom="7dp"
         android:onClick="OpenAllComments"
+        android:visibility="gone"
         android:text="More Comments > "
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_vol"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

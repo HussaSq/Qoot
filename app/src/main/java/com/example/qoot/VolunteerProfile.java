@@ -42,7 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class VolunteerProfile extends AppCompatActivity {
     Review MAGIC ;
     TextView more_com;
-    static int numRate=0;
+     private static int numRate=0;
     TextView no_comm;
     ListView listView;
     ArrayList<Review> review;
@@ -161,8 +161,9 @@ public class VolunteerProfile extends AppCompatActivity {
                 });
 
 
-       // if (numRate>3)
-        //    more_com.setVisibility(View.VISIBLE);
+       if (numRate>3){
+
+           more_com.setVisibility(View.VISIBLE);}
 
 
         DocumentReference documentReference =db.collection("Volunteers").document(userId);

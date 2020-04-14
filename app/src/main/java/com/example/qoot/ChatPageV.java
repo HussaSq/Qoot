@@ -62,7 +62,7 @@ public class ChatPageV extends AppCompatActivity {
     RecyclerView mRecyclerView;
     Toolbar toolbar;
     TextView mDisplayNameTV;
-    ImageView mProfileIV;
+    //ImageView mProfileIV;
     EditText mMessageET;
     ProgressBar sendingProgress;
     Bundle myIntent;
@@ -77,16 +77,16 @@ public class ChatPageV extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        /*toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent int1 = new Intent(ChatPageV.this, DonatorViewInfo.class);
                 startActivity(int1);
             }
         });
-
+*/
         mDisplayNameTV = findViewById(R.id.display_name_text);
-        mProfileIV = findViewById(R.id.profile_image);
+        //mProfileIV = findViewById(R.id.profile_image);
         mMessageET = findViewById(R.id.message_et);
         sendingProgress = findViewById(R.id.sending_progress);
         sendingProgress.setVisibility(View.INVISIBLE);
@@ -115,7 +115,7 @@ public class ChatPageV extends AppCompatActivity {
                 reqid.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        mDisplayNameTV.setText(documentSnapshot.getString("DonatorName"));
+                        //mDisplayNameTV.setText(documentSnapshot.getString("DonatorName"));
                         String myName = documentSnapshot.getString("VolnteerName");
 
                 if (!TextUtils.isEmpty(text)) {
@@ -134,14 +134,14 @@ public class ChatPageV extends AppCompatActivity {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            mDisplayNameTV.setText(currentUser.getDisplayName());
-            Uri imageUrl = currentUser.getPhotoUrl();
+            mDisplayNameTV.setText("CHAT");
+           /*  Uri imageUrl = currentUser.getPhotoUrl();
 
-            if (imageUrl != null) {
+           if (imageUrl != null) {
                 Glide.with(this)
                         .load(imageUrl)
                         .into(mProfileIV);
-            }
+            }*/
             startListeningForMessages();
         }
     }
@@ -182,7 +182,7 @@ public class ChatPageV extends AppCompatActivity {
         if (myIntent != null) {
             RequestID = (String) myIntent.getSerializable("RequestID");
 
-            mFirestore.collection("Messages").whereEqualTo("requestID", RequestID)
+            mFirestore.collection("Requests").document(RequestID).collection("Messages")
                     .orderBy("dateSent")
                     .addSnapshotListener(ChatPageV.this, new EventListener<QuerySnapshot>() {
                         @Override
@@ -193,6 +193,7 @@ public class ChatPageV extends AppCompatActivity {
                                 //an error has occured
                             } else {
                                 List<MessageDTO> messages = snapshots.toObjects(MessageDTO.class);
+
 //                            ArrayList<MessageDTO> messages = new ArrayList<>();
 
 //                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
@@ -204,7 +205,7 @@ public class ChatPageV extends AppCompatActivity {
 //                            }
 
                                 mAdapter.setData(messages);
-                                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                             }
                         }
                     });
@@ -212,7 +213,8 @@ public class ChatPageV extends AppCompatActivity {
     }
 
     private void sendMessage(MessageDTO message) {
-        mFirestore.collection("Messages")
+        String ReqDoc = message.getRequestID();
+        mFirestore.collection("Requests").document(ReqDoc).collection("Messages")
                 .add(message)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override

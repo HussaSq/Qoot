@@ -62,7 +62,7 @@ public class ChatPageD extends AppCompatActivity {
     RecyclerView mRecyclerView;
     Toolbar toolbar;
     TextView mDisplayNameTV;
-    ImageView mProfileIV;
+    //ImageView mProfileIV;
     EditText mMessageET;
     ProgressBar sendingProgress;
     Bundle myIntent;
@@ -75,8 +75,8 @@ public class ChatPageD extends AppCompatActivity {
         setContentView(R.layout.activity_chat_page);
 
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+         setSupportActionBar(toolbar);
+ /*
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,9 +84,9 @@ public class ChatPageD extends AppCompatActivity {
                 startActivity(int1);
             }
         });
-
+*/
         mDisplayNameTV = findViewById(R.id.display_name_text);
-        mProfileIV = findViewById(R.id.profile_image);
+        //mProfileIV = findViewById(R.id.profile_image);
         mMessageET = findViewById(R.id.message_et);
         sendingProgress = findViewById(R.id.sending_progress);
         sendingProgress.setVisibility(View.INVISIBLE);
@@ -115,7 +115,7 @@ public class ChatPageD extends AppCompatActivity {
                 reqid.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        mDisplayNameTV.setText(documentSnapshot.getString("VolnteerName"));
+                       // mDisplayNameTV.setText(documentSnapshot.getString("VolnteerName"));
                         String myName = documentSnapshot.getString("DonatorName");
 
                         if (!TextUtils.isEmpty(text)) {
@@ -134,14 +134,14 @@ public class ChatPageD extends AppCompatActivity {
         super.onStart();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            mDisplayNameTV.setText(currentUser.getDisplayName());
-            Uri imageUrl = currentUser.getPhotoUrl();
+            mDisplayNameTV.setText("CHAT");
+           /* Uri imageUrl = currentUser.getPhotoUrl();
 
             if (imageUrl != null) {
                 Glide.with(this)
                         .load(imageUrl)
                         .into(mProfileIV);
-            }
+            }*/
             startListeningForMessages();
         }
     }
@@ -182,7 +182,7 @@ public class ChatPageD extends AppCompatActivity {
         if (myIntent != null) {
             RequestID = (String) myIntent.getSerializable("RequestID");
 
-            mFirestore.collection("Messages").whereEqualTo("requestID", RequestID)
+            mFirestore.collection("Requests").document(RequestID).collection("Messages")
                     .orderBy("dateSent")
                     .addSnapshotListener(ChatPageD.this, new EventListener<QuerySnapshot>() {
                         @Override
@@ -204,7 +204,7 @@ public class ChatPageD extends AppCompatActivity {
 //                            }
 
                                 mAdapter.setData(messages);
-                                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1);
+                                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                             }
                         }
                     });
@@ -212,7 +212,8 @@ public class ChatPageD extends AppCompatActivity {
     }
 
     private void sendMessage(MessageDTO message) {
-        mFirestore.collection("Messages")
+        String ReqDoc = message.getRequestID();
+        mFirestore.collection("Requests").document(ReqDoc).collection("Messages")
                 .add(message)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override

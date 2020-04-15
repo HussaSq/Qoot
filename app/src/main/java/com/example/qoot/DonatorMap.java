@@ -11,10 +11,12 @@ import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -149,6 +151,9 @@ public class DonatorMap extends AppCompatActivity implements OnMapReadyCallback{
                         VolunteerLocationMarker = mMap.addMarker(new MarkerOptions().position(Destination).title(Name+"'s Location")
                                 //   .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_directions_walk_black_24dp)));
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                        CameraPosition myPosition = new CameraPosition.Builder().target(Destination).zoom(17).bearing(90).tilt(30).build();
+                        mMap.animateCamera(
+                                CameraUpdateFactory.newCameraPosition(myPosition));
                 }
                     else
                         Toast.makeText(DonatorMap.this, "There's no Volunteers yet", Toast.LENGTH_LONG).show();

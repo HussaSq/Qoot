@@ -229,7 +229,6 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void UpdateVolunteerLocation(boolean Decide) {
-        Toast.makeText(getApplicationContext()," THIS FIRST UPDATE VOL",Toast.LENGTH_LONG).show();
 
         Bundle intent1 = getIntent().getExtras();
         final String ReqID = (String) intent1.getSerializable("RequestID");
@@ -240,11 +239,9 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        Toast.makeText(getApplicationContext()," INSIDE ON COMPLETE UPDATE VOL",Toast.LENGTH_LONG).show();
                         Location location = task.getResult();
                         if (location != null) {
                             String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
-                            Toast.makeText(getApplicationContext(),"LOCATION "+LOCATION,Toast.LENGTH_LONG).show();
                             DocumentReference documentReference = db.collection("Requests").document(ReqID);
                             documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

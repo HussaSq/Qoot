@@ -45,7 +45,7 @@ import java.util.TimerTask;
 
 import javax.annotation.Nullable;
 
-public class VolunteerRequestInfo extends AppCompatActivity implements OnMapReadyCallback {
+public class VolunteerRequestInfo extends AppCompatActivity{
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -123,22 +123,7 @@ public class VolunteerRequestInfo extends AppCompatActivity implements OnMapRead
 //                    Toast.makeText(getApplicationContext(),"this state "+CurrentState,Toast.LENGTH_LONG).show();
                 }
             });
-            if (VolunteerID != null){
-                if (VolunteerID.equals(mAuth.getCurrentUser().getUid()) &&
-                        CurrentState.equals("Accepted") && !VolunteerID.equals("--")) {
-//                    Toast.makeText(getApplicationContext(),"INSIDE IF ",Toast.LENGTH_LONG).show();
-//                    Timer timer = new Timer();
-//                    timer.scheduleAtFixedRate(new TimerTask() {
-//                        @Override
-//                        public void run() {
-                            UpdateVolunteerLocation(true);
-//                        }
-//                    }, 0, 15000);
-                }else{
-                    UpdateVolunteerLocation(false);
-                }
 
-        }
                 // String ReqIDDD = intent1.getStringExtra("RequestID");
                 DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
                 documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
@@ -425,47 +410,6 @@ public class VolunteerRequestInfo extends AppCompatActivity implements OnMapRead
     }
 
 
-    private void UpdateVolunteerLocation(boolean Decide) {
-        Toast.makeText(getApplicationContext()," THIS FIRST UPDATE VOL",Toast.LENGTH_LONG).show();
-
-            Bundle intent1 = getIntent().getExtras();
-            final String ReqID = (String) intent1.getSerializable("RequestID");
-            FusedLocationProviderClient mFusedLocationClient;
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        if (Decide == true) {
-            if (mFusedLocationClient != null) {
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        Toast.makeText(getApplicationContext()," INSIDE ON COMPLETE UPDATE VOL",Toast.LENGTH_LONG).show();
-                        Location location = task.getResult();
-                        if (location != null) {
-                            String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
-                            Toast.makeText(getApplicationContext(),"LOCATION "+LOCATION,Toast.LENGTH_LONG).show();
-                            DocumentReference documentReference = db.collection("Requests").document(ReqID);
-                            documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-
-                                }
-
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), "your location is Unabled !", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
-        }else if (Decide == false){
-            DocumentReference documentReference = db.collection("Requests").document(ReqID);
-            documentReference.update("VolunteerCurrentLocation", "--").addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                }
-            });
-        }
-    }
-
     public void OpenVolunteerRequests(View view) {
         switch (ABEER2){
             case"Requests":
@@ -523,9 +467,4 @@ public class VolunteerRequestInfo extends AppCompatActivity implements OnMapRead
         startActivity(intent);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
-    }
 }

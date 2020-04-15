@@ -23,6 +23,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -43,7 +45,7 @@ import java.util.TimerTask;
 
 import javax.annotation.Nullable;
 
-public class VolunteerRequestInfo extends AppCompatActivity {
+public class VolunteerRequestInfo extends AppCompatActivity implements OnMapReadyCallback {
 
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -65,6 +67,8 @@ public class VolunteerRequestInfo extends AppCompatActivity {
 
     String VolunteerID;
     String CurrentState;
+    GoogleMap mMap;
+
 
 
     @Override
@@ -115,14 +119,14 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 public void onEvent(@androidx.annotation.Nullable DocumentSnapshot documentSnapshot, @androidx.annotation.Nullable FirebaseFirestoreException e) {
                     VolunteerID = documentSnapshot.getString("VolnteerID");
                     CurrentState = documentSnapshot.getString("State");
-                    Toast.makeText(getApplicationContext(),"this vol "+VolunteerID,Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(),"this state "+CurrentState,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"this vol "+VolunteerID,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"this state "+CurrentState,Toast.LENGTH_LONG).show();
                 }
             });
             if (VolunteerID != null){
                 if (VolunteerID.equals(mAuth.getCurrentUser().getUid()) &&
                         CurrentState.equals("Accepted") && !VolunteerID.equals("--")) {
-                    Toast.makeText(getApplicationContext(),"INSIDE IF ",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(),"INSIDE IF ",Toast.LENGTH_LONG).show();
 //                    Timer timer = new Timer();
 //                    timer.scheduleAtFixedRate(new TimerTask() {
 //                        @Override
@@ -420,8 +424,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
     }
     }
 
+
     private void UpdateVolunteerLocation(boolean Decide) {
-        Toast.makeText(getApplicationContext()," THIS FIRST",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext()," THIS FIRST UPDATE VOL",Toast.LENGTH_LONG).show();
 
             Bundle intent1 = getIntent().getExtras();
             final String ReqID = (String) intent1.getSerializable("RequestID");
@@ -432,14 +437,18 @@ public class VolunteerRequestInfo extends AppCompatActivity {
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
+                        Toast.makeText(getApplicationContext()," INSIDE ON COMPLETE UPDATE VOL",Toast.LENGTH_LONG).show();
                         Location location = task.getResult();
                         if (location != null) {
                             String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
+                            Toast.makeText(getApplicationContext(),"LOCATION "+LOCATION,Toast.LENGTH_LONG).show();
                             DocumentReference documentReference = db.collection("Requests").document(ReqID);
                             documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
+
                                 }
+
                             });
                         } else {
                             Toast.makeText(getApplicationContext(), "your location is Unabled !", Toast.LENGTH_LONG).show();
@@ -514,4 +523,9 @@ public class VolunteerRequestInfo extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setMyLocationEnabled(true);
+    }
 }

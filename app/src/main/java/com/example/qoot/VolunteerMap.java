@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -51,7 +52,7 @@ import androidx.fragment.app.FragmentActivity;
 
 public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback {
     Bundle intent1;
-    private GoogleMap mMap;
+    GoogleMap mMap;
     String ReqIDDD;
     FirebaseFirestore db;
     String location;
@@ -68,6 +69,9 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
     LatLng Destination;
     ArrayList<LatLng> Positions ;
 
+    String State;
+    String VolunteerID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,15 +80,6 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         Positions = new ArrayList<>();
-
-        Timer timer=new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                UpdateVolunteerLocation();
-            }
-        }, 0, 10000);
-
 
     }
 
@@ -131,6 +126,39 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
                                         location=documentSnapshot.getString("Location") ;
                                         lat=Double.parseDouble(location.substring(0,location.indexOf(',')));
                                         lang=Double.parseDouble(location.substring(location.indexOf(',')+1));
+                                        //NEW CODE
+                                        VolunteerID = documentSnapshot.getString("VolnteerID");
+                                        State = documentSnapshot.getString("State");
+
+                                        Timer timer = new Timer();
+                                          timer.scheduleAtFixedRate(new TimerTask() {
+                                               @Override
+                                               public void run() {
+
+                                                   intent1 = getIntent().getExtras();
+
+                                                   if (intent1 != null) {
+                                                       ReqIDDD = (String) intent1.getSerializable("RequestID");
+                                                       Abeer = (String) intent1.getSerializable("Where");
+                                                   }
+                                                   DocumentReference documentReference = db.collection("Requests").document(ReqIDDD);
+                                                   documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                       @Override
+                                                       public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                           VolunteerID = documentSnapshot.getString("VolnteerID");
+                                                           State = documentSnapshot.getString("State");
+                                                           if (VolunteerID != null) {
+                                                               if (VolunteerID.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                       && State.equals("Accepted") && !State.equals("Pending")
+                                                                       && !State.equals("Delivered") && !State.equals("Cancelled")) {
+                                                                   UpdateVolunteerLocation(true);
+                                                               } else
+                                                                   UpdateVolunteerLocation(false);
+                                                           }
+                                                       }
+                                                   });
+                                               }
+                                               }, 0, 100000);
                                         LatLng loc = new LatLng(lat, lang);
                                         Destination = loc;
                                         mMap.addMarker(new MarkerOptions().position(loc).title(loc.toString()));
@@ -200,31 +228,45 @@ public class VolunteerMap extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void UpdateVolunteerLocation() {
+    private void UpdateVolunteerLocation(boolean Decide) {
+        Toast.makeText(getApplicationContext()," THIS FIRST UPDATE VOL",Toast.LENGTH_LONG).show();
+
         Bundle intent1 = getIntent().getExtras();
         final String ReqID = (String) intent1.getSerializable("RequestID");
         FusedLocationProviderClient mFusedLocationClient;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        if (mFusedLocationClient != null) {
-            mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    Location location = task.getResult();
-                    if (location != null) {
-                        String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
-                        DocumentReference documentReference = db.collection("Requests").document(ReqID);
-                        documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                            }
-                        });
-                    }else {
-                        Toast.makeText(getApplicationContext(),"your location is Unabled !",Toast.LENGTH_LONG).show();
+        if (Decide == true) {
+            if (mFusedLocationClient != null) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Toast.makeText(getApplicationContext()," INSIDE ON COMPLETE UPDATE VOL",Toast.LENGTH_LONG).show();
+                        Location location = task.getResult();
+                        if (location != null) {
+                            String LOCATION = "" + location.getLatitude() + "," + location.getLongitude();
+                            Toast.makeText(getApplicationContext(),"LOCATION "+LOCATION,Toast.LENGTH_LONG).show();
+                            DocumentReference documentReference = db.collection("Requests").document(ReqID);
+                            documentReference.update("VolunteerCurrentLocation", LOCATION).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                }
+
+                            });
+                        } else {
+                            Toast.makeText(getApplicationContext(), "your location is Unabled !", Toast.LENGTH_LONG).show();
+                        }
                     }
+                });
+            }
+        }else if (Decide == false){
+            DocumentReference documentReference = db.collection("Requests").document(ReqID);
+            documentReference.update("VolunteerCurrentLocation", "--").addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
                 }
             });
         }
-
     }
 
     private String getRequestUrl(LatLng origin, LatLng destination) {

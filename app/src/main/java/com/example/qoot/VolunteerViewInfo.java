@@ -209,8 +209,9 @@ public class VolunteerViewInfo extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     uri = Uri.parse(file.toString());
                     //Toast.makeText(VolunteerViewInfo.this, "photo in: "+uri, Toast.LENGTH_SHORT).show();
+                    if(uri!=null){
                     circleImageView.setImageURI(uri);
-                    circleImageView.requestLayout();
+                    circleImageView.requestLayout();}
 
                 }
             }

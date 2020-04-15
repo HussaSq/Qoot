@@ -162,8 +162,9 @@ public class DonatorViewInfo extends AppCompatActivity {
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
                         uri = Uri.parse(file.toString());
+                        if(uri!=null){
                         circleImageView.setImageURI(uri);
-                        circleImageView.requestLayout();
+                        circleImageView.requestLayout();}
 
                     }
                 }

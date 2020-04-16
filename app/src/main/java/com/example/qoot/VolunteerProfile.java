@@ -139,7 +139,7 @@ public class VolunteerProfile extends AppCompatActivity {
 
         Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
         q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
+           int r=0;
             float sum=0;
             String num;
             @Override
@@ -147,10 +147,11 @@ public class VolunteerProfile extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         numRate++;
+                        r++;
                         sum= sum+ document.getLong("Rating");
                     }
-                    if(numRate !=0){
-                        sum=sum/numRate;}
+                    if(r !=0){
+                        sum=sum/r;}
                     num=""+sum;
                     averageRate.setText(num.substring(0,3));
                 } else {
@@ -186,7 +187,7 @@ public class VolunteerProfile extends AppCompatActivity {
                 });
 
 
-       if (numRate>3){
+       if (numRate>2){
 
            more_com.setVisibility(View.VISIBLE);}
 

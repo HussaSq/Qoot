@@ -55,7 +55,7 @@ public class DonatorProfile extends AppCompatActivity {
 
     TextView Username;
     ImageView Photo;
-    private static int numRate=0;
+    private static int nuRate=0;
     TextView numDona ;
     TextView TextRate;
     TextView more_com;
@@ -71,7 +71,6 @@ public class DonatorProfile extends AppCompatActivity {
     StorageReference mfStore;
     FirebaseUser user ;
     CircleImageView circleImageView;
-
     public static final String TAG = "DonatorProfile";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class DonatorProfile extends AppCompatActivity {
         TextRate=findViewById(R.id.RateD);
         Username = findViewById(R.id.UserNameD);
         more_com = findViewById(R.id.more_com);
-       // no_comm = findViewById(R.id.No_com);
+        // no_comm = findViewById(R.id.No_com);
         circleImageView = findViewById(R.id.UserImage);
         linearLayout = findViewById(R.id.valid);
         root = findViewById(R.id.rootProfile);
@@ -113,22 +112,6 @@ public class DonatorProfile extends AppCompatActivity {
         //Donations = findViewById(R.id.Donations);
         final String userId=mAuth.getCurrentUser().getUid();
         user = mAuth.getCurrentUser();
-
-
-        if(!user.isEmailVerified()){
-            linearLayout.setVisibility(View.VISIBLE);
-            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG,"OnFailure: Email Not Sent");
-                }
-            });
-        }
 
         Query q1 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
         q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -146,18 +129,19 @@ public class DonatorProfile extends AppCompatActivity {
 
         Query q = db.collection("Reviews").whereEqualTo("onUserID",userId);
         q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
+             int R=0;
             float sum=0;
             String num;
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        numRate++;
+                        nuRate++;
+                        R++;
                         sum= sum+ document.getLong("Rating");
                     }
-                    if(numRate !=0){
-                        sum=sum/numRate;}
+                    if(R !=0){
+                        sum=sum/R;}
                     num=""+sum;
                     TextRate.setText(num.substring(0,3));
                 } else {
@@ -169,6 +153,20 @@ public class DonatorProfile extends AppCompatActivity {
 
 
 
+        if(!user.isEmailVerified()){
+            root.removeView(linearLayout);
+            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(DonatorProfile.this, "Verification Email Has Been Sent", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG,"OnFailure: Email Not Sent");
+                }
+            });
+        }
 
         //// comment section
         final String MyUserId = mAuth.getCurrentUser().getUid();
@@ -197,11 +195,11 @@ public class DonatorProfile extends AppCompatActivity {
 
                 });
 
-     //  if (!numDona.equals("0"))
+        //  if (!numDona.equals("0"))
         //   no_comm.setVisibility(View.VISIBLE);
 
-        if (numRate>3){
-           more_com.setVisibility(View.VISIBLE);}
+        if (nuRate>2){
+            more_com.setVisibility(View.VISIBLE);}
             /* count donations
 
         Query q2 = db.collection("Requests").whereEqualTo("DonatorID",userId).whereEqualTo("State","Delivered");
@@ -231,7 +229,7 @@ public class DonatorProfile extends AppCompatActivity {
         });
         String user = mAuth.getCurrentUser().getUid();
         download(user+".png");
-            }
+    }
 
     private void download(String imageName) {
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
@@ -243,7 +241,7 @@ public class DonatorProfile extends AppCompatActivity {
                 //Toast.makeText(DonatorProfile.this, "photo : "+file, Toast.LENGTH_SHORT).show();
                 if (task.isSuccessful()) {
 
-                  Uri u =Uri.parse(file.toString());
+                    Uri u =Uri.parse(file.toString());
                     circleImageView.setImageURI(u);
                     circleImageView.requestLayout();
                     //Photo.getLayoutParams().height = 400;

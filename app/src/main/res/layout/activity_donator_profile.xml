@@ -147,7 +147,6 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="120dp"
             android:orientation="vertical"
-            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/edit_profile_d"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -251,61 +250,61 @@
 
 
 
-        <RelativeLayout
-            android:id="@+id/Mycomments"
-            android:layout_width="389dp"
-            android:layout_height="300dp"
-            android:layout_marginTop="58dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+    <RelativeLayout
+        android:id="@+id/Mycomments"
+        android:layout_width="389dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="58dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="0dp"
-                android:orientation="vertical">
-
-
-
-                <ListView
-                    android:id="@+id/list_Comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toBottomOf="@+id/Mycomments" />
-
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-        //اذا سويت رن تضبط في الجوال
-
-        <TextView
-            android:id="@+id/more_com"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Mycomments"
-            android:layout_marginEnd="225dp"
-            android:layout_marginBottom="7dp"
-            android:onClick="OpenAllComments"
-            android:text="More Comments > "
-            android:visibility="gone"
-            android:textSize="14dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.055"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="0dp"
+            android:orientation="vertical">
+
+
+
+            <ListView
+                android:id="@+id/list_Comments"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/Mycomments" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    //اذا سويت رن تضبط في الجوال
+
+    <TextView
+        android:id="@+id/more_com"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Mycomments"
+        android:layout_marginEnd="225dp"
+        android:layout_marginBottom="7dp"
+        android:onClick="OpenAllComments"
+        android:text="     More Comments > "
+        android:visibility="gone"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_don"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -18,15 +18,15 @@
             android:elevation="1dp"
             android:background="@drawable/box_g"
             android:layout_height="38dp">
-        <ImageView
-            android:id="@+id/LogoutButtonV"
-            android:layout_width="41dp"
-            android:layout_height="41dp"
-            android:src="@drawable/ic_power_settings_new_black_24dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="OpenLogOut"/>
+            <ImageView
+                android:id="@+id/LogoutButtonV"
+                android:layout_width="41dp"
+                android:layout_height="41dp"
+                android:src="@drawable/ic_power_settings_new_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="OpenLogOut"/>
         </LinearLayout>
 
         <TextView
@@ -151,7 +151,6 @@
             android:layout_marginBottom="4dp"
             android:orientation="vertical"
 
-            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/edit_profile_v"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.085"
@@ -295,15 +294,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/Mycomments"
-        android:layout_marginEnd="225dp"
+        android:layout_marginEnd="220dp"
+
         android:layout_marginBottom="7dp"
         android:onClick="OpenAllComments"
         android:visibility="gone"
-        android:text="More Comments > "
+        android:text="     More Comments > "
         android:textSize="14dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_vol"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
